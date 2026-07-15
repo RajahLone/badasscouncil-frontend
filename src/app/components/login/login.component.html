@@ -1,0 +1,45 @@
+<app-menu></app-menu>
+<div id="main">
+<form #formRef="ngForm" (ngSubmit)="connexion()" class="needs-validation">
+	<div class="card shadow center" style="min-width: 30rem;">
+		<div class="card-header"><span i18n>Credentials input</span></div>
+		<div class="card-body">
+
+			@if (this.account.error !== "") {
+			<div class="form-group row">
+				<div class="col-sm-12 col-form-label col-form-label-sm">
+					<div class="alert alert-warning" role="alert">{{ this.account.error }}</div>
+				</div>
+			</div>
+			}
+
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"></label>
+				<div class="col-sm-8">
+					<div class="form-text field-separate"><span i18n>Case sensitivity is taken into account.</span></div>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Login name</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control form-control-sm field-separate" #userid id="userid" name="userid" [(ngModel)]="account.loginName" #userRef="ngModel" required [class.is-invalid]="userRef.invalid && userRef.touched" autofocus>
+					<div class="form-text field-separate"><span i18n>This name is known only by you and administrator and regulators.<br/>Don't confuse it with the nick name.</span></div>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Mot de passe</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
+				<div class="col-sm-8">
+					<input type="password" class="form-control form-control-sm field-separate" id="userpwd" name="userpwd" [(ngModel)]="account.password" #passRef="ngModel" required [class.is-invalid]="passRef.invalid && passRef.touched">
+					<div class="form-text field-separate"><span i18n>Please contact the administrator or a regulator if you have forgotten it or do not know it.</span></div>
+				</div>
+			</div>
+
+		</div>
+		<div class="card-footer" #menu_login>
+			<button type="button" class="btn bg-gradient btn-success btn-sm text-left" type="submit" [disabled]="formRef.invalid"><fa-icon [icon]="faRightToBracket"></fa-icon>&nbsp;<span i18n>Login</span></button>
+		</div>
+	</div>
+</form>
+</div>

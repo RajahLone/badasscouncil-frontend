@@ -1,0 +1,21 @@
+#sidenav {
+  height: 100%;
+  width: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  padding-top: 0px;
+  border-right: 1px solid #ddd;
+  border-bottom: none;
+}
+
+#sidenav ul li {
+	border-bottom: 1px solid #ddd;
+}
+
+@media screen and (max-width: 500px) {
+  #sidenav { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid #ddd; }
+  #sidenav ul { display: inline-block; }
+  #sidenav ul li { float: left; border-bottom: none; }
+}

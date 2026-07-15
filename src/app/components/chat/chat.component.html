@@ -1,0 +1,40 @@
+<app-menu></app-menu>
+<div id="main">
+  <div class="card shadow">
+    <div class="card-header"><span i18n>Chat room</span></div>
+  	<div class="card-header shadow-sm">
+  		<div class="row justify-content-between">
+        <div class="form-group col-sm-9 label-nobr">
+  				<div class="input-group input-group-sn">
+            <input type="text" (keydown.enter)="sendNewMessage()" class="form-control form-control-sm field-separate" id="input_message" [(ngModel)]="newMessage.content" autofocus i18n-placeholder placeholder="Write here you cue">
+            <button type="button" (click)="sendNewMessage()" class="btn bg-gradient btn-primary btn-sm field-separate"><fa-icon [icon]="faComment"></fa-icon>&nbsp;<span i18n>Send</span></button>
+  			  </div>
+  			</div>
+        <div class="form-group col-sm-3 label-nobr">
+  				<div class="input-group input-group-sn">
+            <button type="button" class="btn bg-gradient btn-secondary btn-sm field-separate" disabled><span i18n>Recepient(s)</span></button>
+            <select class="form-select form-select-sm field-separate" id="select_receipient" [(ngModel)]="newMessage.destId">
+              <option value="0">All</option>
+              @for (p of nicknames; track p.userId) {
+              <option [value]="p.userId">{{ p.nickName }}</option>
+              }
+  				  </select>
+  			  </div>
+  			</div>
+  		</div>
+  	</div>
+    <div class="card-body chatdiv">
+      <table class="table table-sm">
+  			<tbody>
+          @for (l of messages; track l.messageId) {
+  				<tr>
+            <td class="chatusr col-sm-1 label-nobr">{{ l.nickName }}</td>
+            <td class="chatmsg col-sm-10" [class.text-danger]="l.destId > 0" [class.text-primary]="l.content.includes(newMessage.nickName)">@if (l.destId > 0) { <span i18n>private for</span> {{ l.destName }}&nbsp;: } {{ l.content }}</td>
+            <td class="chatdat col-sm-1 label-nobr">{{ l.createdOn }}</td>
+  				</tr>
+  				}
+  			</tbody>
+  		</table>
+  	</div>
+  </div>
+</div>

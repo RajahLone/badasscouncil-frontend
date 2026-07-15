@@ -1,0 +1,87 @@
+<app-menu></app-menu>
+<div id="main">
+<form id="goToAttachementDetails" #formRef="ngForm" class="needs-validation">
+	<div class="card shadow center">
+		<div class="card-header"><span i18n>Fiche d'une attachment</span></div>
+		<div class="card-header shadow-sm">
+			<button (click)="goToAttachmentList()" class="btn bg-gradient btn-primary btn-sm"><fa-icon [icon]="faXmark"></fa-icon>&nbsp;<span i18n>Retour</span></button>
+		</div>
+		<div class="card-body">
+
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Created On</span></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control form-control-sm field-separate" id="createdOn" name="createdOn" [(ngModel)]="attachment.createdOn" disabled>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Updated on</span></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control form-control-sm field-separate" id="updatedOn" name="updatedOn" [(ngModel)]="attachment.updatedOn" disabled>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Owner</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
+				<div class="col-sm-8">
+						<select class="form-select form-select-sm field-separate" id="ownerId" name="ownerId" [(ngModel)]="attachment.ownerId">
+						@for (user of users; track user.userId) {
+							<option [ngValue]="user.userId">{{ user.nickName }}</option>
+				    }
+						</select>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Public comments</span></label>
+				<div class="col-sm-8">
+					<textarea class="form-control form-control-sm field-separate" id="commentsPublic" name="commentsPublic" [(ngModel)]="attachment.commentsPublic"></textarea>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Private comments</span></label>
+				<div class="col-sm-8">
+					<textarea class="form-control form-control-sm field-separate" id="commentsPrivate" name="commentsPrivate" [(ngModel)]="attachment.commentsPrivate"></textarea>
+				</div>
+			</div>
+
+		</div>
+		<div class="card-footer">
+			<button type="button" class="btn bg-gradient btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalModifier" [disabled]="formRef.invalid"><fa-icon [icon]="faCheck"></fa-icon>&nbsp;<span i18n>Update</span></button>
+			<button type="button" class="btn bg-gradient btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalEffacer" style="float: right;"><fa-icon [icon]="faTrash"></fa-icon>&nbsp;<span i18n>Delete</span></button>
+		</div>
+	</div>
+</form>
+
+<div class="modal fade" id="modalModifier" tabindex="-1" aria-labelledby="modalModifierTitre" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalModifierTitre"><span i18n>Modify this attachment</span></h5>
+			</div>
+			<div class="modal-body"><span i18n>Update this record?</span></div>
+			<div class="modal-footer">
+				<button type="button" class="btn bg-gradient btn-secondary btn-sm" data-bs-dismiss="modal"><span i18n>Cancel</span></button>
+				<button type="button" class="btn bg-gradient btn-warning btn-sm" (click)="updateConfirmed()" data-bs-dismiss="modal"><span i18n>Confirm</span></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalEffacer" tabindex="-1" aria-labelledby="modalEffacerTitre" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title text-danger" id="modalEffacerTitre"><span i18n>Remove this attachment</span></h5>
+			</div>
+			<div class="modal-body"><span i18n>Delete this record?</span></div>
+			<div class="modal-footer">
+				<button type="button" class="btn bg-gradient btn-secondary btn-sm" data-bs-dismiss="modal"><span i18n>Cancel</span></button>
+				<button type="button" class="btn bg-gradient btn-danger btn-sm" (click)="deleteConfirmed()" data-bs-dismiss="modal"><span i18n>Confirm</span></button>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

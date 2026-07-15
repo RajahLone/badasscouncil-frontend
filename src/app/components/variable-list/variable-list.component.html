@@ -1,0 +1,45 @@
+<app-menu></app-menu>
+<div id="main">
+<div class="card shadow" style="max-height:97vh;">
+	<div class="card-header"><span i18n>Environment variables</span></div>
+	<div class="card-header shadow-sm">
+		<div class="row justify-content-between">
+			<div class="form-group col-sm-4 label-nobr">
+				<button type="button" (click)="goToRefreshListVariable()" class="btn bg-gradient btn-primary btn-sm field-separate" style="margin-right: 5px;"><fa-icon [icon]="faRotate"></fa-icon>&nbsp;<span i18n>Update</span></button>
+				<button type="button" (click)="goToNewVariable()" class="btn bg-gradient btn-primary btn-sm field-separate" style="margin-right: 5px;"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;<span i18n>Create</span></button>
+			</div>
+  		<div class="form-group col-sm-2 label-nobr">
+				<div class="input-group input-group-sn">
+					<button type="button" class="btn bg-gradient btn-secondary btn-sm field-separate" disabled><span i18n>Family filter</span></button>
+					<select class="form-select form-select-sm field-separate" id="select_type" [(ngModel)]="familyFilter" (change)="filterByFamily($event)">
+	  				<option> </option>
+						@for (f of families; track f) {
+						<option [value]="f.family">{{ f.family }}</option>
+				    }
+				  </select>
+			  </div>
+			</div>
+		</div>
+	</div>
+	<div class="card-body table-scrollable">
+		<table class="table table-sm">
+			<thead class="thead-dark">
+				<tr>
+					<th class="fs-6 label-nobr"><small><span i18n>Family</span></small></th>
+					<th class="fs-6 label-nobr"><small><span i18n>Code</span></small></th>
+					<th class="fs-6 label-nobr"><small><span i18n>Content</span></small></th>
+				</tr>
+			</thead>
+			<tbody>
+				@for (variable of variables; track variable.variableId) {
+				<tr>
+					<td class="label-nobr"><small>{{ variable.family }}&nbsp;&nbsp;</small></td>
+					<td class="label-nobr"><a (click)="formVariable(variable.variableId)" class="link-primary pointeur-souris text-decoration-none">{{ variable.code }}</a>&nbsp;&nbsp;</td>
+					<td class="text-truncate" style="max-width:400px;">{{ variable.content }}&nbsp;&nbsp;</td>
+				</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
+</div>

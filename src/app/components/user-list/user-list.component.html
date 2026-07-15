@@ -1,0 +1,88 @@
+<app-menu></app-menu>
+<div id="main">
+<div class="card shadow" style="max-height:97vh;">
+	<div class="card-header">
+		<span i18n>Liste des participants : {{pagination.items}}</span>
+	</div>
+	<div class="card-header">
+		<div class="row justify-content-end">
+			<div class="form-group col-sm-2 label-nobr">
+			  <div class="input-group input-group-sn">
+					<button type="button" class="btn bg-gradient btn-secondary btn-sm field-separate" disabled><span i18n>Sort</span></button>
+					<select class="form-select form-select-sm field-separate" id="select_sort" [(ngModel)]="sort" (change)="sortList($event)" placement="bottom">
+						<option value="0"><span i18n>by name</span></option>
+						<option value="1"><span i18n>by subscription order</span></option>
+				  </select>
+			  </div>
+		  </div>
+		  <div class="form-group col-sm-2 label-nobr">
+			  <div class="input-group input-group-sn">
+				  <button type="button" (click)="filterByName()" class="btn bg-gradient btn-primary btn-sm field-separate"><fa-icon [icon]="faFilter"></fa-icon>&nbsp;<span i18n>Filtrer</span></button>
+					<input type="text" (keydown.enter)="filterByName()" class="form-control form-control-sm field-separate" id="input_name" [(ngModel)]="nameFilter" i18n-tooltip tooltip="Filtrer par nom, prenom, pseudonyme ou adresse email" placement="bottom" containor="body">
+			  </div>
+		  </div>
+		  <div class="form-group col-sm-2 label-nobr">
+			  <div class="input-group input-group-sn">
+					<button type="button" class="btn bg-gradient btn-secondary btn-sm field-separate" disabled><span i18n>Status</span></button>
+					<select class="form-select form-select-sm field-separate" id="select_status" [(ngModel)]="statusFilter" (change)="filterByStatus($event)">
+					  <option value="0">Indifférent</option>
+					  <option value="1"><span i18n>En attente</span></option>
+				  </select>
+			  </div>
+		  </div>
+			<div class="form-group col-sm-2 label-nobr">
+				<button type="button" (click)="filtrageReset()" class="btn bg-gradient btn-secondary btn-sm field-separate" style="margin-right: 5px;"><fa-icon [icon]="faFilterCircleXmark"></fa-icon>&nbsp;<span i18n>Remove filters</span></button>
+		  </div>
+		</div>
+	</div>
+	<div class="card-header shadow-sm">
+		<div class="row justify-content-start">
+			<div class="form-group col-sm-2 label-nobr">
+				<button type="button" (click)="goToUserListRefresh()" class="btn bg-gradient btn-primary btn-sm field-separate" style="margin-right: 5px;"><fa-icon [icon]="faRotate"></fa-icon>&nbsp;<span i18n>Update</span></button>
+				<button type="button" (click)="goToAddUser()" class="btn bg-gradient btn-primary btn-sm field-separate" style="margin-right: 5px;" style="margin-right: 5px;"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;<span i18n>Create</span></button>
+			</div>
+   	</div>
+	</div>
+	<div class="card-body table-scrollable" #userslist>
+		<table class="table table-sm">
+			<thead class="thead-dark">
+				<tr>
+					<th class="fs-6 label-nobr"><small><span i18n>Nickname/group</span></small></th>
+					<th class="fs-6 label-nobr"><small><span i18n>First and last name</span></small></th>
+					<th class="fs-6 label-nobr"><small><span i18n>Status</span></small></th>
+					<th class="fs-6 label-nobr"><small><span i18n>Email address</span></small></th>
+				</tr>
+			</thead>
+			<tbody>
+				@for (user of users; track user.userId) {
+				<tr>
+					<td class="label-nobr text-truncate" style="max-width:200px;"><a (click)="goToUserDetails(user.userId)" class="link-primary pointeur-souris text-decoration-none">{{ user.nickName }}</a>@if (user.groupName) { / {{ user.groupName }} }&nbsp;&nbsp;</td>
+					<td class="label-nobr text-truncate" style="max-width:200px;"><a (click)="goToUserDetails(user.userId)" class="link-primary pointeur-souris text-decoration-none">{{ user.firstName }}&nbsp;{{ user.lastName }}</a>&nbsp;&nbsp;</td>
+					<td>
+						@if (user.status === SL[0].key) { <fa-icon [icon]="faCircleXmark" class="text-danger" title="{{ SL[0].value }}"></fa-icon> }
+						@else if (user.status === SL[1].key) { <fa-icon [icon]="faCircleCheck" class="text-success" title="{{ SL[1].value }}"></fa-icon> }
+						@else if (user.status=== SL[2].key) { <fa-icon [icon]="faCircleCheck" class="text-success" title="{{ SL[2].value }}"></fa-icon> }
+						@else if (user.status === SL[3].key) { <fa-icon [icon]="faCircleCheck" class="text-success" title="{{ SL[3].value }}"></fa-icon> }
+						@else if (user.status === SL[4].key) { <fa-icon [icon]="faCircleCheck" class="text-success" title="{{ SL[4].value }}"></fa-icon> }
+						@else if (user.status === SL[5].key) { <fa-icon [icon]="faCircleCheck" class="text-primary" title="{{ SL[5].value }}"></fa-icon> }
+						@else if (user.status === SL[6].key) { <fa-icon [icon]="faCircleCheck" class="text-primary" title="{{ SL[6].value }}"></fa-icon> }
+					</td>
+					<td class="label-nobr">{{ user.email }}&nbsp;&nbsp;</td>
+				</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+	@if (pagination.total > 1) {
+	<div class="card-footer" style="max-height:54px;">
+		<nav>
+		  <ul class="pagination">
+				<li class="page-item" [class.disabled]="pagination.current == 0"><a class="page-link" (click)="goToPrevPage()"><fa-icon [icon]="faArrowLeft"></fa-icon></a></li>
+				@for (p of pages; track p) { <li class="page-item" [class.active]="pagination.current == (p - 1)"><a class="page-link" (click)="goToPage(p - 1)">{{p}}</a></li> }
+				<li class="page-item" [class.disabled]="pagination.current == (pagination.total - 1)"><a class="page-link" (click)="goToNextPage()"><fa-icon [icon]="faArrowRight"></fa-icon></a></li>
+		  </ul>
+		</nav>
+	</div>
+	}
+</div>
+</div>

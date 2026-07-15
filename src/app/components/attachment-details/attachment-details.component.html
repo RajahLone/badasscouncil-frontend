@@ -1,0 +1,58 @@
+<app-menu></app-menu>
+<div id="main">
+<div class="card shadow center">
+	<div class="card-header"><span i18n>Attachment</span></div>
+	<div class="card-header shadow-sm">
+		<button (click)="goToAttachmentList()" class="btn bg-gradient btn-primary btn-sm"><fa-icon [icon]="faXmark"></fa-icon>&nbsp;<span i18n>Retour</span></button>
+	</div>
+	<div class="card-body form-scrollable">
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Created on</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="createdOn" name="createdOn" [(ngModel)]="attachment.createdOn" disabled>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Updated on</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="updatedOn" name="updatedOn" [(ngModel)]="attachment.updatedOn" disabled>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Public comments</span></label>
+			<div class="col-sm-8">
+				<textarea class="form-control form-control-sm field-separate" id="commentsPublic" name="commentsPublic" [(ngModel)]="attachment.commentsPublic" disabled></textarea>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Private comments</span></label>
+			<div class="col-sm-8">
+				<textarea class="form-control form-control-sm field-separate" id="commentsPrivate" name="commentsPrivate" [(ngModel)]="attachment.commentsPrivate" disabled></textarea>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Owner</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="ownerName" name="ownerName" [(ngModel)]="attachment.ownerName" disabled>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Archive</span></label>
+			<div class="col-sm-8">
+				<button type="button" (click)="updateArchive(attachment.fileId)" class="btn bg-gradient btn-primary btn-sm field-separate"><fa-icon [icon]="faUpload"></fa-icon>&nbsp;<span i18n>Upload</span></button>
+				<small class="text-muted">&nbsp;&nbsp;<span i18n>déjà enregistré :</span> {{ attachment.archiveName}} (v{{ attachment.versionNumber }})</small>
+			</div>
+		</div>
+
+	</div>
+	<div class="card-footer">
+		<button type="button" (click)="updateAttachment(attachment.fileId)" class="btn bg-gradient btn-primary btn-sm"><fa-icon [icon]="faPen"></fa-icon>&nbsp;<span i18n>Edit</span></button>
+	</div>
+</div>
+</div>

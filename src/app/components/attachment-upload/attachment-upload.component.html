@@ -1,0 +1,49 @@
+<app-menu></app-menu>
+<div id="main">
+<form #formRef="ngForm" class="needs-validation">
+	<div class="card shadow center">
+		<div class="card-header"><span i18n>Attachment update</span></div>
+		<div class="card-header shadow-sm">
+			<button (click)="goToAttachmentList()" class="btn bg-gradient btn-primary btn-sm"><fa-icon [icon]="faXmark"></fa-icon>&nbsp;<span i18n>Retour</span></button>
+		</div>
+		<div class="card-body">
+
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Archive name</span></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control form-control-sm field-separate" id="titre" name="titre" [(ngModel)]="attachment.archiveName" disabled>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Archive</span></label>
+				<div class="col-sm-8">
+					<input type="file" class="form-control form-control-sm field-separate" id="archive" name="archive" accept="application/zip" (change)="onArchiveSelected($event)">
+					<div class="form-text field-separate"><span i18n>The archive size is limited to 1 GB.</span></div>
+				</div>
+			</div>
+
+		</div>
+		<div class="card-footer hstack">
+			<button type="button" #uploadButton class="btn bg-gradient btn-success btn-sm text-left" data-bs-toggle="modal" data-bs-target="#modalModifier" [disabled]="!uploadFile"><fa-icon [icon]="faUpload"></fa-icon>&nbsp;<span i18n>Upload</span></button>
+			<div #labelMessage class="form-text" style="padding-left:10px;min-width:300px;"></div>
+		</div>
+	</div>
+</form>
+
+<div class="modal fade" id="modalModifier" tabindex="-1" aria-labelledby="modalModifierTitre" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalModifierTitre"><span i18n>Modify the attachment</span></h5>
+			</div>
+			<div class="modal-body"><span i18n>Re-upload this file?</span></div>
+			<div class="modal-footer">
+				<button type="button" class="btn bg-gradient btn-secondary btn-sm" data-bs-dismiss="modal"><span i18n>Cancel</span></button>
+        <button type="button" class="btn bg-gradient btn-warning btn-sm" (click)="addAttachmentFile()" data-bs-dismiss="modal"><span i18n>Confirm</span></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>

@@ -1,0 +1,40 @@
+<app-menu></app-menu>
+<div id="main">
+<div class="card shadow rounded-bottom-0">
+	<div class="card-header"><span i18n>Liste des attachments</span></div>
+	<div class="card-header shadow">
+		<div class="row justify-content-between">
+			<div class="form-group col-sm-4 label-nobr">
+				<button type="button" (click)="goToAttachementRefreshList()" class="btn bg-gradient btn-primary btn-sm" style="margin-right: 5px;"><fa-icon [icon]="faRotate"></fa-icon>&nbsp;<span i18n>Actualiser</span></button>
+				<button type="button" (click)="goToAttachementCreation()" class="btn bg-gradient btn-primary btn-sm" style="margin-right: 5px;"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;<span i18n>Créer</span></button>
+			</div>
+			<div class="form-group col-sm-2 label-nobr">
+			  <div class="input-group input-group-sn">
+				  <button type="button" class="btn bg-gradient btn-secondary btn-sm field-separate" disabled><span i18n>Tri</span></button>
+					<select class="form-select form-select-sm field-separate" id="select_tri" [(ngModel)]="sort" (change)="sortList($event)" placement="bottom">
+						<option value="0"><span i18n>par titre et auteurs</span></option>
+						<option value="1"><span i18n>les plus récents en premier</span></option>
+				  </select>
+			  </div>
+		  </div>
+		</div>
+	</div>
+</div>
+	<div class="d-flex flex-wrap">
+		@for (attachment of attachments; track attachment.fileId) {
+			<div class="card shadow prod_item inline-grid">
+				<div class="card-header border-top border-dark-subtle" style="max-height:10rem;overflow:auto;">
+					<span class="card-title"><fa-icon [icon]="faQuestion"></fa-icon></span>
+				</div>
+				<div class="card-body" style="max-height:10rem;overflow:auto;">
+					<small>{{ attachment.commentsPublic }}</small><br/>
+					<small class="text-warning">{{ attachment.commentsPrivate }}</small>
+				 </div>
+				<div class="card-footer mt-auto d-flex justify-content-between">
+					<fa-icon [icon]="faDownload" class="text-primary pointeur-souris" (click)="getFile(attachment.fileId, attachment.archiveName)" tooltip="{{ attachment.archiveName }} (v{{ attachment.versionNumber }})" placement="top" container="body"></fa-icon>
+					<fa-icon [icon]="faUserTie" class="text-muted" style="margin-left:7px;" i18n-tootip tooltip="géré par {{ attachment.ownerName }}" placement="top" container="body"></fa-icon>
+				</div>
+			</div>
+		}
+	</div>
+</div>

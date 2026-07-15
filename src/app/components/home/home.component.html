@@ -1,0 +1,17 @@
+<app-menu></app-menu>
+<div id="main">
+<div class="center" style="min-width: 30rem;">
+
+<p class="fs-2 text-center"><span i18n>Bienvenue</span> @if (this.logged) { {{ this.pseudonyme }} }</p>
+
+@if (this.message) {
+  @if (this.message.erreur) { <div class="alert alert-danger" role="alert"> {{ this.message.erreur }}</div> }
+  @if (this.message.alerte) { <div class="alert alert-warning" role="alert"> {{ this.message.alerte }}</div> }
+  @if (this.message.information) { <div class="alert alert-info" role="alert"> {{ this.message.information }}</div> }
+  @if (this.message.autre) { <div class="alert alert-light" role="alert"> {{ this.message.autre }}</div> }
+}
+
+@if (!this.logged) { <div class="alert alert-info" role="alert"><span i18n>Merci de vous <a routerLink="/login" class="link-primary pointeur-souris">connecter</a> pour accéder à plus de fonctionnalités.</span></div> }
+
+</div>
+</div>

@@ -1,0 +1,159 @@
+<app-menu></app-menu>
+<div id="main">
+<form id="formUser" #formRef="ngForm" class="needs-validation">
+<div class="card shadow center">
+	<div class="card-header"><span i18n>My member's account</span></div>
+	<div class="card-header shadow-sm">
+		<button (click)="goToHome()" class="btn bg-gradient btn-primary btn-sm"><fa-icon [icon]="faXmark"></fa-icon>&nbsp;<span i18n>Retour</span></button>
+	</div>
+	<div class="card-body form-scrollable">
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Created on</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="createdOn" name="createdOn" [(ngModel)]="user.createdOn" disabled>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Updated on</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="updatedOn" name="updatedOn" [(ngModel)]="user.updatedOn" disabled>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Role</span></label>
+			<div class="col-sm-8">
+				<div class="form-group field-separate">
+					<select class="form-select form-select-sm" id="role" name="role" [(ngModel)]="user.role" disabled>
+						<option [value]="this.roles[0].key">{{ this.roles[0].value }}</option>
+						<option [value]="this.roles[1].key">{{ this.roles[1].value }}</option>
+						<option [value]="this.roles[2].key" selected>{{ this.roles[2].value }}</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Login name</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="loginName" name="loginName" [(ngModel)]="user.loginName" disabled>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Subscription motive</span></label>
+			<div class="col-sm-8">
+				<textarea class="form-control form-control-sm field-separate" id="subscribeMotive" name="subscribeMotive" [(ngModel)]="user.subscribeMotive"></textarea>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Last name</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="lastName" name="lastName" [(ngModel)]="user.lastName">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>First name</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="firstName" name="firstName" [(ngModel)]="user.firstName">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Nick name</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="nickName" name="nickName" [(ngModel)]="user.nickName" #nickRef="ngModel" required [class.is-invalid]="nickRef.invalid && nickRef.touched">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Group name</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="groupName" name="groupName" [(ngModel)]="user.groupName">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<div class="col-sm-4"></div>
+			<div class="col-sm-8">
+				<div class="form-check form-switch">
+					<input class="form-check-input field-separate" type="checkbox" id="displayCoordinates" name="displayCoordinates" [(ngModel)]="user.displayCoordinates" disabled> <label class="form-check-label" for="displayCoordinates"><small><span i18n>Display coordinates</span></small></label>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Address</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="address" name="address" [(ngModel)]="user.address">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Zip code</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="zipCode" name="zipCode" [(ngModel)]="user.zipCode">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Town</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="town" name="town" [(ngModel)]="user.town">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Country</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="country" name="country" [(ngModel)]="user.country">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Phone number</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="phone" name="phone" [(ngModel)]="user.phone">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Email address</span></label>
+			<div class="col-sm-8">
+				<input type="email" class="form-control form-control-sm field-separate" id="email" name="email" [(ngModel)]="user.email">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Last activity on</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control form-control-sm field-separate" id="lastActivityOn" name="lastActivityOn" [(ngModel)]="user.lastActivityOn" disabled>
+			</div>
+		</div>
+
+		</div>
+		<div class="card-footer">
+			<button type="button" class="btn bg-gradient btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalModifier" [disabled]="formRef.invalid"><fa-icon [icon]="faCheck"></fa-icon>&nbsp;<span i18n>Update</span></button>
+		</div>
+	</div>
+</form>
+
+<div class="modal fade" id="modalModifier" tabindex="-1" aria-labelledby="modalModifierTitre" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalModifierTitre"><span i18n>Modification</span></h5>
+			</div>
+			<div class="modal-body"><span i18n>Update this record?</span></div>
+			<div class="modal-footer">
+				<button type="button" class="btn bg-gradient btn-secondary btn-sm" data-bs-dismiss="modal"><span i18n>Cancel</span></button>
+				<button type="button" class="btn bg-gradient btn-warning btn-sm" (click)="updateConfirmed()" data-bs-dismiss="modal"><span i18n>Confirm</span></button>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
