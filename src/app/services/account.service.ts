@@ -25,7 +25,11 @@ export class AccountService
 
   constructor(private router : Router, private httpClient: HttpClient)
   {
-    this.accountSubject = new BehaviorSubject(JSON.parse(sessionStorage.getItem('account')!));
+    let text: string | any = '';
+    try { text = sessionStorage.getItem('account'); } catch (err) { text = null; }
+    if (text == null) { text = JSON.stringify(new Account()); }
+
+    this.accountSubject = new BehaviorSubject(JSON.parse(text));
     this.account = this.accountSubject.asObservable();
   }
 

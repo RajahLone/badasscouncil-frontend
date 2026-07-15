@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit
 {
 
   logged: boolean = false;
-  pseudonyme: string = "";
+  nickName: string = "";
   message: Message = new Message();
 
   constructor(
@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit
   {
     this.logged = this.accountService.isLogged();
 
-    if (this.logged) { this.pseudonyme = this.accountService.getLoginName(); }
+    if (this.logged) { this.nickName = this.accountService.getNickName(); }
 
     this.diversService.getMessage().subscribe(data => { this.message = data; });
   }
