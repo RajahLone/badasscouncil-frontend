@@ -7,7 +7,7 @@ import { faComment } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuComponent } from '../menu/menu.component';
 import { MessageShort } from '../../interfaces/chat';
-import { UserShort } from '../../interfaces/user';
+import { NickName } from '../../interfaces/user';
 import { ChatService } from '../../services/chat.service';
 import { AccountService } from '../../services/account.service'
 
@@ -26,7 +26,7 @@ export class ChatComponent implements OnInit
 
   newMessage: MessageShort = new MessageShort();
 
-  nicknames: UserShort[] = [];
+  nicknames: NickName[] = [];
 
   constructor(
     private chatService: ChatService,

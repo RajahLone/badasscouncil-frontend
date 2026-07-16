@@ -25,4 +25,5 @@ export class NewPassword
   oldPassword: string = "";
   newPassword: string = "";
   error: string = "";
+  success: string = "";
 }

@@ -44,18 +44,17 @@ export class User
 export class UserShort
 {
   userId: number = 0;
-  loginName: string = "";
-  nickName: string = "";
-  groupName: string = "";
-}
-
-export class UserList
-{
-  userId: number = 0;
   status: string = "PENDING";
   nickName: string = "";
   groupName: string = "";
   firstName: string = "";
   lastName: string = "";
   email: string = "";
+}
+
+export class NickName
+{
+  userId: number = 0;
+  nickName: string = "";
+  groupName: string = "";
 }

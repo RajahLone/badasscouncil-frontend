@@ -75,4 +75,6 @@ export class AccountService
 
   updatePassword(newpass: NewPassword) { return this.httpClient.post<NewPassword>(`${this.baseURLacc}/newmdp`, newpass); }
 
+  sendSubscription(user: User) { return this.httpClient.post<NewPassword>(`${this.baseURLacc}/subscribe`, user); }
+
 }

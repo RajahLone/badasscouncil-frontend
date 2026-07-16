@@ -39,6 +39,7 @@
 				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Login name</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control form-control-sm field-separate" id="loginName" name="loginName" [(ngModel)]="user.loginName" #loginRef="ngModel" required [class.is-invalid]="loginRef.invalid && loginRef.touched">
+					<div class="form-text field-separate"><span i18n>This name serves only to log in and is private, known by this user and administrators and regulators, unknown to other users.<br/>Don't confuse it with the nick name.</span></div>
 				</div>
 			</div>
 
@@ -107,7 +108,7 @@
 				<div class="col-sm-8">
 					<div class="form-check form-switch">
 						<input class="form-check-input field-separate" type="checkbox" id="displayCoordinates" name="displayCoordinates" [(ngModel)]="user.displayCoordinates">
-						<label class="form-check-label" for="withMachine"><small><span i18n>Display coordinates</span></small></label>
+						<label class="form-check-label" for="displayCoordinates"><small><span i18n>Display coordinates</span></small></label>
 					</div>
 				</div>
 			</div>

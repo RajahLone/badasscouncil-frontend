@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { Environnement } from '../env';
-import { User, UserList, UserShort } from '../interfaces/user';
+import { User, UserShort } from '../interfaces/user';
 import { Pagination } from '../interfaces/misc';
 
 @Injectable({ providedIn: 'root' })
@@ -24,7 +24,7 @@ export class UserService
 
     return this.httpClient.get<Pagination>(`${this.baseURL}/pagination`, { params: params });
   }
-  getUserList(nameFilter: string, statusFilter: number, sort: number, page: number, size: number): Observable<UserList[]>
+  getUserList(nameFilter: string, statusFilter: number, sort: number, page: number, size: number): Observable<UserShort[]>
   {
     let params = new HttpParams();
 

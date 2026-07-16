@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { AccountSubscribeComponent } from './components/account-subscribe/account-subscribe.component';
 import { AccountDetailsComponent } from './components/account-details/account-details.component';
 import { AccountUpdateComponent } from './components/account-update/account-update.component';
 import { AccountPasswordComponent } from './components/account-password/account-password.component';
@@ -31,6 +32,7 @@ export const routes: Routes = [
   {path: 'home', component: HomeComponent, runGuardsAndResolvers: 'always' },
   {path: 'login', component: LoginComponent, runGuardsAndResolvers: 'always' },
   {path: 'chat', component: ChatComponent, canActivate: [UserGuard], runGuardsAndResolvers: 'always' },
+  {path: 'account-subscribe', component: AccountSubscribeComponent, runGuardsAndResolvers: 'always' },
   {path: 'account-details', component: AccountDetailsComponent, canActivate: [UserGuard], runGuardsAndResolvers: 'always' },
   {path: 'account-update', component: AccountUpdateComponent, canActivate: [UserGuard], runGuardsAndResolvers: 'always' },
   {path: 'account-password', component: AccountPasswordComponent, canActivate: [UserGuard], runGuardsAndResolvers: 'always' },

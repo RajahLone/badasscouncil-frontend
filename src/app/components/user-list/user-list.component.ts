@@ -6,7 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPlus, faFilter, faRotate, faFlagCheckered, faFilterCircleXmark, faCircleCheck, faBed, faCircleXmark, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuComponent } from '../menu/menu.component';
-import { UserList, UserEnum, UserStatusList } from '../../interfaces/user';
+import { UserShort, UserEnum, UserStatusList } from '../../interfaces/user';
 import { UserService } from '../../services/user.service';
 import { Pagination } from '../../interfaces/misc';
 import { MiscService } from '../../services/misc.service'
@@ -26,7 +26,7 @@ export class UserListComponent implements OnInit
 
   pagination: Pagination = new Pagination();
   pages: number[] = [1];
-  users: UserList[] = [];
+  users: UserShort[] = [];
 
   @ViewChild('userslist', {static: false}) usersList!: ElementRef;
 

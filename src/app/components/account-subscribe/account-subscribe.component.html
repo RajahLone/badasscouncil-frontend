@@ -1,0 +1,183 @@
+<app-menu></app-menu>
+<div id="main">
+  <form [formGroup]="form">
+
+    <div class="card shadow center">
+      <div class="card-header"><span i18n>Subscription form</span></div>
+      <div class="card-header shadow-sm">
+        <button (click)="goToHome()" class="btn bg-gradient btn-primary btn-sm"><fa-icon [icon]="faXmark"></fa-icon>&nbsp;<span i18n>Back</span></button>
+      </div>
+      <div class="card-body form-scrollable">
+
+  			<div class="form-group row">
+  				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Subscription motive</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
+    			<div class="col-sm-8">
+    				<textarea class="form-control form-control-sm field-separate" formControlName="subscribeMotive"></textarea>
+            <div class="form-text field-separate"><span i18n>Your subscription is not automatic, but is validated by an administrator or a regulator after reading your motives.</span></div>
+  				</div>
+  			</div>
+
+        <div class="form-group row">
+  				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Login name</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
+  				<div class="col-sm-8">
+  					<input type="text" class="form-control form-control-sm field-separate" formControlName="loginName">
+            <div class="form-text field-separate"><span i18n>This name serves only to log in and is private, known by you and administrators and regulators, unknown to other users.<br/>Don't confuse it with the nick name.</span></div>
+  				</div>
+  			</div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>New Password</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
+          <div class="col-sm-8">
+            <input type="password" class="form-control form-control-sm field-separate" formControlName="newPassword">
+            @if (form.controls['newPassword'].hasError('pattern')) {
+              <div class="form-text field-separate">
+                <span i18n>The password must meet these requirements:</span>
+                <ul>
+                  <li [ngClass]="{'d-none':checkValidations('newPassword', 'uppercase')}"><span i18n>At least one uppercase letter.</span></li>
+                  <li [ngClass]="{'d-none':checkValidations('newPassword', 'lowercase')}"><span i18n>At least one lowercase letter.</span></li>
+                  <li [ngClass]="{'d-none':checkValidations('newPassword', 'special-character')}"><span i18n>At least one special characteristic among #$&#64;!%&amp;*?</span></li>
+                  <li [ngClass]="{'d-none':checkValidations('newPassword', 'number')}"><span i18n>At least one number.</span></li>
+                  <li [ngClass]="{'d-none':checkValidations('newPassword', 'length')}"><span i18n>Between 8 and 16 characters.</span></li>
+                </ul>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Confirmation</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
+          <div class="col-sm-8">
+            <input type="password" class="form-control form-control-sm field-separate" formControlName="confirmPassword">
+            @if (form.controls['confirmPassword'].hasError('pattern')) {
+              <div class="form-text field-separate">
+                <span i18n>The password must meet these requirements:</span>
+                <ul>
+                  <li [ngClass]="{'d-none':checkValidations('confirmPassword', 'uppercase')}"><span i18n>At least one uppercase letter.</span></li>
+                  <li [ngClass]="{'d-none':checkValidations('confirmPassword', 'lowercase')}"><span i18n>At least one lowercase letter.</span></li>
+                  <li [ngClass]="{'d-none':checkValidations('confirmPassword', 'special-character')}"><span i18n>At least one special characteristic among #$&#64;!%&amp;*?</span></li>
+                  <li [ngClass]="{'d-none':checkValidations('confirmPassword', 'number')}"><span i18n>At least one number.</span></li>
+                  <li [ngClass]="{'d-none':checkValidations('confirmPassword', 'length')}"><span i18n>Between 8 and 16 characters.</span></li>
+                </ul>
+              </div>
+            }
+            @if (form.hasError('notMatched')) {
+              <div class="form-text field-separate"><span i18n class="text-danger">The confirmation does not match the new password.</span></div>
+            }
+          </div>
+        </div>
+
+  			<div class="form-group row">
+  				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Session timeout</span></label>
+  				<div class="col-sm-2">
+  					<input type="number" min="5" max="60" class="form-control form-control-sm field-separate" formControlName="sessionTimeout">
+  				</div>
+  			</div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Nick name</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control form-control-sm field-separate" formControlName="nickName">
+          </div>
+        </div>
+
+  			<div class="form-group row">
+  				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Group name</span></label>
+  				<div class="col-sm-8">
+  					<input type="text" class="form-control form-control-sm field-separate" formControlName="groupName">
+  				</div>
+  			</div>
+
+  			<div class="form-group row">
+  				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>First name</span></label>
+  				<div class="col-sm-8">
+  					<input type="text" class="form-control form-control-sm field-separate" formControlName="firstName">
+  				</div>
+  			</div>
+
+  			<div class="form-group row">
+  				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Last name</span></label>
+  				<div class="col-sm-8">
+  					<input type="text" class="form-control form-control-sm field-separate" formControlName="lastName">
+  				</div>
+  			</div>
+
+  			<div class="form-group row">
+  				<div class="col-sm-4"></div>
+  				<div class="col-sm-8">
+  					<div class="form-check form-switch">
+  						<input class="form-check-input field-separate" type="checkbox" formControlName="displayCoordinates">
+              <label class="form-check-label" for="displayCoordinates"><small><span i18n>Display coordinates to other users</span></small></label>
+  					</div>
+  				</div>
+  			</div>
+
+  			<div class="form-group row">
+  				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Address</span></label>
+  				<div class="col-sm-8">
+  					<input type="text" class="form-control form-control-sm field-separate" formControlName="address">
+  				</div>
+  			</div>
+
+  			<div class="form-group row">
+  				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Zip code</span></label>
+  				<div class="col-sm-8">
+  					<input type="text" class="form-control form-control-sm field-separate" formControlName="zipCode">
+  				</div>
+  			</div>
+
+  			<div class="form-group row">
+  				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Town</span></label>
+  				<div class="col-sm-8">
+  					<input type="text" class="form-control form-control-sm field-separate" formControlName="town">
+  				</div>
+  			</div>
+
+  			<div class="form-group row">
+  				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Country</span></label>
+  				<div class="col-sm-8">
+  					<input type="text" class="form-control form-control-sm field-separate" formControlName="country">
+  				</div>
+  			</div>
+
+  			<div class="form-group row">
+  				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Phone number</span></label>
+  				<div class="col-sm-8">
+  					<input type="text" class="form-control form-control-sm field-separate" formControlName="phone">
+  				</div>
+  			</div>
+
+  			<div class="form-group row">
+  				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Email address</span></label>
+  				<div class="col-sm-8">
+  					<input type="email" class="form-control form-control-sm field-separate" formControlName="email">
+  				</div>
+  			</div>
+
+      </div>
+      <div class="card-footer">
+        <button type="button" class="btn bg-gradient btn-danger btn-sm text-left" data-bs-toggle="modal" data-bs-target="#modalModifier" [disabled]="!form.valid"><fa-icon [icon]="faPen"></fa-icon>&nbsp;<span i18n>Subscribe</span></button>
+        @if (this.newpassword.error !== "") {
+        <div class="form-text field-separate" style="float: right;"><span i18n class="text-danger">{{ this.newpassword.error }}</span></div>
+        }
+        @if (this.newpassword.success !== "") {
+        <div class="form-text field-separate" style="float: right;"><span i18n class="text-success">{{ this.newpassword.success }}</span></div>
+        }
+        @if (form.controls['subscribeMotive'].hasError('required') || form.controls['loginName'].hasError('required') || form.controls['newPassword'].hasError('required') || form.controls['confirmPassword'].hasError('required') || form.controls['nickName'].hasError('required')) {
+        <div class="form-text field-separate" style="float: right;"><span i18n class="text-danger">Some informations are required (fields with&nbsp;<sup><span class="text-danger">*</span></sup>)</span></div>
+        }
+    </div>
+    </div>
+  </form>
+
+  <div class="modal fade" id="modalModifier" tabindex="-1" aria-labelledby="modalModifierTitre" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body"><span i18n>Subscribe with these datas?</span></div>
+        <div class="modal-footer">
+          <button type="button" class="btn bg-gradient btn-secondary btn-sm" data-bs-dismiss="modal"><span i18n>Cancel</span></button>
+          <button type="button" class="btn bg-gradient btn-danger btn-sm" (click)="sendSubscription()" data-bs-dismiss="modal"><span i18n>Confirm</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

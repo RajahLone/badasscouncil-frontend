@@ -77,7 +77,10 @@ export class AccountPasswordComponent
     this.newpassword.oldPassword = this.form.controls['oldPassword'].value;
     this.newpassword.newPassword = this.form.controls['newPassword'].value;
 
-    this.accountService.updatePassword(this.newpassword).subscribe(data => { if (data.error !== "") { this.newpassword.error = data.error; } else if (data.newPassword === "<success@new>") { this.router.navigate(['/']); } });
+    this.accountService.updatePassword(this.newpassword).subscribe(data => {
+      if (data.error !== "") { this.newpassword.error = data.error; }
+      else if ((data.success !== "" ) || (data.newPassword === "<success@new>")) { this.newpassword.success = data.success; setTimeout(() => { this.router.navigate(['/']); }, 5000); }
+    });
   }
 
   goToAccountDetails() { this.router.navigate(['/account-details'], { queryParams: { 'refresh': this.menu.getRandomInteger(1, 100000) } }); }
