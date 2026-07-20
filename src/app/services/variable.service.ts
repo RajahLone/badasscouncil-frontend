@@ -17,7 +17,7 @@ export class VariableService
   {
     let params = new HttpParams();
 
-    if (filtreFamily !== null) { params = params.append('family', filtreFamily); }
+    if (filtreFamily !== null) { params = params.append('type', filtreFamily); }
 
     return this.httpClient.get<Variable[]>(`${this.baseURL}/list`, { params: params });
   }

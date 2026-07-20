@@ -3,7 +3,7 @@
   <form [formGroup]="form">
 
     <div class="card shadow center">
-      <div class="card-header"><span i18n>Subscription form</span></div>
+      <div class="card-header"><span i18n>Choose your credentials, indicate an identity</span></div>
       <div class="card-header shadow-sm">
         <button (click)="goToHome()" class="btn bg-gradient btn-primary btn-sm"><fa-icon [icon]="faXmark"></fa-icon>&nbsp;<span i18n>Back</span></button>
       </div>
@@ -155,15 +155,15 @@
 
       </div>
       <div class="card-footer">
-        <button type="button" class="btn bg-gradient btn-danger btn-sm text-left" data-bs-toggle="modal" data-bs-target="#modalModifier" [disabled]="!form.valid"><fa-icon [icon]="faPen"></fa-icon>&nbsp;<span i18n>Subscribe</span></button>
+        <button type="button" class="btn bg-gradient btn-success btn-sm text-left" data-bs-toggle="modal" data-bs-target="#modalModifier" [disabled]="this.form.invalid" [hidden]="this.success"><fa-icon [icon]="faPen"></fa-icon>&nbsp;<span i18n>Subscribe</span></button>
+        @if (form.controls['subscribeMotive'].hasError('required') || form.controls['loginName'].hasError('required') || form.controls['newPassword'].hasError('required') || form.controls['confirmPassword'].hasError('required') || form.controls['nickName'].hasError('required')) {
+        <div class="form-text field-separate" style="float: right;"><span i18n class="text-danger">Some informations are required (fields with&nbsp;<sup><span class="text-danger">*</span></sup>)</span></div>
+        }
         @if (this.newpassword.error !== "") {
         <div class="form-text field-separate" style="float: right;"><span i18n class="text-danger">{{ this.newpassword.error }}</span></div>
         }
         @if (this.newpassword.success !== "") {
-        <div class="form-text field-separate" style="float: right;"><span i18n class="text-success">{{ this.newpassword.success }}</span></div>
-        }
-        @if (form.controls['subscribeMotive'].hasError('required') || form.controls['loginName'].hasError('required') || form.controls['newPassword'].hasError('required') || form.controls['confirmPassword'].hasError('required') || form.controls['nickName'].hasError('required')) {
-        <div class="form-text field-separate" style="float: right;"><span i18n class="text-danger">Some informations are required (fields with&nbsp;<sup><span class="text-danger">*</span></sup>)</span></div>
+        <div class="form-text field-separate" style="float: left;"><span i18n class="text-success">{{ this.newpassword.success }}</span><br/><br/><a routerLink="/login" class="link-primary pointeur-souris">sign in</a></div>
         }
     </div>
     </div>

@@ -4,7 +4,7 @@
 <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary" id="sidenav">
   <ul class="nav nav-pills nav-flush flex-column text-center">
     <li><a routerLink="/home" routerLinkActive="active" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Home" placement="right" container="body"><fa-icon [icon]="faHome"></fa-icon></a></li>
-		<li><a routerLink="/login" routerLinkActive="active" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Login" placement="right" container="body"><fa-icon [icon]="faRightToBracket"></fa-icon></a></li>
+    <li><a routerLink="/login" routerLinkActive="active" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Sign in" placement="right" container="body"><fa-icon [icon]="faRightToBracket"></fa-icon></a></li>
 	</ul>
 </div><div #signouticon class="d-none"></div>
 
@@ -14,7 +14,7 @@
   <ul class="nav nav-pills nav-flush flex-column text-center">
 	 	<li><a routerLink="/home" routerLinkActive="active" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Home" placement="right" container="body"><fa-icon [icon]="faHome"></fa-icon></a></li>
     <li><a routerLink="/account-details" routerLinkActive="active" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Account" placement="right" container="body"><fa-icon [icon]="faUser"></fa-icon></a></li>
-    <li><a routerLinkActive="active" data-bs-toggle="modal" data-bs-target="#modalDeconnecter" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Logout" placement="right" container="body"><fa-icon #signouticon [icon]="faRightFromBracket"></fa-icon></a></li>
+    <li><a routerLinkActive="active" data-bs-toggle="modal" data-bs-target="#modalDeconnecter" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Sign out" placement="right" container="body"><fa-icon #signouticon [icon]="faRightFromBracket"></fa-icon></a></li>
 
     <li><a routerLink="/chat" routerLinkActive="active" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Chat" placement="right" container="body"><fa-icon [icon]="faComments"></fa-icon></a></li>
 
@@ -29,7 +29,7 @@
   <ul class="nav nav-pills nav-flush flex-column text-center">
 	 	<li><a routerLink="/home" routerLinkActive="active" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Accueil" placement="right" container="body"><fa-icon [icon]="faHome"></fa-icon></a></li>
 		<li><a routerLink="/account-details" routerLinkActive="active" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Account" placement="right" container="body"><fa-icon [icon]="faUser"></fa-icon></a></li>
-		<li><a routerLinkActive="active" data-bs-toggle="modal" data-bs-target="#modalDeconnecter" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Logout" placement="right" container="body"><fa-icon #signouticon [icon]="faRightFromBracket"></fa-icon></a></li>
+		<li><a routerLinkActive="active" data-bs-toggle="modal" data-bs-target="#modalDeconnecter" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Sign out" placement="right" container="body"><fa-icon #signouticon [icon]="faRightFromBracket"></fa-icon></a></li>
 
 		<li><a routerLink="/chat" routerLinkActive="active" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Chat" placement="right" container="body"><fa-icon [icon]="faComments"></fa-icon></a></li>
 
@@ -44,8 +44,8 @@
 <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary" id="sidenav">
   <ul class="nav nav-pills nav-flush flex-column text-center">
     <li><a routerLink="/home" routerLinkActive="active" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Accueil" placement="right" container="body"><fa-icon [icon]="faHome"></fa-icon></a></li>
-    <li><a routerLink="/account-details" routerLinkActive="active" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Compte" placement="right" container="body"><fa-icon [icon]="faUser"></fa-icon></a></li>
-    <li><a routerLinkActive="active" data-bs-toggle="modal" data-bs-target="#modalDeconnecter" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Logout" placement="right" container="body"><fa-icon #signouticon [icon]="faRightFromBracket"></fa-icon></a></li>
+    <li><a routerLink="/account-details" routerLinkActive="active" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Account" placement="right" container="body"><fa-icon [icon]="faUser"></fa-icon></a></li>
+    <li><a routerLinkActive="active" data-bs-toggle="modal" data-bs-target="#modalDeconnecter" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Sign out" placement="right" container="body"><fa-icon #signouticon [icon]="faRightFromBracket"></fa-icon></a></li>
 
     <li><a routerLink="/chat" routerLinkActive="active" class="nav-link rounded-0 bg-gradient" i18n-tooltip tooltip="Chat" placement="right" container="body"><fa-icon [icon]="faComments"></fa-icon></a></li>
 
@@ -64,7 +64,7 @@
 <div class="modal fade" id="modalDeconnecter" tabindex="-1" aria-labelledby="modalDeconnecterTitre" aria-hidden="false">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
-      <div class="modal-body"><span i18n>Do you want log off?</span></div>
+      <div class="modal-body"><span i18n>Do you want sign out?</span></div>
 			<div class="modal-footer">
         <button type="button" class="btn bg-gradient btn-secondary btn-sm" data-bs-dismiss="modal"><span i18n>Cancel</span></button>
         <button type="button" class="btn bg-gradient btn-warning btn-sm" (click)="deconnexion()" data-bs-dismiss="modal"><span i18n>Confirm</span></button>

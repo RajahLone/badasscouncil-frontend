@@ -1,6 +1,6 @@
-import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewChild, ElementRef, Renderer2, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule, FormBuilder, FormControl, FormGroupDirective, FormGroup, NgForm, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faXmark, faPen } from '@fortawesome/free-solid-svg-icons';
@@ -19,14 +19,17 @@ export class AccountSubscribeComponent
   user: User = new User();
   newpassword: NewPassword = new NewPassword();
 
+  public success:boolean = false;
+
   public form!: FormGroup;
 
-  public passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,16}$/
+  public passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?.:,;(){}[\]])[A-Za-z\d#$@!%&*?.:,;(){}[\]]{8,16}$/
 
   constructor(
     private accountService : AccountService,
     private router: Router,
     private menu: MenuComponent,
+    private renderer: Renderer2,
     private formbuilder: FormBuilder
   )
   {
@@ -50,7 +53,7 @@ export class AccountSubscribeComponent
       town: { value: '', disabled: false },
       country: { value: '', disabled: false },
       phone: { value: '', disabled: false },
-      email: { value: '', disabled: false },
+      email: ['', [Validators.email]]
       }, { validator: this.checkingValues });
   }
   public checkingValues(formGroup: FormGroup)
@@ -61,11 +64,11 @@ export class AccountSubscribeComponent
         && formGroup.controls['newPassword'].value
         && formGroup.controls['newPassword'].value.length >= 8 && formGroup.controls['newPassword'].value.length <= 16
         && formGroup.controls['confirmPassword'].value
-        && formGroup.controls['confirmPassword'].value.length >= 8 && formGroup.controls['confirmNewPassword'].value.length <= 16
+        && formGroup.controls['confirmPassword'].value.length >= 8 && formGroup.controls['confirmPassword'].value.length <= 16
         && formGroup.controls['nickName'].value
         )
     {
-     return formGroup.controls['newPassword'].value === formGroup.controls['confirmPassword'].value ? false : { "notMatched": true }
+      return formGroup.controls['newPassword'].value === formGroup.controls['confirmPassword'].value ? false : { "notMatched": true }
     }
 
     return false;
@@ -73,7 +76,7 @@ export class AccountSubscribeComponent
   public checkValidations(index: string, type: string) {
     switch (type)
     {
-      case 'special-character': return /[#$@!%&*?]/.test(this.form.controls[index].value);;
+      case 'special-character': return /[#$@!%&*?.:,;(){}[\]]/.test(this.form.controls[index].value);;
       case 'number': return /\d/.test(this.form.controls[index].value);
       case 'lowercase': return /[a-z]/.test(this.form.controls[index].value);
       case 'uppercase': return /[A-Z]/.test(this.form.controls[index].value);
@@ -84,9 +87,10 @@ export class AccountSubscribeComponent
 
   sendSubscription()
   {
+    this.newpassword = new NewPassword();
 
     this.user.loginName = this.form.controls['loginName'].value;
-    this.user.password = this.form.controls['password'].value;
+    this.user.password = this.form.controls['newPassword'].value;
     this.user.sessionTimeout = this.form.controls['sessionTimeout'].value;
     this.user.subscribeMotive = this.form.controls['subscribeMotive'].value;
     this.user.nickName = this.form.controls['nickName'].value;
@@ -102,8 +106,15 @@ export class AccountSubscribeComponent
     this.user.email = this.form.controls['email'].value;
 
     this.accountService.sendSubscription(this.user).subscribe(data => {
-      if (data.error !== "") { this.newpassword.error = data.error; }
-      else if ((data.success !== "" ) || (data.newPassword === "<success@new>")) { this.newpassword.success = data.success; setTimeout(() => { this.router.navigate(['/']); }, 5000); }
+      if (data.error !== "")
+      {
+        this.newpassword.error = data.error;
+      }
+      else if ((data.success !== "" ) || (data.newPassword === "<success@new>"))
+      {
+        this.newpassword.success = data.success;
+        this.success = true;
+      }
     });
   }
 

@@ -18,7 +18,7 @@
 		  <div class="form-group col-sm-2 label-nobr">
 			  <div class="input-group input-group-sn">
 				  <button type="button" (click)="filterByName()" class="btn bg-gradient btn-primary btn-sm field-separate"><fa-icon [icon]="faFilter"></fa-icon>&nbsp;<span i18n>Filtrer</span></button>
-					<input type="text" (keydown.enter)="filterByName()" class="form-control form-control-sm field-separate" id="input_name" [(ngModel)]="nameFilter" i18n-tooltip tooltip="Filtrer par nom, prenom, pseudonyme ou adresse email" placement="bottom" containor="body">
+					<input type="text" (keydown.enter)="filterByName()" class="form-control form-control-sm field-separate" id="input_name" [(ngModel)]="nameFilter" i18n-tooltip tooltip="Filter by name or email address" placement="bottom" containor="body">
 			  </div>
 		  </div>
 		  <div class="form-group col-sm-2 label-nobr">
@@ -31,7 +31,7 @@
 			  </div>
 		  </div>
 			<div class="form-group col-sm-2 label-nobr">
-				<button type="button" (click)="filtrageReset()" class="btn bg-gradient btn-secondary btn-sm field-separate" style="margin-right: 5px;"><fa-icon [icon]="faFilterCircleXmark"></fa-icon>&nbsp;<span i18n>Remove filters</span></button>
+				<button type="button" (click)="resetFilters()" class="btn bg-gradient btn-secondary btn-sm field-separate" style="margin-right: 5px;"><fa-icon [icon]="faFilterCircleXmark"></fa-icon>&nbsp;<span i18n>Remove filters</span></button>
 		  </div>
 		</div>
 	</div>

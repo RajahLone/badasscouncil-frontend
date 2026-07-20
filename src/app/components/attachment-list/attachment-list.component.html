@@ -10,10 +10,10 @@
 			</div>
 			<div class="form-group col-sm-2 label-nobr">
 			  <div class="input-group input-group-sn">
-				  <button type="button" class="btn bg-gradient btn-secondary btn-sm field-separate" disabled><span i18n>Tri</span></button>
+					<button type="button" class="btn bg-gradient btn-secondary btn-sm field-separate" disabled><span i18n>Sort</span></button>
 					<select class="form-select form-select-sm field-separate" id="select_tri" [(ngModel)]="sort" (change)="sortList($event)" placement="bottom">
-						<option value="0"><span i18n>par titre et auteurs</span></option>
-						<option value="1"><span i18n>les plus récents en premier</span></option>
+						<option value="0"><span i18n>by owners</span></option>
+						<option value="1"><span i18n>by most recents</span></option>
 				  </select>
 			  </div>
 		  </div>

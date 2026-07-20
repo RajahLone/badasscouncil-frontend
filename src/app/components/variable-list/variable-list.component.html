@@ -10,7 +10,7 @@
 			</div>
   		<div class="form-group col-sm-2 label-nobr">
 				<div class="input-group input-group-sn">
-					<button type="button" class="btn bg-gradient btn-secondary btn-sm field-separate" disabled><span i18n>Family filter</span></button>
+					<button type="button" class="btn bg-gradient btn-secondary btn-sm field-separate" disabled><span i18n>Filter by</span></button>
 					<select class="form-select form-select-sm field-separate" id="select_type" [(ngModel)]="familyFilter" (change)="filterByFamily($event)">
 	  				<option> </option>
 						@for (f of families; track f) {

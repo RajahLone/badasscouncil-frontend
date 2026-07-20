@@ -42,6 +42,8 @@ export class AccountService
   public getAccessToken():string { if (this.accountSubject.value) { return this.accountSubject.value.accessToken; } return ""; }
   private getRefreshToken():string { if (this.accountSubject.value) { return this.accountSubject.value.refreshToken; } return ""; }
 
+  sendSubscription(user: User) { return this.httpClient.post<NewPassword>(`${this.baseURLsig}/subscribe`, user); }
+
   signIn(usr: Account): Observable<Account>
   {
     return this.httpClient.post<Account>(`${this.baseURLsig}/in`, usr).pipe(map(u => { sessionStorage.setItem('account', JSON.stringify(u)); this.accountSubject.next(u); return u; }));
@@ -74,7 +76,5 @@ export class AccountService
   updateAccount(user: User): Observable<Object>{ return this.httpClient.put(`${this.baseURLacc}/update`, user); }
 
   updatePassword(newpass: NewPassword) { return this.httpClient.post<NewPassword>(`${this.baseURLacc}/newmdp`, newpass); }
-
-  sendSubscription(user: User) { return this.httpClient.post<NewPassword>(`${this.baseURLacc}/subscribe`, user); }
 
 }

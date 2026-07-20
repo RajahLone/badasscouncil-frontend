@@ -62,15 +62,6 @@ export class UserListComponent implements OnInit
     });
   }
 
-  getNombreJours(j1: boolean, j2: boolean, j3: boolean)
-  {
-    var nbjours: number = 0;
-    if (j1) { nbjours++; }
-    if (j2) { nbjours++; }
-    if (j3) { nbjours++; }
-  	return nbjours;
-  }
-
   goToUserListRefresh() { this.retreiveDatas(this.pagination.current); }
   goToNextPage() { this.retreiveDatas(this.pagination.current + 1); }
   goToPrevPage() { this.retreiveDatas(this.pagination.current - 1); }
@@ -81,7 +72,7 @@ export class UserListComponent implements OnInit
   sortList(event: any) { this.sort = event.target.value; this.retreiveDatas(this.pagination.current); }
   filterByName() { this.retreiveDatas(this.pagination.current); }
   filterByStatus(event: any) { this.statusFilter = event.target.value; this.retreiveDatas(this.pagination.current); }
-  filtrageReset() { this.nameFilter = ""; this.statusFilter = 0; this.retreiveDatas(this.pagination.current); }
+  resetFilters() { this.nameFilter = ""; this.statusFilter = 0; this.retreiveDatas(this.pagination.current); }
 
   goToAddUser() { this.router.navigate(['/user-create']); }
 

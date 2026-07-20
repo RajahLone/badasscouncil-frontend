@@ -19,7 +19,7 @@ export class AccountPasswordComponent
 
   public form!: FormGroup;
 
-  public passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,16}$/
+  public passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?.:,;(){}[\]])[A-Za-z\d#$@!%&*?.:,;(){}[\]]{8,16}$/
 
   constructor(
     private accountService : AccountService,
@@ -42,12 +42,12 @@ export class AccountPasswordComponent
   public checkingPasswords(formGroup: FormGroup)
   {
     if (
-        formGroup.controls['oldPassword'].value && formGroup.controls['newPassword'].value && formGroup.controls['confirmNewPassword'].value
+        formGroup.controls['oldPassword'].value && formGroup.controls['newPassword'].value && formGroup.controls['confirmPassword'].value
         && formGroup.controls['newPassword'].value.length >= 8 && formGroup.controls['newPassword'].value.length <= 16
-        && formGroup.controls['confirmNewPassword'].value.length >= 8 && formGroup.controls['confirmNewPassword'].value.length <= 16
+        && formGroup.controls['confirmPassword'].value.length >= 8 && formGroup.controls['confirmPassword'].value.length <= 16
         )
     {
-     return formGroup.controls['newPassword'].value === formGroup.controls['confirmNewPassword'].value ? false : { "notMatched": true }
+     return formGroup.controls['newPassword'].value === formGroup.controls['confirmPassword'].value ? false : { "notMatched": true }
     }
 
     return false;
@@ -55,7 +55,7 @@ export class AccountPasswordComponent
   public checkValidations(index: string, type: string) {
     switch (type)
     {
-      case 'special-character': return /[#$@!%&*?]/.test(this.form.controls[index].value);;
+      case 'special-character': return /[#$@!%&*?.:,;(){}[\]]/.test(this.form.controls[index].value);;
       case 'number': return /\d/.test(this.form.controls[index].value);
       case 'lowercase': return /[a-z]/.test(this.form.controls[index].value);
       case 'uppercase': return /[A-Z]/.test(this.form.controls[index].value);
@@ -67,7 +67,7 @@ export class AccountPasswordComponent
   ngOnInit()
   {
     this.accountService.getAccount().subscribe( data => {
-      this.form.controls['pseudonyme'].setValue(data.nickName);
+      this.form.controls['nickName'].setValue(data.nickName);
       this.newpassword.nickName = data.nickName;
     });
   }

@@ -21,7 +21,7 @@ export class User
   createdOn?: string;
   updatedOn?: string;
   userId: number = 0;
-  role: string = "USER";
+  role: string = "";
   status: string = "PENDING";
   loginName: string = "";
   password: string = "";
