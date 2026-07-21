@@ -5,13 +5,14 @@
 <p class="fs-2 text-center"><span i18n>Welcome</span> @if (this.logged) { {{ this.nickName }} }</p>
 
 @if (this.message) {
-  @if (this.message.erreur) { <div class="alert alert-danger" role="alert"> {{ this.message.erreur }}</div> }
-  @if (this.message.alerte) { <div class="alert alert-warning" role="alert"> {{ this.message.alerte }}</div> }
-  @if (this.message.information) { <div class="alert alert-info" role="alert"> {{ this.message.information }}</div> }
-  @if (this.message.autre) { <div class="alert alert-light" role="alert"> {{ this.message.autre }}</div> }
+  @if (this.message.erreur) { <div class="alert alert-danger" role="alert">{{ this.message.erreur }}</div> }
+  @if (this.message.alerte) { <div class="alert alert-warning" role="alert">{{ this.message.alerte }}</div> }
+  @if (this.message.information) { <div class="alert alert-info" role="alert">{{ this.message.information }}</div> }
+  @if (this.message.autre) { <div class="alert alert-light" role="alert">{{ this.message.autre }}</div> }
 }
 
 @if (!this.logged) { <div class="alert alert-info" role="alert"><span i18n>Please <a routerLink="/login" class="link-primary pointeur-souris">sign in</a> or <a routerLink="/account-subscribe" class="link-primary pointeur-souris">subscribe</a> to access all functionalities.</span></div> }
+@else if (this.expired) { <div class="alert alert-danger" role="alert">Your password is expired. Please <a routerLink="/account-password" class="link-primary pointeur-souris">update</a> it as soon as possible.</div> }
 
 </div>
 </div>

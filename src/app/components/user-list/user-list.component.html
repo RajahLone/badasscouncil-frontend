@@ -14,6 +14,7 @@
 				<button type="button" (click)="goToUserListRefresh()" class="btn bg-gradient btn-primary btn-sm field-separate" style="margin-right: 5px;"><fa-icon [icon]="faRotate"></fa-icon>&nbsp;<span i18n>Update</span></button>
 				@if (this.logged && ((this.role === "ADMIN") || (this.role === 'REGUL'))) {
 				<button type="button" (click)="goToAddUser()" class="btn bg-gradient btn-primary btn-sm field-separate" style="margin-right: 5px;" style="margin-right: 5px;"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;<span i18n>Create</span></button>
+				<button type="button" (click)="activateSelection()" class="btn bg-gradient btn-primary btn-sm field-separate disabled" style="margin-right: 5px;" #activateButton><fa-icon [icon]="faCheck"></fa-icon>&nbsp;<span i18n>Activate</span></button>
 				}
 			</div>
 			<div class="form-group col-sm-2 label-nobr">
@@ -49,6 +50,7 @@
 		<table class="table table-sm">
 			<thead class="thead-dark">
 				<tr>
+					<th class="fs-6 label-nobr"><small>&nbsp;</small></th>
 					<th class="fs-6 label-nobr"><small><span i18n>Nickname / Group</span></small></th>
 					<th class="fs-6 label-nobr"><small><span i18n>Real name</span></small></th>
 					<th class="fs-6 label-nobr"><small><span i18n>Status</span></small></th>
@@ -58,6 +60,7 @@
 			<tbody>
 				@for (user of users; track user.userId) {
 				<tr>
+					<td class="label-nobr">@if (this.logged && ((this.role === "ADMIN") || (this.role === 'REGUL')) && (user.status === SL[1].key)) { <div class="form-check"><input class="form-check-input" type="checkbox" value="off" id="check_{{user.userId}}" (change)="updateSelection($event)"></div> } </td>
 					<td class="label-nobr text-truncate" style="max-width:200px;"><a (click)="goToUserDetails(user.userId)" class="link-primary pointeur-souris text-decoration-none">{{ user.nickName }}</a>@if (user.groupName) { / {{ user.groupName }} }&nbsp;&nbsp;</td>
 					<td class="label-nobr text-truncate" style="max-width:200px;"><a (click)="goToUserDetails(user.userId)" class="link-primary pointeur-souris text-decoration-none">{{ user.firstName }}&nbsp;{{ user.lastName }}</a>&nbsp;&nbsp;</td>
 					<td>

@@ -34,6 +34,7 @@ export class AccountService
   }
 
   public isLogged():boolean { if (this.accountSubject.value) { if (this.accountSubject.value.role === "") { return false; } return true; } return false; }
+  public hasPasswordExpired():boolean { if (this.accountSubject.value) { if (this.accountSubject.value.passwordExpired == true) { return true; } return false; } return false; }
   public getUserId():number { if (this.accountSubject.value) { return this.accountSubject.value.userId; } return 0; }
   public getLoginName():string { if (this.accountSubject.value) { return this.accountSubject.value.loginName; } return ""; }
   public getNickName():string { if (this.accountSubject.value) { return this.accountSubject.value.nickName; } return ""; }

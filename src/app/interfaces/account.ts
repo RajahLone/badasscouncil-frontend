@@ -4,6 +4,7 @@ export class Account
   userId: number = 0;
   loginName: string = "";
   password: string = "";
+  passwordExpired: boolean = false;
   nickName: string = "";
   groupName: string = "";
   role: string = "";
@@ -21,7 +22,7 @@ export class RefreshToken
 
 export class NewPassword
 {
-  nickName: string = "";
+  loginName: string = "";
   oldPassword: string = "";
   newPassword: string = "";
   error: string = "";

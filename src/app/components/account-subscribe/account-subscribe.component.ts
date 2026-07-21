@@ -1,9 +1,9 @@
 import { Component, ViewChild, ElementRef, Renderer2, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormsModule, FormBuilder, FormControl, FormGroupDirective, FormGroup, NgForm, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faXmark, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faPlus, faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuComponent } from '../menu/menu.component';
 import { User } from '../../interfaces/user';
@@ -14,7 +14,7 @@ import { AccountService } from '../../services/account.service'
 
 export class AccountSubscribeComponent
 {
-  faXmark = faXmark; faPlus = faPlus;
+  faXmark = faXmark; faPlus = faPlus; faRightToBracket = faRightToBracket;
 
   user: User = new User();
   newpassword: NewPassword = new NewPassword();
@@ -119,5 +119,7 @@ export class AccountSubscribeComponent
   }
 
   goToHome() { this.router.navigate(['/']); }
+
+  goToSignIn() { this.router.navigate(['/login']); }
 
 }

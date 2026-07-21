@@ -163,7 +163,11 @@
         <div class="form-text field-separate" style="float: right;"><span i18n class="text-danger">{{ this.newpassword.error }}</span></div>
         }
         @if (this.newpassword.success !== "") {
-        <div class="form-text field-separate" style="float: left;"><span i18n class="text-success">{{ this.newpassword.success }}</span><br/><br/><a routerLink="/login" class="link-primary pointeur-souris">sign in</a></div>
+        <div class="form-text field-separate" style="float: left;">
+          <span i18n class="text-success">{{ this.newpassword.success }}</span>
+          <br/><br/>
+          <button (click)="goToSignIn()" class="btn bg-gradient btn-primary btn-sm text-left" [hidden]="!this.success"><fa-icon [icon]="faRightToBracket"></fa-icon>&nbsp;<span i18n>Next</span></button>
+        </div>
         }
     </div>
     </div>

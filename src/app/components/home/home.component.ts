@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit
 {
 
   logged: boolean = false;
+  expired: boolean = false;
   nickName: string = "";
   message: Message = new Message();
 
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit
   ngOnInit()
   {
     this.logged = this.accountService.isLogged();
+    this.expired = this.accountService.hasPasswordExpired();
 
     if (this.logged) { this.nickName = this.accountService.getNickName(); }
 

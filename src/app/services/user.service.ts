@@ -47,4 +47,6 @@ export class UserService
 
   deleteUser(id: number): Observable<Object>{ return this.httpClient.delete(`${this.baseURL}/delete/${id}`); }
 
+  activateUsers(ids: Array<number>): Observable<Object>{ return this.httpClient.put(`${this.baseURL}/activate`, ids); }
+
 }

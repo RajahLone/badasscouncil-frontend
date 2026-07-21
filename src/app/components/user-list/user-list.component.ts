@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faPlus, faFilter, faRotate, faFilterCircleXmark, faArrowLeft, faArrowRight, faCircleCheck, faCircleXmark, faClock, faLock, faBed } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faFilter, faRotate, faCheck, faFilterCircleXmark, faArrowLeft, faArrowRight, faCircleCheck, faCircleXmark, faClock, faLock, faBed } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuComponent } from '../menu/menu.component';
 import { UserShort, UserEnum, UserStatusList } from '../../interfaces/user';
@@ -17,7 +17,7 @@ import { AccountService } from '../../services/account.service';
 
 export class UserListComponent implements OnInit
 {
-  faPlus = faPlus; faFilter = faFilter; faRotate = faRotate; faFilterCircleXmark = faFilterCircleXmark; faArrowLeft = faArrowLeft; faArrowRight = faArrowRight;
+  faPlus = faPlus; faFilter = faFilter; faCheck = faCheck; faRotate = faRotate; faFilterCircleXmark = faFilterCircleXmark; faArrowLeft = faArrowLeft; faArrowRight = faArrowRight;
   faCircleCheck = faCircleCheck; faCircleXmark = faCircleXmark; faClock = faClock; faLock = faLock; faBed = faBed;
 
   logged: boolean = false;
@@ -34,6 +34,7 @@ export class UserListComponent implements OnInit
   users: UserShort[] = [];
 
   @ViewChild('userslist', {static: false}) usersList!: ElementRef;
+  @ViewChild('activateButton', {static: false}) activateButton!: ElementRef;
 
   selection: Array<number> = new Array<number>();
 
@@ -86,5 +87,24 @@ export class UserListComponent implements OnInit
   goToAddUser() { this.router.navigate(['/user-create']); }
 
   goToUserDetails(id: number) { this.router.navigate(['/user-details', id]); }
+
+  updateSelection(event: any)
+  {
+    const id = event.target.id;
+    if (id)
+    {
+      if (id.startsWith("check_"))
+      {
+        let nu = Number('' + id.substring(6));
+        let nb = 0;
+
+        if (this.selection.includes(nu)) { this.selection = this.selection.filter(it => it !== nu); nb = this.selection.length; } else { nb = this.selection.push(nu); }
+
+        if (this.activateButton) { if (nb > 0) { this.renderer.removeClass(this.activateButton.nativeElement, 'disabled'); } else { this.renderer.addClass(this.activateButton.nativeElement, 'disabled'); } }
+      }
+    }
+  }
+
+  activateSelection() { if (this.selection.length > 0) { this.userService.activateUsers(this.selection).subscribe(() => { this.retreiveDatas(this.pagination.current) }); } }
 
 }

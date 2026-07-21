@@ -33,10 +33,9 @@ export class AccountPasswordComponent
   private formInit()
   {
     this.form = this.formbuilder.group({
-      nickName: { value: '', disabled: true },
       oldPassword: ['', [Validators.required]],
       newPassword: ['', [Validators.required, Validators.pattern(this.passwordPattern)]],
-      confirmNewPassword: ['', [Validators.required, Validators.pattern(this.passwordPattern)]],
+      confirmPassword: ['', [Validators.required, Validators.pattern(this.passwordPattern)]],
       }, { validator: this.checkingPasswords });
   }
   public checkingPasswords(formGroup: FormGroup)
@@ -67,8 +66,7 @@ export class AccountPasswordComponent
   ngOnInit()
   {
     this.accountService.getAccount().subscribe( data => {
-      this.form.controls['nickName'].setValue(data.nickName);
-      this.newpassword.nickName = data.nickName;
+      this.newpassword.loginName = data.loginName;
     });
   }
 
