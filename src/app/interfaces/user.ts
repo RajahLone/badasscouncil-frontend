@@ -32,7 +32,7 @@ export class User
   groupName: string = "";
   firstName: string = "";
   lastName: string = "";
-  displayCoordinates: boolean = false;
+  displayContactDetails: boolean = false;
   address: string = "";
   zipCode: string = "";
   town: string = "";

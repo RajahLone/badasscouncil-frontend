@@ -14,7 +14,7 @@ export class UserService
 
   constructor(private httpClient: HttpClient) { }
 
-  getPagination(nameFilter: string, statusFilter: number, page: number): Observable<Pagination>
+  getPagination(nameFilter: string, statusFilter: string, page: number): Observable<Pagination>
   {
     let params = new HttpParams();
 
@@ -24,7 +24,7 @@ export class UserService
 
     return this.httpClient.get<Pagination>(`${this.baseURL}/pagination`, { params: params });
   }
-  getUserList(nameFilter: string, statusFilter: number, sort: number, page: number, size: number): Observable<UserShort[]>
+  getUserList(nameFilter: string, statusFilter: string, sort: number, page: number, size: number): Observable<UserShort[]>
   {
     let params = new HttpParams();
 

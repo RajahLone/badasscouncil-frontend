@@ -16,6 +16,7 @@ export class UserDetailsComponent implements OnInit
 {
   faXmark = faXmark; faPen = faPen;
 
+  logged: boolean = false;
   role: string = "";
   roles: UserEnum[] = RoleList;
 
@@ -35,6 +36,7 @@ export class UserDetailsComponent implements OnInit
 
   ngOnInit()
   {
+    this.logged = this.accountService.isLogged();
     this.role = this.accountService.getRole();
 
     this.userId = this.route.snapshot.params['user-id'];

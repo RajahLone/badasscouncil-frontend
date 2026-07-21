@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule, FormBuilder, FormControl, FormGroupDirective, FormGroup, NgForm, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faXmark, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuComponent } from '../menu/menu.component';
 import { User } from '../../interfaces/user';
@@ -14,7 +14,7 @@ import { AccountService } from '../../services/account.service'
 
 export class AccountSubscribeComponent
 {
-  faXmark = faXmark; faPen = faPen;
+  faXmark = faXmark; faPlus = faPlus;
 
   user: User = new User();
   newpassword: NewPassword = new NewPassword();
@@ -47,7 +47,7 @@ export class AccountSubscribeComponent
       groupName: { value: '', disabled: false },
       firstName: { value: '', disabled: false },
       lastName: { value: '', disabled: false },
-      displayCoordinates: { value: false, disabled: false },
+      displayContactDetails: { value: false, disabled: false },
       address: { value: '', disabled: false },
       zipCode: { value: '', disabled: false },
       town: { value: '', disabled: false },
@@ -97,7 +97,7 @@ export class AccountSubscribeComponent
     this.user.groupName = this.form.controls['groupName'].value;
     this.user.firstName = this.form.controls['firstName'].value;
     this.user.lastName = this.form.controls['lastName'].value;
-    this.user.displayCoordinates = this.form.controls['displayCoordinates'].value;
+    this.user.displayContactDetails = this.form.controls['displayContactDetails'].value;
     this.user.address = this.form.controls['address'].value;
     this.user.zipCode = this.form.controls['zipCode'].value;
     this.user.town = this.form.controls['town'].value;

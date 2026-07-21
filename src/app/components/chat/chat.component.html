@@ -16,7 +16,7 @@
             <select class="form-select form-select-sm field-separate" id="select_receipient" [(ngModel)]="newMessage.destId">
               <option value="0">All</option>
               @for (p of nicknames; track p.userId) {
-              <option [value]="p.userId">{{ p.nickName }}</option>
+              <option [value]="p.userId">{{ p.nickName }} @if (p.groupName.length > 0) { / {{ p.groupName }} }</option>
               }
   				  </select>
   			  </div>
