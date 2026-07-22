@@ -5,10 +5,10 @@
 <p class="fs-2 text-center"><span i18n>Welcome</span> @if (this.logged) { {{ this.nickName }} }</p>
 
 @if (this.message) {
-  @if (this.message.erreur) { <div class="alert alert-danger" role="alert">{{ this.message.erreur }}</div> }
-  @if (this.message.alerte) { <div class="alert alert-warning" role="alert">{{ this.message.alerte }}</div> }
-  @if (this.message.information) { <div class="alert alert-info" role="alert">{{ this.message.information }}</div> }
-  @if (this.message.autre) { <div class="alert alert-light" role="alert">{{ this.message.autre }}</div> }
+  @if (this.message.error) { <div class="alert alert-danger" role="alert">{{ this.message.error }}</div> }
+  @if (this.message.alert) { <div class="alert alert-warning" role="alert">{{ this.message.alert }}</div> }
+  @if (this.message.info) { <div class="alert alert-info" role="alert">{{ this.message.info }}</div> }
+  @if (this.message.other) { <div class="alert alert-light" role="alert">{{ this.message.other }}</div> }
 }
 
 @if (!this.logged) { <div class="alert alert-info" role="alert"><span i18n>Please <a routerLink="/login" class="link-primary pointeur-souris">sign in</a> or <a routerLink="/account-subscribe" class="link-primary pointeur-souris">subscribe</a> to access all functionalities.</span></div> }

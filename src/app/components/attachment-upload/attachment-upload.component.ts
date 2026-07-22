@@ -10,7 +10,7 @@ import { Environnement } from '../../env';
 import { MenuComponent } from '../menu/menu.component';
 import { AttachmentItem } from '../../interfaces/attachment';
 import { AttachmentService } from '../../services/attachment.service';
-import { Message } from '../../interfaces/misc';
+import { HomeInformation } from '../../interfaces/misc';
 
 @Component({ selector: 'app-attachment-upload', imports: [FontAwesomeModule, FormsModule, MenuComponent], templateUrl: './attachment-upload.component.html', changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './attachment-upload.component.css' })
 
@@ -105,7 +105,7 @@ export class AttachmentUploadComponent implements OnInit
     finally
     {
       this.attachmentService.mergeChunks(this.fileId, this.file.name, chunkIndex, this.hashed).subscribe({
-        next: (msg) => { this.setButtonEndingUpload(); if (msg.erreur) { this.setMessage(msg.erreur, true); } else { this.goToAttachmentList(); } },
+        next: (msg) => { this.setButtonEndingUpload(); if (msg.error) { this.setMessage(msg.error, true); } else { this.goToAttachmentList(); } },
         error: (e:HttpErrorResponse) => { this.setButtonEndingUpload(); this.setMessage(e.error.message, true); },
         complete: () => { }
       });

@@ -7,8 +7,9 @@ import { faXmark, faPlus, faRightToBracket } from '@fortawesome/free-solid-svg-i
 
 import { MenuComponent } from '../menu/menu.component';
 import { User } from '../../interfaces/user';
-import { NewPassword } from '../../interfaces/account';
+import { NewPassword, Captcha } from '../../interfaces/account';
 import { AccountService } from '../../services/account.service'
+import { MiscService } from '../../services/misc.service'
 
 @Component({ selector: 'app-account-subscribe', imports: [FontAwesomeModule, CommonModule, FormsModule, ReactiveFormsModule, MenuComponent], templateUrl: './account-subscribe.component.html', changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './account-subscribe.component.css' })
 
@@ -19,40 +20,45 @@ export class AccountSubscribeComponent
   user: User = new User();
   newpassword: NewPassword = new NewPassword();
 
+  captcha: Captcha = new Captcha();
+
   public success:boolean = false;
 
-  public form!: FormGroup;
+  public myGroup!: FormGroup;
 
   public passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?.:,;(){}[\]])[A-Za-z\d#$@!%&*?.:,;(){}[\]]{8,16}$/
 
   constructor(
-    private accountService : AccountService,
+    private accountService: AccountService,
+    private miscService: MiscService,
     private router: Router,
     private menu: MenuComponent,
     private renderer: Renderer2,
     private formbuilder: FormBuilder
   )
   {
+    this.miscService.getCaptcha("subscribe").subscribe(data => { this.captcha = data; if (this.captcha.question) { this.myGroup.addControl('answer', new FormControl('', [Validators.required])); } });
+
     this.formInit();
   }
   private formInit()
   {
-    this.form = this.formbuilder.group({
+    this.myGroup = this.formbuilder.group({
       subscribeMotive: ['', [Validators.required]],
       loginName: ['', [Validators.required]],
       newPassword: ['', [Validators.required, Validators.pattern(this.passwordPattern)]],
       confirmPassword: ['', [Validators.required, Validators.pattern(this.passwordPattern)]],
-      sessionTimeout: { value: '15', disabled: false },
+      sessionTimeout: ['15', []],
       nickName: ['', [Validators.required]],
-      groupName: { value: '', disabled: false },
-      firstName: { value: '', disabled: false },
-      lastName: { value: '', disabled: false },
-      displayContactDetails: { value: false, disabled: false },
-      address: { value: '', disabled: false },
-      zipCode: { value: '', disabled: false },
-      town: { value: '', disabled: false },
-      country: { value: '', disabled: false },
-      phone: { value: '', disabled: false },
+      groupName: ['', []],
+      firstName: ['', []],
+      lastName: ['', []],
+      displayContactDetails: [false, []],
+      address: ['', []],
+      zipCode: ['', []],
+      town: ['', []],
+      country: ['', []],
+      phone: ['', []],
       email: ['', [Validators.email]]
       }, { validator: this.checkingValues });
   }
@@ -76,11 +82,11 @@ export class AccountSubscribeComponent
   public checkValidations(index: string, type: string) {
     switch (type)
     {
-      case 'special-character': return /[#$@!%&*?.:,;(){}[\]]/.test(this.form.controls[index].value);;
-      case 'number': return /\d/.test(this.form.controls[index].value);
-      case 'lowercase': return /[a-z]/.test(this.form.controls[index].value);
-      case 'uppercase': return /[A-Z]/.test(this.form.controls[index].value);
-      case 'length': return this.form.controls[index].value.length >= 8 && this.form.controls[index].value.length <= 16;
+      case 'special-character': return /[#$@!%&*?.:,;(){}[\]]/.test(this.myGroup.controls[index].value);;
+      case 'number': return /\d/.test(this.myGroup.controls[index].value);
+      case 'lowercase': return /[a-z]/.test(this.myGroup.controls[index].value);
+      case 'uppercase': return /[A-Z]/.test(this.myGroup.controls[index].value);
+      case 'length': return this.myGroup.controls[index].value.length >= 8 && this.myGroup.controls[index].value.length <= 16;
       default: return false
     }
   }
@@ -89,21 +95,22 @@ export class AccountSubscribeComponent
   {
     this.newpassword = new NewPassword();
 
-    this.user.loginName = this.form.controls['loginName'].value;
-    this.user.password = this.form.controls['newPassword'].value;
-    this.user.sessionTimeout = this.form.controls['sessionTimeout'].value;
-    this.user.subscribeMotive = this.form.controls['subscribeMotive'].value;
-    this.user.nickName = this.form.controls['nickName'].value;
-    this.user.groupName = this.form.controls['groupName'].value;
-    this.user.firstName = this.form.controls['firstName'].value;
-    this.user.lastName = this.form.controls['lastName'].value;
-    this.user.displayContactDetails = this.form.controls['displayContactDetails'].value;
-    this.user.address = this.form.controls['address'].value;
-    this.user.zipCode = this.form.controls['zipCode'].value;
-    this.user.town = this.form.controls['town'].value;
-    this.user.country = this.form.controls['country'].value;
-    this.user.phone = this.form.controls['phone'].value;
-    this.user.email = this.form.controls['email'].value;
+    this.user.loginName = this.myGroup.controls['loginName'].value;
+    this.user.password = this.myGroup.controls['newPassword'].value;
+    this.user.sessionTimeout = this.myGroup.controls['sessionTimeout'].value;
+    this.user.subscribeMotive = this.myGroup.controls['subscribeMotive'].value;
+    this.user.nickName = this.myGroup.controls['nickName'].value;
+    this.user.groupName = this.myGroup.controls['groupName'].value;
+    this.user.firstName = this.myGroup.controls['firstName'].value;
+    this.user.lastName = this.myGroup.controls['lastName'].value;
+    this.user.displayContactDetails = this.myGroup.controls['displayContactDetails'].value;
+    this.user.address = this.myGroup.controls['address'].value;
+    this.user.zipCode = this.myGroup.controls['zipCode'].value;
+    this.user.town = this.myGroup.controls['town'].value;
+    this.user.country = this.myGroup.controls['country'].value;
+    this.user.phone = this.myGroup.controls['phone'].value;
+    this.user.email = this.myGroup.controls['email'].value;
+    if (this.captcha.question) { this.user.answer = this.myGroup.controls['answer'].value; }
 
     this.accountService.sendSubscription(this.user).subscribe(data => {
       if (data.error !== "")

@@ -110,7 +110,7 @@ export class AttachmentCreateComponent implements OnInit
     finally
     {
       this.attachmentService.mergeChunks(id, this.file.name, this.chunkIndex, this.hashed).subscribe({
-        next: (msg) => { this.setButtonEndingUpload(); if (msg.erreur) { this.setMessage(msg.erreur, true); } else { this.goToAttachmentList(); } },
+        next: (msg) => { this.setButtonEndingUpload(); if (msg.error) { this.setMessage(msg.error, true); } else { this.goToAttachmentList(); } },
         error: (e:HttpErrorResponse) => { this.setButtonEndingUpload(); this.setMessage(e.error.message, true); },
         complete: () => { }
       });

@@ -1,6 +1,7 @@
 .label-nobr { white-space: nowrap; }
 .pointeur-souris { cursor: pointer; }
 .field-separate { margin-bottom: 2px; }
+.field-gap { margin-top: 20px; }
 .card-header, .card-body, .card-footer { padding: 7px; }
 .card { margin: 7px; }
 .center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); min-width:50rem; }

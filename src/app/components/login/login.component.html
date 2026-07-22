@@ -29,11 +29,26 @@
 				</div>
 			</div>
 
+			@if (this.captcha.question) {
+			<div class="form-group row field-gap">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Anti-bot question</span></label>
+				<div class="col-sm-8">
+					<div class="form-text text-danger field-separate"><span i18n>{{ this.captcha.question }}</span></div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Answer</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control form-control-sm field-separate" id="answer" name="answer" [(ngModel)]="account.answer" #answerRef="ngModel" required [class.is-invalid]="answerRef.invalid && answerRef.touched">
+				</div>
+			</div>
+			}
+
 		</div>
 		<div class="card-footer" #menu_login>
 			<button type="button" class="btn bg-gradient btn-success btn-sm text-left" type="submit" [disabled]="formRef.invalid"><fa-icon [icon]="faRightToBracket"></fa-icon>&nbsp;<span i18n>Sign in</span></button>
 			@if (this.account.error !== "") {
-			<div class="form-text field-separate" style="float: right;"><span i18n class="text-warning">{{ this.account.error }}</span></div>
+			<div class="form-text field-separate" style="float: right;"><span i18n class="text-danger">{{ this.account.error }}</span></div>
 			}
 		</div>
 	</div>

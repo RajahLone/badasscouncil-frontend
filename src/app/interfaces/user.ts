@@ -39,6 +39,7 @@ export class User
   country: string = "";
   phone: string = "";
   email: string = "";
+  answer: string = "";
 }
 
 export class UserShort

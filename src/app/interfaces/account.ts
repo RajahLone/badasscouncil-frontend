@@ -12,6 +12,7 @@ export class Account
   accessToken: string = "";
   refreshToken: string = "";
   error: string = "";
+  answer: string = "";
 }
 
 export class RefreshToken
@@ -27,4 +28,10 @@ export class NewPassword
   newPassword: string = "";
   error: string = "";
   success: string = "";
+}
+
+export class Captcha
+{
+  question: string = "";
+  response: string = "";
 }

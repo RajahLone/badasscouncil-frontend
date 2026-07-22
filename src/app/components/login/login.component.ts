@@ -6,7 +6,8 @@ import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuComponent } from '../menu/menu.component';
 import { AccountService } from '../../services/account.service'
-import { Account } from '../../interfaces/account';
+import { Account, Captcha } from '../../interfaces/account';
+import { MiscService } from '../../services/misc.service'
 
 @Component({ selector: 'app-login', imports: [FontAwesomeModule, FormsModule, MenuComponent], templateUrl: './login.component.html', changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './login.component.css' })
 
@@ -14,16 +15,23 @@ export class LoginComponent implements OnInit
 {
   faRightToBracket = faRightToBracket;
 
+  captcha: Captcha = new Captcha();
+
   @ViewChild('formRef') loginForm!: NgForm;
   @ViewChild('userRef') userField!: NgModel; @ViewChild('userid', {static: false}) userFieldf!: ElementRef;
   @ViewChild('passRef') passField!: NgModel;
 
   account: Account = new Account();
 
-  constructor(private router : Router, private accountService : AccountService) { }
+  constructor(
+    private router : Router,
+    private miscService: MiscService,
+    private accountService : AccountService
+  ) { }
 
   ngOnInit()
   {
+    this.miscService.getCaptcha("login").subscribe(data => { this.captcha = data; });
   }
 
   connexion()

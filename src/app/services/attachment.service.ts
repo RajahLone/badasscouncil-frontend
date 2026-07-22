@@ -4,7 +4,7 @@ import { Observable, firstValueFrom } from 'rxjs';
 
 import { Environnement } from '../env';
 import { Attachment, AttachmentShort, AttachmentItem } from '../interfaces/attachment';
-import { Message } from '../interfaces/misc';
+import { HomeInformation } from '../interfaces/misc';
 
 @Injectable({ providedIn: 'root' })
 
@@ -43,7 +43,7 @@ export class AttachmentService
 
   uploadAttachmentItem(id: number, file: AttachmentItem): Observable<Object>{ return this.httpClient.put(`${this.baseURL}/upload/${id}`, file); }
 
-  async uploadChunk(id: number, chunk: any, chunkIndex: number, fileName: string): Promise<Message>
+  async uploadChunk(id: number, chunk: any, chunkIndex: number, fileName: string): Promise<HomeInformation>
   {
     const formData = new FormData();
 
@@ -51,9 +51,9 @@ export class AttachmentService
     formData.append('chunkIndex', '' + chunkIndex);
     formData.append('fileName', fileName);
 
-    return await firstValueFrom(this.httpClient.post<Message>(`${this.baseURL}/upload-chunk/${id}`, formData));
+    return await firstValueFrom(this.httpClient.post<HomeInformation>(`${this.baseURL}/upload-chunk/${id}`, formData));
   }
-  mergeChunks(id: number, fileName: string, chunkIndex: number, checksum: string): Observable<Message>
+  mergeChunks(id: number, fileName: string, chunkIndex: number, checksum: string): Observable<HomeInformation>
   {
     const formData = new FormData();
 
@@ -61,7 +61,7 @@ export class AttachmentService
     formData.append('lastChunkIndex', '' + chunkIndex);
     formData.append('checksum', checksum);
 
-    return this.httpClient.post<Message>(`${this.baseURL}/merge-chunks/${id}`, formData);
+    return this.httpClient.post<HomeInformation>(`${this.baseURL}/merge-chunks/${id}`, formData);
   }
 
   deleteAttachment(id: number): Observable<Object>{ return this.httpClient.delete(`${this.baseURL}/delete/${id}`); }

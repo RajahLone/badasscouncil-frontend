@@ -1,10 +1,10 @@
 
-export class Message
+export class HomeInformation
 {
-  erreur: string = "";
-  alerte: string = "";
-  information: string = "";
-  autre: string = "";
+  error: string = "";
+  alert: string = "";
+  info: string = "";
+  other: string = "";
 }
 
 export class Pagination

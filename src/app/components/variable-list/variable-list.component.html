@@ -25,9 +25,10 @@
 		<table class="table table-sm">
 			<thead class="thead-dark">
 				<tr>
-					<th class="fs-6 label-nobr"><small><span i18n>Family</span></small></th>
-					<th class="fs-6 label-nobr"><small><span i18n>Code</span></small></th>
-					<th class="fs-6 label-nobr"><small><span i18n>Content</span></small></th>
+					<th class="fs-6 label-nobr"><small><span i18n>Type</span></small></th>
+					<th class="fs-6 label-nobr"><small><span i18n>Key</span></small></th>
+					<th class="fs-6 label-nobr"><small><span i18n>Value</span></small></th>
+					<!--<th class="fs-6 label-nobr"><small><span i18n>Notes</span></small></th>-->
 				</tr>
 			</thead>
 			<tbody>
@@ -36,6 +37,7 @@
 					<td class="label-nobr"><small>{{ variable.family }}&nbsp;&nbsp;</small></td>
 					<td class="label-nobr"><a (click)="formVariable(variable.variableId)" class="link-primary pointeur-souris text-decoration-none">{{ variable.code }}</a>&nbsp;&nbsp;</td>
 					<td class="text-truncate" style="max-width:400px;">{{ variable.content }}&nbsp;&nbsp;</td>
+					<!--<td  class="fs-6 text-muted" style="max-width:400px;">{{ variable.notes }}&nbsp;&nbsp;</td>-->
 				</tr>
 				}
 			</tbody>

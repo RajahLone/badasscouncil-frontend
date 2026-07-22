@@ -2,7 +2,7 @@
 <div id="main">
 <form #formRef="ngForm" (ngSubmit)="addUser()" class="needs-validation">
 	<div class="card shadow center">
-		<div class="card-header"><span i18n>User</span></div>
+		<div class="card-header"><span i18n>Member</span></div>
 		<div class="card-header shadow-sm">
 			<button (click)="goToUserList()" class="btn bg-gradient btn-primary btn-sm"><fa-icon [icon]="faXmark"></fa-icon>&nbsp;<span i18n>Back</span></button>
 		</div>
@@ -107,8 +107,7 @@
 				<div class="col-sm-4"></div>
 				<div class="col-sm-8">
 					<div class="form-check form-switch">
-						<input class="form-check-input field-separate" type="checkbox" id="displayContactDetails" name="displayContactDetails" [(ngModel)]="user.displayContactDetails">
-						<label class="form-check-label" for="displayContactDetails"><small><span i18n>Display coordinates</span></small></label>
+						<input class="form-check-input field-separate" type="checkbox" id="displayContactDetails" name="displayContactDetails" [(ngModel)]="user.displayContactDetails"><label class="form-check-label" for="displayContactDetails"><small><span i18n>Display contact details</span></small></label>
 					</div>
 				</div>
 			</div>

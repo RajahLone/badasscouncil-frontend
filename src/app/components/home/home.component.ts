@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { MenuComponent } from '../menu/menu.component';
-import { Message } from '../../interfaces/misc';
+import { HomeInformation } from '../../interfaces/misc';
 import { AccountService } from '../../services/account.service'
 import { MiscService } from '../../services/misc.service'
 
@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit
   logged: boolean = false;
   expired: boolean = false;
   nickName: string = "";
-  message: Message = new Message();
+  message: HomeInformation = new HomeInformation();
 
   constructor(
     private diversService: MiscService,

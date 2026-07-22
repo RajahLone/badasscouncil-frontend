@@ -1,6 +1,6 @@
 <app-menu></app-menu>
 <div id="main">
-  <form [formGroup]="form">
+  <form [formGroup]="myGroup">
 
     <div class="card shadow center">
       <div class="card-header"><span i18n>Choose your credentials, indicate an identity</span></div>
@@ -16,20 +16,33 @@
             <div class="form-text field-separate"><span i18n>Your subscription is not automatic, but is validated by an administrator or a regulator after reading your motives. This field may contain a passphrase agreed upon between you and the team.</span></div>
   				</div>
   			</div>
-
+        @if (this.captcha.question) {
+        <div class="form-group row field-gap">
+          <label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Anti-bot question</span></label>
+    			<div class="col-sm-8">
+            <div class="form-text text-danger field-separate"><span i18n>{{ this.captcha.question }}</span></div>
+  				</div>
+  			</div>
         <div class="form-group row">
+          <label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Answer</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
+    			<div class="col-sm-8">
+            <input type="text" class="form-control form-control-sm field-separate" formControlName="answer">
+  				</div>
+  			</div>
+        }
+        <div class="form-group row field-gap">
   				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Login name</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
   				<div class="col-sm-8">
   					<input type="text" class="form-control form-control-sm field-separate" formControlName="loginName">
-            <div class="form-text field-separate"><span i18n>This name serves only to log in and is private, known by you and administrators, unknown to other users.<br/>Don't confuse it with the nick name, known to all.</span></div>
+            <div class="form-text field-separate"><span i18n>The login name serves only to sign in and is private, known by you and administrators, unknown to other users.<br/>Choose a complex one, ie with digits and special characters.<br/>Don't confuse it with the nick name, known to all.</span></div>
   				</div>
   			</div>
 
         <div class="form-group row">
-          <label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>New Password</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
+          <label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Password</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
           <div class="col-sm-8">
             <input type="password" class="form-control form-control-sm field-separate" formControlName="newPassword">
-            @if (form.controls['newPassword'].hasError('pattern')) {
+            @if (myGroup.controls['newPassword'].hasError('pattern')) {
               <div class="form-text field-separate">
                 <span i18n>The password must meet these requirements:</span>
                 <ul>
@@ -45,10 +58,10 @@
         </div>
 
         <div class="form-group row">
-          <label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Confirmation</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
+          <label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Password confirmation</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
           <div class="col-sm-8">
             <input type="password" class="form-control form-control-sm field-separate" formControlName="confirmPassword">
-            @if (form.controls['confirmPassword'].hasError('pattern')) {
+            @if (myGroup.controls['confirmPassword'].hasError('pattern')) {
               <div class="form-text field-separate">
                 <span i18n>The password must meet these requirements:</span>
                 <ul>
@@ -60,7 +73,7 @@
                 </ul>
               </div>
             }
-            @if (form.hasError('notMatched')) {
+            @if (myGroup.hasError('notMatched')) {
               <div class="form-text field-separate"><span i18n class="text-danger">The confirmation does not match the new password.</span></div>
             }
           </div>
@@ -84,6 +97,13 @@
   				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Group name</span></label>
   				<div class="col-sm-8">
   					<input type="text" class="form-control form-control-sm field-separate" formControlName="groupName">
+  				</div>
+  			</div>
+
+        <div class="form-group row field-gap">
+          <label class="col-sm-4 col-form-label col-form-label-sm label-nobr"></label>
+          <div class="col-sm-8">
+            <div class="form-text field-separate"><span i18n>Completing some of the input fields below may help the team to recognize you. These datas can be cleaned blank later by editing your account.</span></div>
   				</div>
   			</div>
 
@@ -155,8 +175,14 @@
 
       </div>
       <div class="card-footer">
-        <button type="button" class="btn bg-gradient btn-success btn-sm text-left" data-bs-toggle="modal" data-bs-target="#modalModifier" [disabled]="this.form.invalid" [hidden]="this.success"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;<span i18n>Subscribe</span></button>
-        @if (form.controls['subscribeMotive'].hasError('required') || form.controls['loginName'].hasError('required') || form.controls['newPassword'].hasError('required') || form.controls['confirmPassword'].hasError('required') || form.controls['nickName'].hasError('required')) {
+        <button type="button" class="btn bg-gradient btn-success btn-sm text-left" data-bs-toggle="modal" data-bs-target="#modalModifier" [disabled]="this.myGroup.invalid" [hidden]="this.success"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;<span i18n>Subscribe</span></button>
+        @if (myGroup.controls['subscribeMotive'].hasError('required')
+          || myGroup.controls['loginName'].hasError('required')
+          || myGroup.controls['newPassword'].hasError('required')
+          || myGroup.controls['confirmPassword'].hasError('required')
+          || myGroup.controls['nickName'].hasError('required')
+          || (myGroup.controls['answer'] && myGroup.controls['answer'].hasError('required'))
+           ) {
         <div class="form-text field-separate" style="float: right;"><span i18n class="text-danger">Some informations are required for the fields with the&nbsp;<sup><span class="text-danger">*</span></sup>&nbsp;character.</span></div>
         }
         @if (this.newpassword.error !== "") {
