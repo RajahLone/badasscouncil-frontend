@@ -76,16 +76,28 @@
 			</tbody>
 		</table>
 	</div>
-	@if (pagination.total > 1) {
-	<div class="card-footer" style="max-height:54px;">
-		<nav>
-		  <ul class="pagination">
+	<div class="card-footer d-flex flex-row" style="max-height:50px;">
+		@if (pagination.total > 1) {
+		<nav style="padding: 0 10px 0 0;">
+			<ul class="pagination pagination-sm col-sm-2">
 				<li class="page-item" [class.disabled]="pagination.current == 0"><a class="page-link" (click)="goToPrevPage()"><fa-icon [icon]="faArrowLeft"></fa-icon></a></li>
 				@for (p of pages; track p) { <li class="page-item" [class.active]="pagination.current == (p - 1)"><a class="page-link" (click)="goToPage(p - 1)">{{p}}</a></li> }
 				<li class="page-item" [class.disabled]="pagination.current == (pagination.total - 1)"><a class="page-link" (click)="goToNextPage()"><fa-icon [icon]="faArrowRight"></fa-icon></a></li>
-		  </ul>
+			</ul>
 		</nav>
-	</div>
-	}
+		}
+		<div class="form-group col-sm-2 label-nobr">
+			<div class="input-group input-group-sn">
+				<button type="button" class="btn bg-gradient btn-secondary btn-sm field-separate" disabled><span i18n>Max per page</span></button>
+				<select class="form-select form-select-sm field-separate" id="select_size" [(ngModel)]="this.pagination.size" (change)="setMaxPerPage($event)">
+					<option [value]="25"> 25</option>
+					<option [value]="50"> 50</option>
+					<option [value]="100">100</option>
+					<option [value]="250">250</option>
+					<option [value]="500">500</option>
+				</select>
+			</div>
+		</div>
+  </div>
 </div>
 </div>

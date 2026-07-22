@@ -8,8 +8,9 @@ import { faPlus, faFilter, faRotate, faCheck, faFilterCircleXmark, faArrowLeft, 
 import { MenuComponent } from '../menu/menu.component';
 import { UserShort, UserEnum, UserStatusList } from '../../interfaces/user';
 import { UserService } from '../../services/user.service';
-import { Pagination } from '../../interfaces/misc';
+import { Pagination, USERS_PAGE_SIZE } from '../../interfaces/misc';
 import { MiscService } from '../../services/misc.service'
+import { PreferenceService } from '../../services/preference.service'
 
 import { AccountService } from '../../services/account.service';
 
@@ -41,6 +42,7 @@ export class UserListComponent implements OnInit
   constructor(
     private diversService: MiscService,
     private userService: UserService,
+    private preferenceService: PreferenceService,
     private router: Router,
     private route: ActivatedRoute,
     private renderer: Renderer2,
@@ -107,4 +109,5 @@ export class UserListComponent implements OnInit
 
   activateSelection() { if (this.selection.length > 0) { this.userService.activateUsers(this.selection).subscribe(() => { this.retreiveDatas(this.pagination.current) }); } }
 
+  setMaxPerPage(event: any) { this.preferenceService.setPreference(USERS_PAGE_SIZE, event.target.value).subscribe(() => { this.retreiveDatas(0); }); }
 }
