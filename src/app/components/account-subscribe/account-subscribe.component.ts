@@ -6,7 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faXmark, faPlus, faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuComponent } from '../menu/menu.component';
-import { User } from '../../interfaces/user';
+import { User, UserCount } from '../../interfaces/user';
 import { NewPassword, Captcha } from '../../interfaces/account';
 import { AccountService } from '../../services/account.service'
 import { MiscService } from '../../services/misc.service'
@@ -21,6 +21,8 @@ export class AccountSubscribeComponent
   newpassword: NewPassword = new NewPassword();
 
   captcha: Captcha = new Captcha();
+
+  userCount: UserCount = new UserCount();
 
   public success:boolean = false;
 
@@ -37,6 +39,8 @@ export class AccountSubscribeComponent
     private formbuilder: FormBuilder
   )
   {
+    this.miscService.getUserCount().subscribe(data => { this.userCount = data; });
+
     this.miscService.getCaptcha("subscribe").subscribe(data => { this.captcha = data; if (this.captcha.question) { this.myGroup.addControl('answer', new FormControl('', [Validators.required])); } });
 
     this.formInit();

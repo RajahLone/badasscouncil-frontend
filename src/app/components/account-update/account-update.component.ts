@@ -23,7 +23,7 @@ export class AccountUpdateComponent implements OnInit
   user: User = new User();
 
   constructor(
-    private diversService: MiscService,
+    private miscService: MiscService,
     private accountService : AccountService,
     private router: Router,
     private menu: MenuComponent

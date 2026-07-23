@@ -174,6 +174,7 @@
   			</div>
 
       </div>
+      @if (this.userCount.maximum > this.userCount.current) {
       <div class="card-footer">
         <button type="button" class="btn bg-gradient btn-success btn-sm text-left" data-bs-toggle="modal" data-bs-target="#modalModifier" [disabled]="this.myGroup.invalid" [hidden]="this.success"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;<span i18n>Subscribe</span></button>
         @if (myGroup.controls['subscribeMotive'].hasError('required')
@@ -182,7 +183,7 @@
           || myGroup.controls['confirmPassword'].hasError('required')
           || myGroup.controls['nickName'].hasError('required')
           || (myGroup.controls['answer'] && myGroup.controls['answer'].hasError('required'))
-           ) {
+          ) {
         <div class="form-text field-separate" style="float: right;"><span i18n class="text-danger">Some informations are required for the fields with the&nbsp;<sup><span class="text-danger">*</span></sup>&nbsp;character.</span></div>
         }
         @if (this.newpassword.error !== "") {
@@ -195,7 +196,8 @@
           <button (click)="goToSignIn()" class="btn bg-gradient btn-primary btn-sm text-left" [hidden]="!this.success"><fa-icon [icon]="faRightToBracket"></fa-icon>&nbsp;<span i18n>Next</span></button>
         </div>
         }
-    </div>
+      </div>
+      }
     </div>
   </form>
 

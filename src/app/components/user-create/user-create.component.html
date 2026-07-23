@@ -155,9 +155,11 @@
 			</div>
 
 		</div>
+		@if (this.userCount.maximum > this.userCount.current) {
 		<div class="card-footer">
 			<button type="button" class="btn bg-gradient btn-success btn-sm text-left" type="submit" [disabled]="formRef.invalid"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;<span i18n>Add</span></button>
 		</div>
+		}
 	</div>
 </form>
 </div>

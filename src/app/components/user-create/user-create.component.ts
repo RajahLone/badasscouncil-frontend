@@ -5,7 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faXmark, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuComponent } from '../menu/menu.component';
-import { User, UserEnum, RoleList, UserStatusList } from '../../interfaces/user';
+import { User, UserEnum, RoleList, UserStatusList, UserCount } from '../../interfaces/user';
 import { UserService } from '../../services/user.service';
 import { MiscService } from '../../services/misc.service'
 import { AccountService } from '../../services/account.service';
@@ -25,8 +25,10 @@ export class UserCreateComponent implements OnInit
 
   user: User = new User();
 
+  userCount: UserCount = new UserCount();
+
   constructor(
-    private diversService: MiscService,
+    private miscService: MiscService,
     private userService: UserService,
     private router: Router,
     private menu: MenuComponent,
@@ -36,6 +38,8 @@ export class UserCreateComponent implements OnInit
   ngOnInit()
   {
     this.role = this.accountService.getRole();
+
+    this.miscService.getUserCount().subscribe(data => { this.userCount = data; });
   }
 
   private saveUser() { this.userService.createUser(this.user).subscribe(() => { this.goToUserList(); }); }

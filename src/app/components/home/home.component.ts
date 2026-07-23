@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { MenuComponent } from '../menu/menu.component';
 import { HomeInformation } from '../../interfaces/misc';
 import { AccountService } from '../../services/account.service'
+import { UserCount } from '../../interfaces/user';
 import { MiscService } from '../../services/misc.service'
 
 @Component({ selector: 'app-home', imports: [MenuComponent, RouterLink], templateUrl: './home.component.html',  changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './home.component.css' })
@@ -15,9 +16,10 @@ export class HomeComponent implements OnInit
   expired: boolean = false;
   nickName: string = "";
   message: HomeInformation = new HomeInformation();
+  userCount: UserCount = new UserCount();
 
   constructor(
-    private diversService: MiscService,
+    private miscService: MiscService,
     private accountService: AccountService
   ) { }
 
@@ -28,7 +30,9 @@ export class HomeComponent implements OnInit
 
     if (this.logged) { this.nickName = this.accountService.getNickName(); }
 
-    this.diversService.getMessage().subscribe(data => { this.message = data; });
+    this.miscService.getMessage().subscribe(data => { this.message = data; });
+
+    this.miscService.getUserCount().subscribe(data => { this.userCount = data; });
   }
 
 }

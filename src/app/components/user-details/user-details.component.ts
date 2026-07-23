@@ -26,7 +26,7 @@ export class UserDetailsComponent implements OnInit
   user: User = new User();
 
   constructor(
-    private diversService: MiscService,
+    private miscService: MiscService,
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,

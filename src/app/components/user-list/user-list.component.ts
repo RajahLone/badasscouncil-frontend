@@ -6,7 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPlus, faFilter, faRotate, faCheck, faFilterCircleXmark, faArrowLeft, faArrowRight, faCircleCheck, faCircleXmark, faClock, faLock, faBed } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuComponent } from '../menu/menu.component';
-import { UserShort, UserEnum, UserStatusList } from '../../interfaces/user';
+import { UserShort, UserEnum, UserStatusList, UserCount } from '../../interfaces/user';
 import { UserService } from '../../services/user.service';
 import { Pagination, USERS_PAGE_SIZE } from '../../interfaces/misc';
 import { MiscService } from '../../services/misc.service'
@@ -34,13 +34,15 @@ export class UserListComponent implements OnInit
   pages: number[] = [1];
   users: UserShort[] = [];
 
+  userCount: UserCount = new UserCount();
+
   @ViewChild('userslist', {static: false}) usersList!: ElementRef;
   @ViewChild('activateButton', {static: false}) activateButton!: ElementRef;
 
   selection: Array<number> = new Array<number>();
 
   constructor(
-    private diversService: MiscService,
+    private miscService: MiscService,
     private userService: UserService,
     private preferenceService: PreferenceService,
     private router: Router,
@@ -54,11 +56,14 @@ export class UserListComponent implements OnInit
     this.logged = this.accountService.isLogged();
     this.role = this.accountService.getRole();
 
+
     this.goToUserListRefresh();
   }
 
   private retreiveDatas(wantedPage: number)
   {
+    this.miscService.getUserCount().subscribe(data => { this.userCount = data; });
+
     this.userService.getPagination(this.nameFilter, this.statusFilter, wantedPage).subscribe(page =>
     {
       this.pagination = page;

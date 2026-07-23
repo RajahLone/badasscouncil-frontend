@@ -59,3 +59,10 @@ export class NickName
   nickName: string = "";
   groupName: string = "";
 }
+
+
+export class UserCount
+{
+  current: number = 0;
+  maximum: number = 0;
+}
