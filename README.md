@@ -29,7 +29,7 @@ WORK-IN-PROGRESS
 - have access to settings = environmenent variables
 
 | Family | Code | Comments |
-| ----------- | ----------- |
+| ----------- | ----------- | ----------- |
 | Application | TIME_ZONE | will be used to cleaning jobs |
 | CAPTCHA | LOGIN_QUESTION | Optional: if question and its reponse not blank, this will be displayed when signing in. Choose a private question, on which response is unknown to the internet. |
 | CAPTCHA | LOGIN_RESPONSE | |
