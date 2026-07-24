@@ -44,8 +44,8 @@ WORK-IN-PROGRESS
 ### Members / users
 
 - members count is limited by a quota, fixed by the administrators.
-- first subscription: the user becomes administrator.
-- next subscriptions: the user state is 'Pending', signing in will fail until an administrator or a regulator changes the user state to 'Active'.
+- first subscription: the user becomes administrator, with 'active' state (= can sign in afterwards).
+- next subscriptions: the user state is 'Pending', signing in will fail until an administrator or a regulator changes the user state to 'Active'. No email is sent (maybe in a later version ?); user must test logins or wait for an call from the team.
 
 - don't confuse login name with nick name. Login name is for signing into the application and supposed to be secret, known by owning user and administrators (not regulators).
 - an user's motive is mandatory at subscription (will be read only by administrators and regulators), use some details unknown from the public internet, such as a passphrase agreed upon between you and the team.
