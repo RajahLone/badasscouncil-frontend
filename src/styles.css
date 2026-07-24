@@ -5,6 +5,7 @@
 .card-header, .card-body, .card-footer { padding: 7px; }
 .card { margin: 7px; }
 .center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); min-width:50rem; }
+.down { position: absolute; left: 50%; bottom: 0; transform: translate(-50%, -50%); }
 .form-scrollable { overflow-y: scroll; overflow-x: hidden; max-height: 600px; }
 .table-scrollable { overflow-y: scroll; overflow-x: scroll; }
 

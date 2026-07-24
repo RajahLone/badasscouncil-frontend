@@ -26,3 +26,11 @@ export class Preference
 }
 
 export const USERS_PAGE_SIZE = 1;
+
+export class Quote
+{
+  createdOn?: string;
+  updatedOn?: string;
+  quoteId: number = 0;
+  content: string = "";
+}

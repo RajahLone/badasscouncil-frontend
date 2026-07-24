@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { MenuComponent } from '../menu/menu.component';
-import { HomeInformation } from '../../interfaces/misc';
+import { HomeInformation, Quote } from '../../interfaces/misc';
 import { AccountService } from '../../services/account.service'
 import { UserCount } from '../../interfaces/user';
 import { MiscService } from '../../services/misc.service'
@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit
   nickName: string = "";
   message: HomeInformation = new HomeInformation();
   userCount: UserCount = new UserCount();
+  quote: Quote = new Quote();
 
   constructor(
     private miscService: MiscService,
@@ -33,6 +34,8 @@ export class HomeComponent implements OnInit
     this.miscService.getMessage().subscribe(data => { this.message = data; });
 
     this.miscService.getUserCount().subscribe(data => { this.userCount = data; });
+
+    this.miscService.getQuote().subscribe(data => { this.quote = data; });
   }
 
 }
