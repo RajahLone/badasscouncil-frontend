@@ -127,8 +127,8 @@ export class AttachmentCreateComponent implements OnInit
     });
   }
   private setMessage(m: string, e: boolean) { if (this.labelMessage) { this.renderer.setProperty(this.labelMessage.nativeElement, 'innerHTML', m); if (e) { this.renderer.addClass(this.labelMessage.nativeElement, 'text-danger'); } else { this.renderer.removeClass(this.labelMessage.nativeElement, 'text-danger'); } } }
-  private setButtonStartingUpload() { if (this.uploadButton && this.uploadFile) { this.renderer.setProperty(this.uploadButton.nativeElement, 'innerHTML', '<fa-icon [icon]="faUpload" animation="fade"></fa-icon>&nbsp;' + $localize`Téléversement en cours`); } }
-  private setButtonEndingUpload() { if (this.uploadButton) { this.renderer.setProperty(this.uploadButton.nativeElement, 'innerHTML', '<fa-icon [icon]="faPlus"></fa-icon>&nbsp;' + $localize`Créer`); }  }
+  private setButtonStartingUpload() { if (this.uploadButton && this.uploadFile) { this.renderer.setProperty(this.uploadButton.nativeElement, 'innerHTML', '<fa-icon [icon]="faUpload" animation="fade"></fa-icon>&nbsp;' + $localize`Upload in progress`); } }
+  private setButtonEndingUpload() { if (this.uploadButton) { this.renderer.setProperty(this.uploadButton.nativeElement, 'innerHTML', '<fa-icon [icon]="faPlus"></fa-icon>&nbsp;' + $localize`Add`); }  }
 
   addProduction() { if (this.attachmentForm.valid) { this.saveAttachment(); } }
 

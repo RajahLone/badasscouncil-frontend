@@ -25,7 +25,8 @@ export class Preference
   parameters: string = "";
 }
 
-export const USERS_PAGE_SIZE = 1;
+export const USERS_PAGE_SIZE  = 1;
+export const FILES_PER_MEMBER = 2;
 
 export class Quote
 {

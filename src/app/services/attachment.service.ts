@@ -5,6 +5,7 @@ import { Observable, firstValueFrom } from 'rxjs';
 import { Environnement } from '../env';
 import { Attachment, AttachmentShort, AttachmentItem } from '../interfaces/attachment';
 import { HomeInformation } from '../interfaces/misc';
+import { Pagination } from '../interfaces/misc';
 
 @Injectable({ providedIn: 'root' })
 
@@ -15,6 +16,15 @@ export class AttachmentService
 
   constructor(private httpClient: HttpClient) { }
 
+  getPagination(sort: number, page: number): Observable<Pagination>
+  {
+    let params = new HttpParams();
+
+    params = params.append('sort', sort);
+    params = params.append('page', page);
+
+    return this.httpClient.get<Pagination>(`${this.baseURL}/pagination`, { params: params });
+  }
   getAttachmentList(sort: number): Observable<AttachmentShort[]>
   {
     let params = new HttpParams();

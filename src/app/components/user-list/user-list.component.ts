@@ -56,15 +56,14 @@ export class UserListComponent implements OnInit
     this.logged = this.accountService.isLogged();
     this.role = this.accountService.getRole();
 
-
     this.goToUserListRefresh();
   }
 
-  private retreiveDatas(wantedPage: number)
+  private retreiveDatas(wanted: number)
   {
     this.miscService.getUserCount().subscribe(data => { this.userCount = data; });
 
-    this.userService.getPagination(this.nameFilter, this.statusFilter, wantedPage).subscribe(page =>
+    this.userService.getPagination(this.nameFilter, this.statusFilter, wanted).subscribe(page =>
     {
       this.pagination = page;
 
@@ -82,7 +81,7 @@ export class UserListComponent implements OnInit
   goToUserListRefresh() { this.retreiveDatas(this.pagination.current); }
   goToNextPage() { this.retreiveDatas(this.pagination.current + 1); }
   goToPrevPage() { this.retreiveDatas(this.pagination.current - 1); }
-  goToPage(pageVoulue: number) { this.retreiveDatas(pageVoulue); }
+  goToPage(wanted: number) { this.retreiveDatas(wanted); }
 
   goToFiltrage() { this.retreiveDatas(this.pagination.current); }
 

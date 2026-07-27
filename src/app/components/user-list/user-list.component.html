@@ -4,7 +4,7 @@
 	<div class="card-header">
 		<div class="row justify-content-start">
 			<div class="form-group col-sm-4 label-nobr">
-				<span i18n>Members list : {{ this.userCount.current }} / {{ this.userCount.maximum }}</span>
+				<span i18n>Members : {{ this.userCount.current }} / {{ this.userCount.maximum }}</span>
 			</div>
 		</div>
 	</div>
@@ -35,7 +35,9 @@
 					<button type="button" class="btn bg-gradient btn-secondary btn-sm field-separate" disabled><span i18n>Sort</span></button>
 					<select class="form-select form-select-sm field-separate" id="select_sort" [(ngModel)]="sort" (change)="sortList($event)" placement="bottom">
 						<option value="0"><span i18n>by names</span></option>
+						<option value="2"><span i18n>by names (inverted)</span></option>
 						<option value="1"><span i18n>by subscription</span></option>
+						<option value="3"><span i18n>by subscription (inverted)</span></option>
 					</select>
 				</div>
 			</div>

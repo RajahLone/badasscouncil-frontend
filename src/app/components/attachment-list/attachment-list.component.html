@@ -1,12 +1,14 @@
 <app-menu></app-menu>
 <div id="main">
 <div class="card shadow rounded-bottom-0">
-	<div class="card-header"><span i18n>Attachments list</span></div>
-	<div class="card-header shadow">
+	<div class="card-header"><span i18n>Attachments : {{ this.generalAttachmentCount.current }} (owning {{ this.ownAttachmentCount.current }} / {{ this.ownAttachmentCount.maximum }})</span></div>
+	<div class="card-header">
 		<div class="row justify-content-between">
 			<div class="form-group col-sm-4 label-nobr">
 				<button type="button" (click)="goToAttachementRefreshList()" class="btn bg-gradient btn-primary btn-sm" style="margin-right: 5px;"><fa-icon [icon]="faRotate"></fa-icon>&nbsp;<span i18n>Actualiser</span></button>
+				@if (this.ownAttachmentCount.maximum > this.ownAttachmentCount.current) {
 				<button type="button" (click)="goToAttachementCreation()" class="btn bg-gradient btn-primary btn-sm" style="margin-right: 5px;"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;<span i18n>Créer</span></button>
+				}
 			</div>
 			<div class="form-group col-sm-2 label-nobr">
 			  <div class="input-group input-group-sn">
@@ -19,22 +21,52 @@
 		  </div>
 		</div>
 	</div>
-</div>
-	<div class="d-flex flex-wrap">
-		@for (attachment of attachments; track attachment.fileId) {
-			<div class="card shadow prod_item inline-grid">
-				<div class="card-header border-top border-dark-subtle" style="max-height:10rem;overflow:auto;">
-					<span class="card-title"><fa-icon [icon]="faQuestion"></fa-icon></span>
-				</div>
-				<div class="card-body" style="max-height:10rem;overflow:auto;">
-					<small>{{ attachment.commentsPublic }}</small><br/>
-					<small class="text-warning">{{ attachment.commentsPrivate }}</small>
-				 </div>
-				<div class="card-footer mt-auto d-flex justify-content-between">
-					<fa-icon [icon]="faDownload" class="text-primary pointeur-souris" (click)="getFile(attachment.fileId, attachment.archiveName)" tooltip="{{ attachment.archiveName }} (v{{ attachment.versionNumber }})" placement="top" container="body"></fa-icon>
-					<fa-icon [icon]="faUserTie" class="text-muted" style="margin-left:7px;" i18n-tootip tooltip="géré par {{ attachment.ownerName }}" placement="top" container="body"></fa-icon>
-				</div>
-			</div>
-		}
+	<div class="card-body table-scrollable" #attachmentslist>
+		<table class="table table-sm">
+			<thead class="thead-dark">
+				<tr>
+					<th class="fs-6 label-nobr"><small>&nbsp;</small></th>
+					<th class="fs-6 label-nobr"><small><span i18n>File name</span></small></th>
+					<th class="fs-6 label-nobr"><small><span i18n>Comments</span></small></th>
+					<th class="fs-6 label-nobr"><small><span i18n>Shared</span></small></th>
+					<th class="fs-6 label-nobr"><small><span i18n>Owner</span></small></th>
+				</tr>
+			</thead>
+			<tbody>
+				@for (attachment of attachments; track attachment.fileId) {
+				<tr>
+					<td class="label-nobr"><fa-icon [icon]="faDownload" class="text-primary pointeur-souris" (click)="getFile(attachment.fileId, attachment.archiveName)"></fa-icon></td>
+					<td class="label-nobr text-truncate" style="max-width:200px;"><a (click)="goToAttachementDetails(attachment.fileId)" class="text-primary pointeur-souris" style="margin-left:7px;">{{ attachment.archiveName }}</a>&nbsp;&nbsp;</td>
+					<td class="fs-6">{{ attachment.commentsPublic }}&nbsp;&nbsp;</td>
+					<td>@if (attachment.shared) { <fa-icon [icon]="faShareFromSquare" class="text-danger"></fa-icon> } @else { <fa-icon [icon]="faLock" class="text-muted"></fa-icon> }</td>
+					<td class="label-nobr text-truncate" style="max-width:200px;">{{ attachment.ownerName }}&nbsp;&nbsp;</td>
+				</tr>
+				}
+			</tbody>
+		</table>
 	</div>
+	<div class="card-footer d-flex flex-row" style="max-height:50px;">
+		@if (pagination.total > 1) {
+		<nav style="padding: 0 10px 0 0;">
+			<ul class="pagination pagination-sm col-sm-2">
+				<li class="page-item" [class.disabled]="pagination.current == 0"><a class="page-link" (click)="goToPrevPage()"><fa-icon [icon]="faArrowLeft"></fa-icon></a></li>
+				@for (p of pages; track p) { <li class="page-item" [class.active]="pagination.current == (p - 1)"><a class="page-link" (click)="goToPage(p - 1)">{{p}}</a></li> }
+				<li class="page-item" [class.disabled]="pagination.current == (pagination.total - 1)"><a class="page-link" (click)="goToNextPage()"><fa-icon [icon]="faArrowRight"></fa-icon></a></li>
+			</ul>
+		</nav>
+		}
+		<div class="form-group col-sm-2 label-nobr">
+			<div class="input-group input-group-sn">
+				<button type="button" class="btn bg-gradient btn-secondary btn-sm field-separate" disabled><span i18n>Max per page</span></button>
+				<select class="form-select form-select-sm field-separate" id="select_size" [(ngModel)]="this.pagination.size" (change)="setMaxPerPage($event)">
+					<option [value]="25"> 25</option>
+					<option [value]="50"> 50</option>
+					<option [value]="100">100</option>
+					<option [value]="250">250</option>
+					<option [value]="500">500</option>
+				</select>
+			</div>
+		</div>
+	</div>
+</div>
 </div>
