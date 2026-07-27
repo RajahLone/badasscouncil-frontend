@@ -1,13 +1,13 @@
 <app-menu></app-menu>
 <div id="main">
-<div class="card shadow rounded-bottom-0">
+<div class="card shadow" style="max-height:97vh;">
 	<div class="card-header"><span i18n>Attachments : {{ this.generalAttachmentCount.current }} (owning {{ this.ownAttachmentCount.current }} / {{ this.ownAttachmentCount.maximum }})</span></div>
 	<div class="card-header">
 		<div class="row justify-content-between">
 			<div class="form-group col-sm-4 label-nobr">
-				<button type="button" (click)="goToAttachementRefreshList()" class="btn bg-gradient btn-primary btn-sm" style="margin-right: 5px;"><fa-icon [icon]="faRotate"></fa-icon>&nbsp;<span i18n>Actualiser</span></button>
+				<button type="button" (click)="goToAttachementRefreshList()" class="btn bg-gradient btn-primary btn-sm" style="margin-right: 5px;"><fa-icon [icon]="faRotate"></fa-icon>&nbsp;<span i18n>Update</span></button>
 				@if (this.ownAttachmentCount.maximum > this.ownAttachmentCount.current) {
-				<button type="button" (click)="goToAttachementCreation()" class="btn bg-gradient btn-primary btn-sm" style="margin-right: 5px;"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;<span i18n>Créer</span></button>
+				<button type="button" (click)="goToAttachementCreation()" class="btn bg-gradient btn-primary btn-sm" style="margin-right: 5px;"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;<span i18n>Add</span></button>
 				}
 			</div>
 			<div class="form-group col-sm-2 label-nobr">
@@ -25,21 +25,29 @@
 		<table class="table table-sm">
 			<thead class="thead-dark">
 				<tr>
-					<th class="fs-6 label-nobr"><small>&nbsp;</small></th>
 					<th class="fs-6 label-nobr"><small><span i18n>File name</span></small></th>
 					<th class="fs-6 label-nobr"><small><span i18n>Comments</span></small></th>
 					<th class="fs-6 label-nobr"><small><span i18n>Shared</span></small></th>
 					<th class="fs-6 label-nobr"><small><span i18n>Owner</span></small></th>
+					<th class="fs-6 label-nobr"><small>&nbsp;</small></th>
 				</tr>
 			</thead>
 			<tbody>
 				@for (attachment of attachments; track attachment.fileId) {
 				<tr>
-					<td class="label-nobr"><fa-icon [icon]="faDownload" class="text-primary pointeur-souris" (click)="getFile(attachment.fileId, attachment.archiveName)"></fa-icon></td>
-					<td class="label-nobr text-truncate" style="max-width:200px;"><a (click)="goToAttachementDetails(attachment.fileId)" class="text-primary pointeur-souris" style="margin-left:7px;">{{ attachment.archiveName }}</a>&nbsp;&nbsp;</td>
+					<td class="label-nobr text-truncate" style="max-width:200px;"><fa-icon [icon]="faDownload" class="text-primary pointeur-souris" (click)="getFile(attachment.fileId, attachment.archiveName)"></fa-icon>&nbsp;<a class="pointeur-souris" (click)="getFile(attachment.fileId, attachment.archiveName)">{{ attachment.archiveName }}</a></td>
 					<td class="fs-6">{{ attachment.commentsPublic }}&nbsp;&nbsp;</td>
 					<td>@if (attachment.shared) { <fa-icon [icon]="faShareFromSquare" class="text-danger"></fa-icon> } @else { <fa-icon [icon]="faLock" class="text-muted"></fa-icon> }</td>
 					<td class="label-nobr text-truncate" style="max-width:200px;">{{ attachment.ownerName }}&nbsp;&nbsp;</td>
+					<td class="label-nobr">
+						@if ((this.userId == attachment.ownerId) || (this.role === 'ADMIN')) {
+						<button type="button" (click)="goToAttachementDetails(attachment.fileId)" class="btn bg-gradient btn-primary btn-sm" style="margin-right: 5px;"><fa-icon [icon]="faPen"></fa-icon>&nbsp;<span i18n>Edit</span></button>
+						}
+						@if (this.userId == attachment.destId) {
+						<button type="button" (click)="claim(attachment.fileId)" class="btn bg-gradient btn-success btn-sm" style="margin-right: 5px;"><fa-icon [icon]="faCheck"></fa-icon>&nbsp;<span i18n>Claim</span></button>
+						<button type="button" (click)="decline(attachment.fileId)" class="btn bg-gradient btn-warning btn-sm" style="margin-right: 5px;"><fa-icon [icon]="faBan"></fa-icon>&nbsp;<span i18n>Decline</span></button>
+						}
+					</td>
 				</tr>
 				}
 			</tbody>

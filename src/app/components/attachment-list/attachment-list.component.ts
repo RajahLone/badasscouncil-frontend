@@ -4,7 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { saveAs } from 'file-saver-es';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faPlus, faRotate, faComment, faDownload, faUserTie, faShareFromSquare, faLock, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faRotate, faComment, faDownload, faUserTie, faShareFromSquare, faLock, faArrowLeft, faArrowRight, faPen, faCheck, faBan } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuComponent } from '../menu/menu.component';
 import { AttachmentShort, AttachmentCount } from '../../interfaces/attachment';
@@ -19,11 +19,11 @@ import { AccountService } from '../../services/account.service';
 
 export class AttachmentListComponent implements OnInit
 {
-  faPlus = faPlus; faRotate = faRotate; faComment = faComment; faShareFromSquare = faShareFromSquare; faLock = faLock;
+  faPlus = faPlus; faRotate = faRotate; faComment = faComment; faShareFromSquare = faShareFromSquare; faLock = faLock; faPen = faPen; faCheck = faCheck; faBan = faBan;
   faDownload = faDownload; faUserTie = faUserTie;
   faArrowLeft = faArrowLeft; faArrowRight = faArrowRight;
 
-  logged: boolean = false;
+  userId: number = 0;
   role: string = "";
 
   sort: number = 0;
@@ -49,7 +49,7 @@ export class AttachmentListComponent implements OnInit
 
   ngOnInit()
   {
-    this.logged = this.accountService.isLogged();
+    this.userId = this.accountService.getUserId();
     this.role = this.accountService.getRole();
 
     this.goToAttachementRefreshList();
@@ -90,5 +90,9 @@ export class AttachmentListComponent implements OnInit
   saveFile(data: any, filename?: string) { const blob = new Blob([data], {type: 'application/zip'}); saveAs(blob, filename); }
 
   setMaxPerPage(event: any) { this.preferenceService.setPreference(FILES_PER_MEMBER, event.target.value).subscribe(() => { this.retreiveDatas(0); }); }
+
+  claim(id: number) { this.attachmentService.claimAttachmentItem(id).subscribe(response => { this.retreiveDatas(0); }); }
+
+  decline(id: number) { this.attachmentService.declineAttachmentItem(id).subscribe(response => { this.retreiveDatas(0); });}
 
 }

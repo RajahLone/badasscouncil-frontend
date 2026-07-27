@@ -23,6 +23,7 @@ export class AttachmentShort
   archiveName: string = "";
   versionNumber: number = 0;
   shared: boolean = false;
+  destId: number = 0;
 }
 
 export class AttachmentItem

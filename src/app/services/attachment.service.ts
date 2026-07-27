@@ -43,6 +43,10 @@ export class AttachmentService
     return this.httpClient.get(`${this.baseURL}/file/${id}`, { headers: headers, observe: 'response', responseType: 'blob' });
   }
 
+  claimAttachmentItem(id: number): Observable<Object> { return this.httpClient.get(`${this.baseURL}/claim/${id}`); }
+
+  declineAttachmentItem(id: number): Observable<Object> { return this.httpClient.get(`${this.baseURL}/decline/${id}`); }
+
   createAttachment(file: Attachment): Observable<Object>{ return this.httpClient.post(`${this.baseURL}/create`, file); }
 
   getAttachmentById(id: number): Observable<AttachmentShort>{ return this.httpClient.get<AttachmentShort>(`${this.baseURL}/form/${id}`); }

@@ -10,11 +10,16 @@ import { AttachmentService } from '../../services/attachment.service';
 import { UserShort } from '../../interfaces/user';
 import { UserService } from '../../services/user.service';
 
+import { AccountService } from '../../services/account.service';
+
 @Component({ selector: 'app-attachment-update', imports: [FontAwesomeModule, FormsModule, MenuComponent], templateUrl: './attachment-update.component.html', changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './attachment-update.component.css' })
 
 export class AttachmentUpdateComponent implements OnInit
 {
   faXmark = faXmark; faCheck = faCheck; faTrash = faTrash;
+
+  userId: number = 0;
+  role: string = "";
 
   users: UserShort[] = [];
 
@@ -24,10 +29,20 @@ export class AttachmentUpdateComponent implements OnInit
 
   fileId: number = 0;
 
-  constructor(private attachmentService: AttachmentService, private userService: UserService, private route: ActivatedRoute, private router: Router, private menu: MenuComponent) { }
+  constructor(
+    private attachmentService: AttachmentService,
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private menu: MenuComponent,
+    private accountService: AccountService
+  ) { }
 
   ngOnInit()
   {
+    this.userId = this.accountService.getUserId();
+    this.role = this.accountService.getRole();
+
     this.retreiveUsers();
     this.fileId = this.route.snapshot.params['file-id'];
     this.attachmentService.getAttachmentById(this.fileId).subscribe(data => { this.attachment = data; });
@@ -37,7 +52,18 @@ export class AttachmentUpdateComponent implements OnInit
 
   private saveAttachment() { this.attachmentService.updateAttachment(this.fileId, this.attachment).subscribe(() => { this.goToAttachmentList(); }); }
 
-  updateConfirmed() { if (this.attachmentForm.valid) { this.saveAttachment(); } }
+  updateConfirmed()
+  {
+    if (this.attachmentForm.valid)
+    {
+      if (this.userId != this.attachment.ownerId)
+      {
+        this.attachment.destId = this.attachment.ownerId;
+        this.attachment.ownerId = this.userId;
+      }
+      this.saveAttachment();
+    }
+  }
 
   deleteConfirmed() { this.attachmentService.deleteAttachment(this.fileId).subscribe(() => { this.goToAttachmentList(); }); }
 
