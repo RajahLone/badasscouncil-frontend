@@ -27,6 +27,8 @@ export class Preference
 
 export const USERS_PAGE_SIZE  = 1;
 export const FILES_PER_MEMBER = 2;
+export const USERS_FILTERS    = 3;
+export const FILES_FILTERS    = 4;
 
 export class Quote
 {

@@ -16,20 +16,25 @@ export class AttachmentService
 
   constructor(private httpClient: HttpClient) { }
 
-  getPagination(sort: number, page: number): Observable<Pagination>
+  getPagination(nameFilter: string, statusFilter: string, page: number): Observable<Pagination>
   {
     let params = new HttpParams();
 
-    params = params.append('sort', sort);
+    params = params.append('name', nameFilter);
+    params = params.append('status', statusFilter);
     params = params.append('page', page);
 
     return this.httpClient.get<Pagination>(`${this.baseURL}/pagination`, { params: params });
   }
-  getAttachmentList(sort: number): Observable<AttachmentShort[]>
+  getAttachmentList(nameFilter: string, statusFilter: string, sort: number, page: number, size: number): Observable<AttachmentShort[]>
   {
     let params = new HttpParams();
 
+    params = params.append('name', nameFilter);
+    params = params.append('status', statusFilter);
     params = params.append('sort', sort);
+    params = params.append('page', page);
+    params = params.append('size', size);
 
     return this.httpClient.get<AttachmentShort[]>(`${this.baseURL}/list`, { params: params });
   }

@@ -23,13 +23,13 @@ export class PreferenceService
     return this.httpClient.get<Preference>(`${this.baseURL}/set`, { params: params });
   }
 
-  getPreference(action: number): Observable<Preference>
+  getPreference(action: number): Observable<string>
   {
     let params = new HttpParams();
 
     if (action > 0) { params = params.append('action', '' + action); }
 
-    return this.httpClient.get<Preference>(`${this.baseURL}/get`, { params: params });
+    return this.httpClient.get(`${this.baseURL}/get`, { params: params, responseType: 'text' });
   }
 
 }

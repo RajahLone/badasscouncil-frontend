@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2, ChangeDetectionStrategy } from '@angular/core';
+import { HttpParams } from '@angular/common/http'
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -8,7 +9,7 @@ import { faPlus, faFilter, faRotate, faCheck, faFilterCircleXmark, faArrowLeft, 
 import { MenuComponent } from '../menu/menu.component';
 import { UserShort, UserEnum, UserStatusList, UserCount } from '../../interfaces/user';
 import { UserService } from '../../services/user.service';
-import { Pagination, USERS_PAGE_SIZE } from '../../interfaces/misc';
+import { Pagination, USERS_PAGE_SIZE, USERS_FILTERS } from '../../interfaces/misc';
 import { MiscService } from '../../services/misc.service'
 import { PreferenceService } from '../../services/preference.service'
 
@@ -24,14 +25,15 @@ export class UserListComponent implements OnInit
   logged: boolean = false;
   role: string = "";
 
-  sort: number = 0;
   nameFilter: string = "";
   statusFilter: string = "";
+  sort: number = 0;
 
   SL: UserEnum[] = UserStatusList;
 
   pagination: Pagination = new Pagination();
   pages: number[] = [1];
+
   users: UserShort[] = [];
 
   userCount: UserCount = new UserCount();
@@ -56,7 +58,18 @@ export class UserListComponent implements OnInit
     this.logged = this.accountService.isLogged();
     this.role = this.accountService.getRole();
 
-    this.goToUserListRefresh();
+    this.preferenceService.getPreference(USERS_FILTERS).subscribe(data =>
+    {
+      if (data != null)
+      {
+        const httpParams = new HttpParams({ fromString: data });
+
+        if (httpParams.has("name")) { this.nameFilter = "" + httpParams.get("name"); }
+        if (httpParams.has("status")) { this.statusFilter = "" + httpParams.get("status"); }
+        if (httpParams.has("sort")) { this.sort = parseInt("" + httpParams.get("sort")); }
+      }
+      this.goToUserListRefresh();
+    });
   }
 
   private retreiveDatas(wanted: number)

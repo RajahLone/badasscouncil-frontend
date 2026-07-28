@@ -1,13 +1,7 @@
 <app-menu></app-menu>
 <div id="main">
 <div class="card shadow" style="max-height:97vh;">
-	<div class="card-header">
-		<div class="row justify-content-start">
-			<div class="form-group col-sm-4 label-nobr">
-				<span i18n>Members : {{ this.userCount.current }} / {{ this.userCount.maximum }}</span>
-			</div>
-		</div>
-	</div>
+	<div class="card-header"><span i18n>Members : {{ this.userCount.current }} / {{ this.userCount.maximum }}</span></div>
 	<div class="card-header shadow-sm">
 		<div class="row justify-content-between">
 			<div class="form-group col-sm-4 label-nobr">
@@ -43,7 +37,7 @@
 			</div>
 			<div class="form-group col-sm-4 label-nobr">
 				<div class="input-group input-group-sn">
-					<button type="button" (click)="filterByName()" class="btn bg-gradient btn-primary btn-sm field-separate"><fa-icon [icon]="faFilter"></fa-icon>&nbsp;<span i18n>Filtrer</span></button>
+					<button type="button" (click)="filterByName()" class="btn bg-gradient btn-primary btn-sm field-separate"><fa-icon [icon]="faFilter"></fa-icon>&nbsp;<span i18n>Name</span></button>
 					<input type="text" (keydown.enter)="filterByName()" class="form-control form-control-sm field-separate" id="input_name" [(ngModel)]="nameFilter" i18n-tooltip tooltip="Filter by name or email address" placement="bottom" containor="body">
 					<button type="button" (click)="resetFilters()" class="btn bg-gradient btn-secondary btn-sm field-separate" style="margin-right: 5px;"><fa-icon [icon]="faFilterCircleXmark"></fa-icon>&nbsp;<span i18n>Remove</span></button>
 				</div>
