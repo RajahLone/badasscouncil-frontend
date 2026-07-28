@@ -25,6 +25,8 @@ export class MiscService
   getOwnAttachmentCount(): Observable<AttachmentCount>{ return this.httpClient.get<AttachmentCount>(`${this.baseURL}/count/files/owner`); }
   getGeneralAttachmentCount(): Observable<AttachmentCount>{ return this.httpClient.get<AttachmentCount>(`${this.baseURL}/count/files/everyone`); }
 
+  getMaximumFileSize(): Observable<AttachmentCount>{ return this.httpClient.get<AttachmentCount>(`${this.baseURL}/max/file/size`); }
+
   getQuote(): Observable<Quote>{ return this.httpClient.get<Quote>(`${this.baseURL}/quote`); }
 
 }

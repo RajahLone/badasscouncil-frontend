@@ -33,15 +33,17 @@ WORK-IN-PROGRESS
 | Family | Code | Comments |
 | ----------- | ----------- | ----------- |
 | Application | TIME_ZONE | will be used to cleaning jobs |
-| CAPTCHA | LOGIN_QUESTION | Optional: if question and its reponse not blank, this will be displayed when signing in. Choose a private question, on which response is unknown to the internet. |
+| CAPTCHA | LOGIN_QUESTION | Optional: if question and its reponse not blank, this will be displayed when signing in. Choose a private question, on which response is unknown to the internet |
 | CAPTCHA | LOGIN_RESPONSE | |
-| CAPTCHA | SUBSCRIBE_QUESTION | Same for the subscription formular. |
+| CAPTCHA | SUBSCRIBE_QUESTION | Same for the subscription formular |
 | CAPTCHA | SUBSCRIBE_RESPONSE | |
-| Messages | HOME_ERROR | Optional: if not blank, this error message will be displayed for all (even unlogged people) on the home page. | 	  
-| Messages | HOME_INFO | Same for information. |
-| Messages | HOME_MISC | Same for neutral. |  
-| Messages | HOME_WARN | Same for warning. |
-| Quota | MEMBERS_COUNT | maximum number of users in this instance. |
+| Messages | HOME_ERROR | Optional: if not blank, this error message will be displayed for all (even unlogged people) on the home page | 	  
+| Messages | HOME_INFO | Same for information |
+| Messages | HOME_MISC | Same for neutral |  
+| Messages | HOME_WARN | Same for warning |
+| Quota | MEMBERS_COUNT | maximum number of users in this instance |
+| Quota | FILES_PER_MEMBER | maximum file a user can self own |
+| Quota | FILE_SIZE | maximum file size (in MB) |
 
 ### Members / users
 

@@ -5,7 +5,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { saveAs } from 'file-saver-es';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faPlus, faRotate, faFilter, faFilterCircleXmark, faDownload, faUserTie, faShareFromSquare, faLock, faArrowLeft, faArrowRight, faPen, faCheck, faBan } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faRotate, faFilter, faFilterCircleXmark, faDownload, faUserTie, faShareNodes, faLock, faArrowLeft, faArrowRight, faPen, faCheck, faBan } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuComponent } from '../menu/menu.component';
 import { AttachmentShort, AttachmentCount } from '../../interfaces/attachment';
@@ -20,7 +20,7 @@ import { AccountService } from '../../services/account.service';
 
 export class AttachmentListComponent implements OnInit
 {
-  faPlus = faPlus; faRotate = faRotate; faShareFromSquare = faShareFromSquare; faLock = faLock; faPen = faPen; faCheck = faCheck; faBan = faBan;
+  faPlus = faPlus; faRotate = faRotate; faShareNodes = faShareNodes; faLock = faLock; faPen = faPen; faCheck = faCheck; faBan = faBan;
   faFilterCircleXmark = faFilterCircleXmark; faFilter = faFilter;
   faDownload = faDownload; faUserTie = faUserTie;
   faArrowLeft = faArrowLeft; faArrowRight = faArrowRight;

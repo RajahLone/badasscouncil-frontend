@@ -53,7 +53,7 @@
 				<tr>
 					<td class="label-nobr text-truncate" style="max-width:200px;"><fa-icon [icon]="faDownload" class="text-primary pointeur-souris" (click)="getFile(attachment.fileId, attachment.archiveName)"></fa-icon>&nbsp;<a class="pointeur-souris" (click)="getFile(attachment.fileId, attachment.archiveName)">{{ attachment.archiveName }}</a></td>
 					<td class="fs-6">{{ attachment.commentsPublic }}&nbsp;&nbsp;</td>
-					<td>@if (attachment.shared) { <fa-icon [icon]="faShareFromSquare" class="text-danger"></fa-icon> } @else { <fa-icon [icon]="faLock" class="text-muted"></fa-icon> }</td>
+					<td>@if (attachment.shared) { <fa-icon [icon]="faShareNodes" class="text-danger"></fa-icon> } @else { <fa-icon [icon]="faLock" class="text-muted"></fa-icon> }</td>
 					<td class="label-nobr text-truncate" style="max-width:200px;">{{ attachment.ownerName }}&nbsp;&nbsp;</td>
 					<td class="label-nobr">
 						@if ((this.userId == attachment.ownerId) || (this.role === 'ADMIN')) {

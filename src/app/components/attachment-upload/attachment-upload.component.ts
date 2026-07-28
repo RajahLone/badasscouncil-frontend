@@ -8,8 +8,9 @@ import { faXmark, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 import { Environnement } from '../../env';
 import { MenuComponent } from '../menu/menu.component';
-import { AttachmentItem } from '../../interfaces/attachment';
+import { AttachmentItem, AttachmentCount } from '../../interfaces/attachment';
 import { AttachmentService } from '../../services/attachment.service';
+import { MiscService } from '../../services/misc.service'
 import { HomeInformation } from '../../interfaces/misc';
 
 @Component({ selector: 'app-attachment-upload', imports: [FontAwesomeModule, FormsModule, MenuComponent], templateUrl: './attachment-upload.component.html', changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './attachment-upload.component.css' })
@@ -22,6 +23,8 @@ export class AttachmentUploadComponent implements OnInit
   @ViewChild('uploadButton', {static: false}) uploadButton!: ElementRef;
   @ViewChild('labelMessage', {static: false}) labelMessage!: ElementRef;
 
+  fileSize: AttachmentCount = new AttachmentCount();
+
   attachment: AttachmentItem = new AttachmentItem();
 
   fileId: number = 0;
@@ -31,6 +34,7 @@ export class AttachmentUploadComponent implements OnInit
   hashed: string = "";
 
   constructor(
+    private miscService: MiscService,
     private attachmentService: AttachmentService,
     private route: ActivatedRoute,
     private router: Router,
@@ -41,6 +45,8 @@ export class AttachmentUploadComponent implements OnInit
 
   ngOnInit()
   {
+    this.miscService.getMaximumFileSize().subscribe(data => { this.fileSize = data; });
+
     this.fileId = this.route.snapshot.params['file-id'];
     this.attachmentService.getAttachmentItemById(this.fileId).subscribe(data => { this.attachment = data; });
   }

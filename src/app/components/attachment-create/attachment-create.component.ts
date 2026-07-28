@@ -7,8 +7,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faXmark, faPlus, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuComponent } from '../menu/menu.component';
-import { Attachment } from '../../interfaces/attachment';
+import { Attachment, AttachmentCount } from '../../interfaces/attachment';
 import { AttachmentService } from '../../services/attachment.service';
+import { MiscService } from '../../services/misc.service'
 import { UserShort } from '../../interfaces/user';
 import { UserService } from '../../services/user.service';
 import { AccountService } from '../../services/account.service'
@@ -25,6 +26,8 @@ export class AttachmentCreateComponent implements OnInit
   @ViewChild('uploadButton', {static: false}) uploadButton!: ElementRef;
   @ViewChild('labelMessage', {static: false}) labelMessage!: ElementRef;
 
+  fileSize: AttachmentCount = new AttachmentCount();
+
   attachment: Attachment = new Attachment();
   uploadFile: boolean = false;
   file!: any;
@@ -33,6 +36,7 @@ export class AttachmentCreateComponent implements OnInit
   chunkIndex = 0;
 
   constructor(
+    private miscService: MiscService,
     private accountService : AccountService,
     private attachmentService: AttachmentService,
     private userService: UserService,
@@ -41,7 +45,12 @@ export class AttachmentCreateComponent implements OnInit
     private renderer: Renderer2
   ) { }
 
-  ngOnInit() { this.retreiveUsers(); this.attachment.ownerId = this.accountService.getUserId(); }
+  ngOnInit()
+  {
+    this.miscService.getMaximumFileSize().subscribe(data => { this.fileSize = data; });
+    this.attachment.ownerId = this.accountService.getUserId();
+    this.retreiveUsers();
+  }
 
   private retreiveUsers() { this.userService.getUserListOptions().subscribe(data => { this.users = data; }); }
 
