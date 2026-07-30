@@ -139,7 +139,7 @@ export class AttachmentCreateComponent implements OnInit
   private setButtonStartingUpload() { if (this.uploadButton && this.uploadFile) { this.renderer.setProperty(this.uploadButton.nativeElement, 'innerHTML', '<fa-icon [icon]="faUpload" animation="fade"></fa-icon>&nbsp;' + $localize`Upload in progress`); } }
   private setButtonEndingUpload() { if (this.uploadButton) { this.renderer.setProperty(this.uploadButton.nativeElement, 'innerHTML', '<fa-icon [icon]="faPlus"></fa-icon>&nbsp;' + $localize`Add`); }  }
 
-  addProduction() { if (this.attachmentForm.valid) { this.saveAttachment(); } }
+  addAttachment() { if (this.attachmentForm.valid && this.uploadFile) { this.saveAttachment(); } }
 
   goToAttachmentList() { this.router.navigate(['/attachment-list']); }
 

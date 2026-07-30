@@ -7,7 +7,9 @@ export class Attachment
   commentsPrivate: string = "";
   archiveName: string = "";
   versionNumber: number = 0;
+  destId: number = 0;
   shared: boolean = false;
+  lifeSpan: number = 0;
 }
 
 export class AttachmentShort
@@ -22,8 +24,9 @@ export class AttachmentShort
   commentsPrivate: string = "";
   archiveName: string = "";
   versionNumber: number = 0;
-  shared: boolean = false;
   destId: number = 0;
+  shared: boolean = false;
+  lifeSpan: number = 0;
 }
 
 export class AttachmentItem

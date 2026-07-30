@@ -59,6 +59,14 @@
 			</div>
 		</div>
 
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Life span</span></label>
+			<div class="col-sm-2">
+				<input type="number" min="0" max="365" class="form-control form-control-sm field-separate" id="lifeSpan" name="lifeSpan" [(ngModel)]="attachment.lifeSpan" disabled>
+			</div>
+			<label class="col-sm-6 col-form-label col-form-label-sm label-nobr"><span i18n>days before purged (0 for infinite retention)</span></label>
+		</div>
+
 	</div>
 	<div class="card-footer">
 		<button type="button" (click)="updateAttachment(attachment.fileId)" class="btn bg-gradient btn-primary btn-sm"><fa-icon [icon]="faPen"></fa-icon>&nbsp;<span i18n>Edit</span></button>

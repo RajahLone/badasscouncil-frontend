@@ -44,6 +44,7 @@
 					<th class="fs-6 label-nobr"><small><span i18n>File name</span></small></th>
 					<th class="fs-6 label-nobr"><small><span i18n>Comments</span></small></th>
 					<th class="fs-6 label-nobr"><small><span i18n>Shared</span></small></th>
+					<th class="fs-6 label-nobr"><small><span i18n>Remaing days</span></small></th>
 					<th class="fs-6 label-nobr"><small><span i18n>Owner</span></small></th>
 					<th class="fs-6 label-nobr"><small>&nbsp;</small></th>
 				</tr>
@@ -54,6 +55,7 @@
 					<td class="label-nobr text-truncate" style="max-width:200px;"><fa-icon [icon]="faDownload" class="text-primary pointeur-souris" (click)="getFile(attachment.fileId, attachment.archiveName)"></fa-icon>&nbsp;<a class="pointeur-souris" (click)="getFile(attachment.fileId, attachment.archiveName)">{{ attachment.archiveName }}</a></td>
 					<td class="fs-6">{{ attachment.commentsPublic }}&nbsp;&nbsp;</td>
 					<td>@if (attachment.shared) { <fa-icon [icon]="faShareNodes" class="text-danger"></fa-icon> } @else { <fa-icon [icon]="faLock" class="text-muted"></fa-icon> }</td>
+					<td class="label-nobr text-truncate" style="max-width:200px;">@if (attachment.lifeSpan > 0) { {{ attachment.lifeSpan }} } @else { &infin; }&nbsp;&nbsp;</td>
 					<td class="label-nobr text-truncate" style="max-width:200px;">{{ attachment.ownerName }}&nbsp;&nbsp;</td>
 					<td class="label-nobr">
 						@if ((this.userId == attachment.ownerId) || (this.role === 'ADMIN')) {
