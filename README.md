@@ -14,15 +14,17 @@ WORK-IN-PROGRESS
 
 - using Spring Boot framework, since (openJDK)Java 17.
 - get the this part from the public repository, customize `application.properties` and generate .jar archive with `./gradlew build`.
-- install it in your server (TODO: description into debian local virtual machine).
+- install it in your server. On debian setup: apt install java/openjdk, edit deploy/badasscouncil.service with correct paths and name, and put it into /etc/systemd/system/.
 
 - database is hosted in postgresql instance and manually created, use .sql scripts from the schema part.
 
-#### Install frontend
+- files are stored in ../uploads/* with UUID names. Uploads happen in ../uploads-temp/(fileId)-filename/*
+
+### Install frontend
 
 - written with Angular, since v22.
 - get the this part from the public repository, customize `src/app/env.ts` and `src/assets/*` and generate html files `ng build`.
-- install it in your server (TODO: description with apache2 into debian local virtual machine).
+- install the built files from dist/badasscouncil-frontend/browser/* in your webserver. Use deploy/subfolder/.htaccess besides main-*.js and index.html to fix paths.
 
 ## Usage
 
@@ -44,6 +46,7 @@ WORK-IN-PROGRESS
 | Quota | MEMBERS_COUNT | maximum number of users in this instance |
 | Quota | FILES_PER_MEMBER | maximum file a user can self own |
 | Quota | FILE_SIZE | maximum file size (in MB) |
+| Quota | STORAGE_DEFAULT | -1 : not yet allowed to upload, 0 : follows FILES_PER_MEMBER * FILE_SIZE limit, > 0 : limit in GB  |
 
 ### Members / users
 
@@ -65,7 +68,14 @@ WORK-IN-PROGRESS
 
 ### Attachments / uploaded files
 
-TODO
+- depending on the administratots quotas settings, users can upload files into the web application. There is a storage limit for each user (with general default value when subscription if made by user or creation done by administrators or regulators). There is also a number of files per user limit. And also a file size limit for each file.
+
+- user can share the file for everyone with a share flag. Else, the file is seen only for him/her, administrators and a possible recipient user. Listed files are downloadble.
+
+- user can change file property by changing its owner. The recipient user can claim or decline ownership from the attachments list. If claimed, the recipient user become the new owner and manage the
+attachment for him/herself. If declined, the attachment may dissappear from recipient user file list.
+
+- a file can have a lifespan, set in days: if set, automatic file deletion will happen at midnight.
 
 ### Rooms and chat
 
@@ -73,4 +83,6 @@ TODO
 
 ### Cleaning jobs
 
-TODO
+- automatic purge for attachments, manually deleted/disabled or when lifespan is reached.
+- TODO: messages and rooms purge.
+- TODO: users purge.

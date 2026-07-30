@@ -6,7 +6,7 @@
 		<div class="row justify-content-between">
 			<div class="form-group col-sm-4 label-nobr">
 				<button type="button" (click)="goToAttachementRefreshList()" class="btn bg-gradient btn-primary btn-sm" style="margin-right: 5px;"><fa-icon [icon]="faRotate"></fa-icon>&nbsp;<span i18n>Update</span></button>
-				@if (this.ownAttachmentCount.maximum > this.ownAttachmentCount.current) {
+				@if ((this.ownAttachmentCount.maximum > this.ownAttachmentCount.current) && (this.ownAttachmentCount.capability)) {
 				<button type="button" (click)="goToAttachementCreation()" class="btn bg-gradient btn-primary btn-sm" style="margin-right: 5px;"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;<span i18n>Add</span></button>
 				}
 			</div>

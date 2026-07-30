@@ -32,4 +32,6 @@ export class VariableService
 
   deleteVariable(id: number): Observable<Object>{ return this.httpClient.delete(`${this.baseURL}/delete/${id}`); }
 
+  getDefaultStorage(): Observable<string> { return this.httpClient.get(`${this.baseURL}/get/default/storage`, { responseType: 'text' }); }
+
 }

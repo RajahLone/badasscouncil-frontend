@@ -8,6 +8,7 @@ import { MenuComponent } from '../menu/menu.component';
 import { User, UserEnum, RoleList, UserStatusList, UserCount } from '../../interfaces/user';
 import { UserService } from '../../services/user.service';
 import { MiscService } from '../../services/misc.service'
+import { VariableService } from '../../services/variable.service'
 import { AccountService } from '../../services/account.service';
 
 @Component({ selector: 'app-user-create', imports: [FontAwesomeModule, FormsModule, MenuComponent], templateUrl: './user-create.component.html', changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './user-create.component.css' })
@@ -29,6 +30,7 @@ export class UserCreateComponent implements OnInit
 
   constructor(
     private miscService: MiscService,
+    private variableService: VariableService,
     private userService: UserService,
     private router: Router,
     private menu: MenuComponent,
@@ -40,6 +42,7 @@ export class UserCreateComponent implements OnInit
     this.role = this.accountService.getRole();
 
     this.miscService.getUserCount().subscribe(data => { this.userCount = data; });
+    this.variableService.getDefaultStorage().subscribe(data => { this.user.storageLimit = Number(data); });
   }
 
   private saveUser() { this.userService.createUser(this.user).subscribe(() => { this.goToUserList(); }); }

@@ -41,4 +41,5 @@ export class AttachmentCount
 {
   current: number = 0;
   maximum: number = 0;
+  capability: boolean = false;
 }

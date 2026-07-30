@@ -39,6 +39,7 @@ export class User
   country: string = "";
   phone: string = "";
   email: string = "";
+  storageLimit: number = 0;
   answer: string = "";
 }
 
@@ -65,4 +66,5 @@ export class UserCount
 {
   current: number = 0;
   maximum: number = 0;
+  capability: boolean = false;
 }
