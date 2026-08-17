@@ -12,15 +12,15 @@
   "private": true,
   "packageManager": "npm@11.18.0",
   "dependencies": {
-    "@angular/common": "^22.0.8",
-    "@angular/compiler": "^22.0.8",
-    "@angular/core": "^22.0.8",
-    "@angular/forms": "^22.0.8",
-    "@angular/localize": "^22.0.8",
-    "@angular/platform-browser": "^22.0.8",
-    "@angular/platform-server": "^22.0.8",
-    "@angular/router": "^22.0.8",
-    "@angular/ssr": "^22.0.8",
+    "@angular/common": "^22.1.2",
+    "@angular/compiler": "^22.1.2",
+    "@angular/core": "^22.1.2",
+    "@angular/forms": "^22.1.2",
+    "@angular/localize": "^22.1.2",
+    "@angular/platform-browser": "^22.1.2",
+    "@angular/platform-server": "^22.1.2",
+    "@angular/router": "^22.1.2",
+    "@angular/ssr": "^22.1.4",
     "@fortawesome/angular-fontawesome": "^5.1.0",
     "@fortawesome/free-solid-svg-icons": "^7.3.0",
     "@ng-idle/core": "^16.0.0",
@@ -37,9 +37,9 @@
     "zone.js": "^0.16.2"
   },
   "devDependencies": {
-    "@angular/build": "^22.0.8",
-    "@angular/cli": "^22.0.8",
-    "@angular/compiler-cli": "^22.0.8",
+    "@angular/build": "^22.1.4",
+    "@angular/cli": "^22.1.4",
+    "@angular/compiler-cli": "^22.1.2",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
     "jsdom": "^28.0.0",
@@ -49,10 +49,9 @@
   },
   "allowScripts": {
     "@parcel/watcher@2.5.6": true,
-    "esbuild@0.28.1": true,
-    "esbuild@0.27.7": true,
     "fsevents@2.3.3": true,
-    "lmdb@3.5.4": true,
-    "msgpackr-extract@3.0.4": true
+    "msgpackr-extract@3.0.4": true,
+    "esbuild@0.28.2": true,
+    "lmdb@3.5.6": true
   }
 }
