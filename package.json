@@ -30,7 +30,7 @@
     "express": "^5.1.0",
     "file-saver-es": "^2.0.5",
     "jquery": "^4.0.0",
-    "ngx-bootstrap": "^21.2.1",
+    "ngx-bootstrap": "^22.0.0",
     "rxjs": "~7.8.0",
     "spark-md5-es": "^3.0.2",
     "tslib": "^2.3.0",
