@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { timer } from 'rxjs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faComment } from '@fortawesome/free-solid-svg-icons';
+import { faComment, faPlus, faPen } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuComponent } from '../menu/menu.component';
-import { MessageShort } from '../../interfaces/chat';
+import { MessageShort, Room } from '../../interfaces/chat';
 import { NickName } from '../../interfaces/user';
 import { ChatService } from '../../services/chat.service';
 import { AccountService } from '../../services/account.service'
@@ -15,12 +15,15 @@ import { AccountService } from '../../services/account.service'
 
 export class ChatComponent implements OnInit
 {
-  faComment = faComment;
+  faComment = faComment; faPlus = faPlus; faPen = faPen;
 
   logged: boolean = false;
   disabled: boolean = false;
 
-  lastId: number = 0;
+  rooms: Room[] = [];
+
+  currentRoomId: number = 0;
+  lastMessageId: number = 0;
 
   messages: MessageShort[] = [];
 
@@ -44,9 +47,28 @@ export class ChatComponent implements OnInit
 
       this.retreiveNicknames();
 
-      timer(0, 7000).subscribe(() => { this.retreiveLastMessages(); });
+      timer(0, 7000).subscribe(() => { this.retreiveRooms(); this.retreiveLastMessages(); });
     }
   }
+
+  retreiveRooms()
+  {
+    this.logged = this.accountService.isLogged();
+
+    if ((this.logged) && (this.disabled == false))
+    {
+      this.chatService.getListRoom().subscribe(data => {
+        this.rooms = data;
+        if (this.rooms == null) { this.currentRoomId = 0; }
+        if (this.currentRoomId < 1) { if (this.rooms.length > 0) { this.currentRoomId = this.rooms[0].roomId; } }
+      });
+    }
+  }
+
+  goToNewRoom() { this.router.navigate(['/room-create']); }
+  updateRoom(id: number) { this.router.navigate(['/room-update', id]); }
+
+  openRoom(id: number) { this.currentRoomId = id; this.messages = []; if (id > 0) { this.retreiveLastMessages(); } }
 
   retreiveLastMessages()
   {
@@ -54,21 +76,21 @@ export class ChatComponent implements OnInit
 
     this.logged = this.accountService.isLogged();
 
-    if ((this.logged) && (this.disabled == false))
+    if ((this.logged) && (this.disabled == false) && (this.currentRoomId > 0))
     {
-      this.chatService.getNew(this.lastId).subscribe(data => { if (data) { this.messages = [...data, ...this.messages]; } this.setLastId(); });
+      this.chatService.getNew(this.currentRoomId, this.lastMessageId).subscribe(data => { if (data) { this.messages = [...data, ...this.messages]; } this.setLastId(); });
     }
   }
 
   private setLastId()
   {
-    this.lastId = 0;
+    this.lastMessageId = 0;
 
     if (this.messages != null)
     {
       if (this.messages.length > 0)
       {
-        for (let i = 0; i < this.messages.length; i++) { this.lastId = Math.max(this.lastId, this.messages[i].messageId); }
+        for (let i = 0; i < this.messages.length; i++) { this.lastMessageId = Math.max(this.lastMessageId, this.messages[i].messageId); }
       }
     }
   }
@@ -78,7 +100,7 @@ export class ChatComponent implements OnInit
     if (this.logged)
     {
       this.disabled = true;
-      this.chatService.addNew(this.lastId, this.newMessage).subscribe(data => {
+      this.chatService.addNew(this.currentRoomId, this.lastMessageId, this.newMessage).subscribe(data => {
         this.messages = [...data, ...this.messages];
         this.newMessage = new MessageShort();
         this.newMessage.nickName = this.accountService.getLoginName();

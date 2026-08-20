@@ -25,7 +25,7 @@ export class VariableUpdateComponent implements OnInit
   ngOnInit(): void
   {
     this.variableId = this.route.snapshot.params['var-id'];
-    this.variableService.getByIdVariable(this.variableId).subscribe(data => { this.variable = data; });
+    this.variableService.getVariableById(this.variableId).subscribe(data => { this.variable = data; });
   }
 
   updateConfirmed() { if (this.variableForm.valid) { this.variableService.updateVariable(this.variableId, this.variable).subscribe(() => { this.goToListVariable(); }); } }

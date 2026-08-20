@@ -26,7 +26,7 @@ export class VariableService
 
   createVariable(variable: Variable): Observable<Object>{ return this.httpClient.post(`${this.baseURL}/create`, variable); }
 
-  getByIdVariable(id: number): Observable<Variable>{ return this.httpClient.get<Variable>(`${this.baseURL}/form/${id}`); }
+  getVariableById(id: number): Observable<Variable>{ return this.httpClient.get<Variable>(`${this.baseURL}/form/${id}`); }
 
   updateVariable(id: number, variable: Variable): Observable<Object>{ return this.httpClient.put(`${this.baseURL}/update/${id}`, variable); }
 

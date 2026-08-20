@@ -6,6 +6,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { RoomCreateComponent } from './components/room-create/room-create.component';
+import { RoomDetailsComponent } from './components/room-details/room-details.component';
+import { RoomUpdateComponent } from './components/room-update/room-update.component';
 import { AccountSubscribeComponent } from './components/account-subscribe/account-subscribe.component';
 import { AccountDetailsComponent } from './components/account-details/account-details.component';
 import { AccountUpdateComponent } from './components/account-update/account-update.component';
@@ -32,6 +35,9 @@ export const routes: Routes = [
   {path: 'home', component: HomeComponent, runGuardsAndResolvers: 'always' },
   {path: 'login', component: LoginComponent, runGuardsAndResolvers: 'always' },
   {path: 'chat', component: ChatComponent, canActivate: [UserGuard], runGuardsAndResolvers: 'always' },
+  {path: 'room-create', component: RoomCreateComponent, canActivate: [UserGuard], runGuardsAndResolvers: 'always'},
+  {path: 'room-details/:room-id', component: RoomDetailsComponent, canActivate: [UserGuard], runGuardsAndResolvers: 'always'},
+  {path: 'room-update/:room-id', component: RoomUpdateComponent, canActivate: [UserGuard], runGuardsAndResolvers: 'always'},
   {path: 'account-subscribe', component: AccountSubscribeComponent, runGuardsAndResolvers: 'always' },
   {path: 'account-details', component: AccountDetailsComponent, canActivate: [UserGuard], runGuardsAndResolvers: 'always' },
   {path: 'account-update', component: AccountUpdateComponent, canActivate: [UserGuard], runGuardsAndResolvers: 'always' },

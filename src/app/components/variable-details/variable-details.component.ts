@@ -24,7 +24,7 @@ export class VariableDetailsComponent implements OnInit
   {
     this.variableId = this.route.snapshot.params['var-id'];
     this.variable = new Variable();
-    this.variableService.getByIdVariable(this.variableId).subscribe( data => { this.variable = data; });
+    this.variableService.getVariableById(this.variableId).subscribe( data => { this.variable = data; });
   }
 
   updateVariable(id: number) { this.router.navigate(['/variable-update', id]); }

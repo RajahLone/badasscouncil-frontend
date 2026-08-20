@@ -1,0 +1,68 @@
+<app-menu></app-menu>
+<div id="main">
+<form #formRef="ngForm" (ngSubmit)="addRoom()" class="needs-validation">
+	<div class="card shadow center">
+		<div class="card-header"><span i18n>Room</span></div>
+		<div class="card-header shadow-sm">
+			<button (click)="goToChat()" class="btn bg-gradient btn-primary btn-sm"><fa-icon [icon]="faXmark"></fa-icon>&nbsp;<span i18n>Back</span></button>
+		</div>
+		<div class="card-body">
+
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Name</span>&nbsp;<sup><span class="text-danger">*</span></sup></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control form-control-sm field-separate" id="name" name="name" [(ngModel)]="room.name" #nameRef="ngModel" required [class.is-invalid]="nameRef.invalid && nameRef.touched">
+				</div>
+			</div>
+
+			<div class="form-group row field-gap">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Optional Password</span></label>
+				<div class="col-sm-8">
+					<input type="password" class="form-control form-control-sm field-separate" id="roomPassword" name="roomPassword" [(ngModel)]="room.password">
+					<div class="form-text field-separate"><span i18n>Indicate a passphrase if the room has restricted access, else leave this field empty.</span></div>
+				</div>
+			</div>
+
+			<div class="form-group row field-gap">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Topic</span></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control form-control-sm field-separate" id="topic" name="topic" [(ngModel)]="room.topic">
+				</div>
+			</div>
+
+			<div class="form-group row field-gap">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Purge method</span></label>
+				<div class="col-sm-8">
+					<div class="form-group field-separate">
+						<select class="form-select form-select-sm" id="purgeMethod" name="purgeMethod" [(ngModel)]="room.purgeMethod" required #purgeMethodRef="ngModel" [class.is-invalid]="purgeMethodRef.invalid && purgeMethodRef.touched">
+						@for (pm of PM; track pm.key) { <option [value]="pm.key">{{ pm.value }}</option> }
+						</select>
+					</div>
+				</div>
+			</div>
+
+			@if (room.purgeMethod === 'MESSAGES_LIMITED') {
+			<div class="form-group row field-gap">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Messages limit</span></label>
+				<div class="col-sm-2">
+					<input type="number" min="0" max="1000" class="form-control form-control-sm field-separate" id="messagesLimit" name="messagesLimit" [(ngModel)]="room.messagesLimit">
+				</div>
+				<label class="col-sm-6 col-form-label col-form-label-sm label-nobr"><span i18n>maximum number of lines to keep.<br/>0 for infinite</span></label>
+			</div>
+			} @else if (room.purgeMethod === 'TIME_LIMITED') {
+			<div class="form-group row field-gap">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Time duration</span></label>
+			 	<div class="col-sm-2">
+					<input type="number" min="0" max="4321" class="form-control form-control-sm field-separate" id="timeDuration" name="timeDuration" [(ngModel)]="room.timeDuration">
+				</div>
+				<label class="col-sm-6 col-form-label col-form-label-sm label-nobr"><span i18n>minutes lifespan before delete.<br/>0 for infinite</span></label>
+			</div>
+			}
+
+		</div>
+		<div class="card-footer">
+			<button type="button" class="btn bg-gradient btn-success btn-sm text-left" type="submit" [disabled]="formRef.invalid"><fa-icon [icon]="faPlus"></fa-icon>&nbsp;<span i18n>Add</span></button>
+		</div>
+	</div>
+</form>
+</div>

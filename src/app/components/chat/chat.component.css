@@ -1,5 +1,11 @@
-.chatdiv { overflow-y: scroll; overflow-x: hidden; max-height: 87vh; }
+.chatdiv { overflow-y: scroll; overflow-x: hidden; max-height: 91vh; }
 .chatdat { border-left: 1px solid lightgray; text-align: right; color: lightgray; }
 .chatusr { text-align: right; color: gray; }
 .chatusr::after { content: " :"; }
 .chatmsg { text-align: left; }
+.chatcrd { min-height: 97vh; }
+
+@media not (min-width: 700px) {
+  .chatdiv { max-height: unset; }
+  .chatcrd { min-height: unset; }
+}
