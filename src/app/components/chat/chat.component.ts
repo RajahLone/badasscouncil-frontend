@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { timer } from 'rxjs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faComment, faPlus, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faComment, faPlus, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuComponent } from '../menu/menu.component';
 import { MessageShort, Room } from '../../interfaces/chat';
@@ -15,7 +15,7 @@ import { AccountService } from '../../services/account.service'
 
 export class ChatComponent implements OnInit
 {
-  faComment = faComment; faPlus = faPlus; faPen = faPen;
+  faComment = faComment; faPlus = faPlus; faCircleInfo = faCircleInfo;
 
   logged: boolean = false;
   disabled: boolean = false;
@@ -23,6 +23,7 @@ export class ChatComponent implements OnInit
   rooms: Room[] = [];
 
   currentRoomId: number = 0;
+  currentTopic: string = "no room yet selected";
   lastMessageId: number = 0;
 
   messages: MessageShort[] = [];
@@ -47,26 +48,30 @@ export class ChatComponent implements OnInit
 
       this.retreiveNicknames();
 
-      timer(0, 7000).subscribe(() => { this.retreiveRooms(); this.retreiveLastMessages(); });
+      timer(0, 7000).subscribe(() => { this.retreiveRooms(); });
     }
   }
 
   retreiveRooms()
   {
+    if ((this.router.url !== '/chat')) { return; }
+
     this.logged = this.accountService.isLogged();
 
     if ((this.logged) && (this.disabled == false))
     {
       this.chatService.getListRoom().subscribe(data => {
         this.rooms = data;
-        if (this.rooms == null) { this.currentRoomId = 0; }
+        if (this.rooms == null) { this.currentRoomId = 0; this.currentTopic = ""; }
         if (this.currentRoomId < 1) { if (this.rooms.length > 0) { this.currentRoomId = this.rooms[0].roomId; } }
+
+        this.retreiveLastMessages();
       });
     }
   }
 
   goToNewRoom() { this.router.navigate(['/room-create']); }
-  updateRoom(id: number) { this.router.navigate(['/room-update', id]); }
+  goToRoomDetails(id: number) { this.router.navigate(['/room-details', id]); }
 
   openRoom(id: number) { this.currentRoomId = id; this.messages = []; if (id > 0) { this.retreiveLastMessages(); } }
 
@@ -78,7 +83,9 @@ export class ChatComponent implements OnInit
 
     if ((this.logged) && (this.disabled == false) && (this.currentRoomId > 0))
     {
-      this.chatService.getNew(this.currentRoomId, this.lastMessageId).subscribe(data => { if (data) { this.messages = [...data, ...this.messages]; } this.setLastId(); });
+      this.chatService.getNew(this.currentRoomId, this.lastMessageId).subscribe(data => { if (data) { this.messages = [...this.messages, ...data]; } this.setLastId(); });
+
+      for (var i in this.rooms) { if (this.currentRoomId == this.rooms[i].roomId) { this.currentTopic = this.rooms[i].topic; } }
     }
   }
 
@@ -101,7 +108,7 @@ export class ChatComponent implements OnInit
     {
       this.disabled = true;
       this.chatService.addNew(this.currentRoomId, this.lastMessageId, this.newMessage).subscribe(data => {
-        this.messages = [...data, ...this.messages];
+        this.messages = [...this.messages, ...data];
         this.newMessage = new MessageShort();
         this.newMessage.nickName = this.accountService.getLoginName();
         this.setLastId();

@@ -35,6 +35,7 @@ export class Room
   ownerId: number = 0;
   password: string = "";
   topic: string = ""; ;
+  notes: string = ""; ;
   purgeMethod: string = "NEVER";
   messagesLimit: number = 1000;
   timeDuration: number = 4321;

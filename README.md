@@ -68,7 +68,7 @@ WORK-IN-PROGRESS
 
 ### Attachments / uploaded files
 
-- depending on the administratots quotas settings, users can upload files into the web application. There is a storage limit for each user (with general default value when subscription if made by user or creation done by administrators or regulators). There is also a number of files per user limit. And also a file size limit for each file.
+- depending on the administrators quotas settings, users can upload files into the web application. There is a storage limit for each user (with general default value when subscription if made by user or creation done by administrators or regulators). There is also a number of files per user limit. And also a file size limit for each file.
 
 - user can share the file for everyone with a share flag. Else, the file is seen only for him/her, administrators and a possible recipient user. Listed files are downloadble.
 
@@ -79,7 +79,14 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 
 ### Rooms and chat
 
-TODO
+- currently same as an IRC-client, text only. User can send a message line to all or secretly to specific user.
+
+- user can create a room and becomes the owner ie can administrate it (with administrators and regulators).
+
+- TODO: exclusion of specific users (= /ban)
+- TODO: /dcc file (attachements managed within the send prompt).
+- TODO: upload and display (grouped) images.
+- TODO? imitate somme IRC commands.
 
 ### Cleaning jobs
 
