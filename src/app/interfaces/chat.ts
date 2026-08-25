@@ -14,15 +14,14 @@ export const RoomState: RoomEnum[] =
 [
   { key: "ACTIVE", value: $localize`Active`},
   { key: "LOCKED", value: $localize`Locked`},
-  { key: "TRASHED", value: $localize`Trashed`},
+  { key: "TRASHED", value: $localize`Trashed`}
 ];
 
-export const RoomPurgeMethod: RoomEnum[] =
+export const RoomPurgeType: RoomEnum[] =
 [
   { key: "NEVER", value: $localize`Never`},
   { key: "MESSAGES_LIMITED", value: $localize`Messages limited`},
-  { key: "TIME_LIMITED", value: $localize`Time limited`},
-  { key: "WHEN_DEPOPULATED", value: $localize`When depopulated`},
+  { key: "TIME_LIMITED", value: $localize`Time limited`}
 ];
 
 export class Room
@@ -33,10 +32,10 @@ export class Room
   name: string = "";
   state: string = "ACTIVE";
   ownerId: number = 0;
-  password: string = "";
-  topic: string = ""; ;
-  notes: string = ""; ;
-  purgeMethod: string = "NEVER";
+  password?: string = "";
+  topic: string = "";
+  notes: string = "";
+  purgeType: string = "NEVER";
   messagesLimit: number = 1000;
   timeDuration: number = 4321;
 }

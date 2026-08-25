@@ -66,14 +66,14 @@
 				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Purge method</span></label>
 				<div class="col-sm-8">
 					<div class="form-group field-separate">
-						<select class="form-select form-select-sm" id="purgeMethod" name="purgeMethod" [(ngModel)]="room.purgeMethod" required #purgeMethodRef="ngModel" [class.is-invalid]="purgeMethodRef.invalid && purgeMethodRef.touched">
+						<select class="form-select form-select-sm" id="purgeType" name="purgeType" [(ngModel)]="room.purgeType" required #purgeTypeRef="ngModel" [class.is-invalid]="purgeTypeRef.invalid && purgeTypeRef.touched">
 						@for (pm of PM; track pm.key) { <option [value]="pm.key">{{ pm.value }}</option> }
 						</select>
 					</div>
 				</div>
 			</div>
 
-			@if (room.purgeMethod === 'MESSAGES_LIMITED') {
+			@if (room.purgeType === 'MESSAGES_LIMITED') {
 			<div class="form-group row field-gap">
 				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Messages limit</span></label>
 				<div class="col-sm-2">
@@ -81,7 +81,7 @@
 				</div>
 				<label class="col-sm-6 col-form-label col-form-label-sm label-nobr"><span i18n>maximum number of lines to keep.<br/>0 for infinite</span></label>
 			</div>
-			} @else if (room.purgeMethod === 'TIME_LIMITED') {
+			} @else if (room.purgeType === 'TIME_LIMITED') {
 			<div class="form-group row field-gap">
 				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Time duration</span></label>
 			 	<div class="col-sm-2">

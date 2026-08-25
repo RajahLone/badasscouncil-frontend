@@ -7,7 +7,7 @@ import { faXmark, faPen } from '@fortawesome/free-solid-svg-icons';
 import { AccountService } from '../../services/account.service';
 
 import { MenuComponent } from '../menu/menu.component';
-import { Room, RoomEnum, RoomState, RoomPurgeMethod } from '../../interfaces/chat';
+import { Room, RoomEnum, RoomState, RoomPurgeType } from '../../interfaces/chat';
 import { ChatService } from '../../services/chat.service';
 
 @Component({ selector: 'app-room-details', imports: [FontAwesomeModule, FormsModule, MenuComponent], templateUrl: './room-details.component.html', changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './room-details.component.css' })
@@ -24,7 +24,7 @@ export class RoomDetailsComponent implements OnInit
 
   room: Room = new Room();
 
-  PM: RoomEnum[] = RoomPurgeMethod;
+  PM: RoomEnum[] = RoomPurgeType;
   ST: RoomEnum[] = RoomState;
 
   constructor(private chatService: ChatService, private accountService: AccountService, private router: Router, private route: ActivatedRoute, private menu: MenuComponent) { }

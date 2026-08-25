@@ -4,8 +4,10 @@ import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faXmark, faPlus } from '@fortawesome/free-solid-svg-icons';
 
+import { AccountService } from '../../services/account.service';
+
 import { MenuComponent } from '../menu/menu.component';
-import { Room, RoomEnum, RoomPurgeMethod } from '../../interfaces/chat';
+import { Room, RoomEnum, RoomPurgeType } from '../../interfaces/chat';
 import { ChatService } from '../../services/chat.service';
 
 @Component({ selector: 'app-room-create', imports: [FontAwesomeModule, FormsModule, MenuComponent], templateUrl: './room-create.component.html', changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './room-create.component.css' })
@@ -18,11 +20,14 @@ export class RoomCreateComponent implements OnInit
 
   room: Room = new Room();
 
-  PM: RoomEnum[] = RoomPurgeMethod;
+  PM: RoomEnum[] = RoomPurgeType;
 
-  constructor(private chatService: ChatService, private router: Router, private menu: MenuComponent) { }
+  constructor(private chatService: ChatService, private accountService: AccountService, private router: Router, private menu: MenuComponent) { }
 
-  ngOnInit() { }
+  ngOnInit()
+  {
+    this.room.ownerId = this.accountService.getUserId();
+  }
 
   private saveRoom() { this.chatService.createRoom(this.room).subscribe(() => { this.goToChat(); }); }
 

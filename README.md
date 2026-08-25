@@ -4,7 +4,7 @@ This web application is study, experiment and homebrew project for an irc-like c
 
 Named after a small and imaginary village located in Lancre kingdom / Ramtops / [Discworld](https://wiki.lspace.org/Main_Page)
 
-Purpose is to have some privacy and continous contact between members that are acquainted to each other In Real Life.
+Purpose is to have some privacy and continous contact between members that are already acquainted to each other In Real Life.
 
 WORK-IN-PROGRESS
 
@@ -91,5 +91,5 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 ### Cleaning jobs
 
 - automatic purge for attachments, manually deleted/disabled or when lifespan is reached.
-- TODO: messages and rooms purge.
+- automatic time/number-limited messages and trashed rooms.
 - TODO: users purge.
