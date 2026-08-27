@@ -47,6 +47,7 @@ WORK-IN-PROGRESS
 | Quota | FILES_PER_MEMBER | maximum file a user can self own |
 | Quota | FILE_SIZE | maximum file size (in MB) |
 | Quota | STORAGE_DEFAULT | -1 : not yet allowed to upload, 0 : follows FILES_PER_MEMBER * FILE_SIZE limit, > 0 : limit in GB  |
+| Users | SLEEPING_STATUS_AFTER | set SLEEPING status after N months of inactivity, 0 to avoid status change |
 
 ### Members / users
 
@@ -81,15 +82,18 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 
 - currently same as an IRC-client, text only. User can send a message line to all or secretly to specific user.
 
-- user can create a room and becomes the owner ie can administrate it (with administrators and regulators).
+- user can create a room and becomes the owner ie can administrate it (with administrators and regulators), mostly by setting informations and messages lines purge.
 
-- TODO: exclusion of specific users (= /ban)
+- TODO: use password for access restriction.
+- TODO: exclusion of specific users (= /ban) or authorized user short list.
 - TODO: /dcc file (attachements managed within the send prompt).
+- TODO: pagination (500 per 500 loading, backlogging).
 - TODO: upload and display (grouped) images.
 - TODO? imitate somme IRC commands.
 
 ### Cleaning jobs
 
-- automatic purge for attachments, manually deleted/disabled or when lifespan is reached.
-- automatic time/number-limited messages and trashed rooms.
-- TODO: users purge.
+- automatic purge for attachments, manually deleted/disabled or when lifespan is reached (at midnight).
+- automatic time/number-limited messages and trashed rooms (every minutes).
+- automatic users purge, for disabled accounts with no remaing messages (at midnight). Owned attachments are set disabled for pending purge.
+- can set SLEEPING status on inactive users, after N months (at midnight).
