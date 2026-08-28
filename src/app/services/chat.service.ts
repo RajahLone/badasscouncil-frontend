@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { Environnement } from '../env';
-import { MessageShort, Room } from '../interfaces/chat';
+import { MessageShort, MessageShortPass, Room } from '../interfaces/chat';
 import { NickName } from '../interfaces/user';
 
 @Injectable({ providedIn: 'root' })
@@ -18,9 +18,14 @@ export class ChatService
 
   getNickNameListOption(): Observable<NickName[]>{ return this.httpClient.get<NickName[]>(`${this.baseURLchat}/nickname-list`); }
 
-  getNew(room: number, last: number): Observable<MessageShort[]> { return this.httpClient.get<MessageShort[]>(`${this.baseURLchat}/new/${room}/${last}`); }
+  getNew(room: number, last: number, pass: string): Observable<MessageShort[]>
+  {
+    let msg = new MessageShortPass(); msg.password = pass;
 
-  addNew(room: number, last: number, msg: MessageShort): Observable<MessageShort[]>{ return this.httpClient.post<MessageShort[]>(`${this.baseURLchat}/add/${room}/${last}`, msg); }
+    return this.httpClient.post<MessageShort[]>(`${this.baseURLchat}/new/${room}/${last}`, msg);
+  }
+
+  addNew(room: number, last: number, msg: MessageShortPass): Observable<MessageShort[]>{ return this.httpClient.post<MessageShort[]>(`${this.baseURLchat}/add/${room}/${last}`, msg); }
 
   getListRoom(): Observable<Room[]> { return this.httpClient.get<Room[]>(`${this.baseURLroom}/list`); }
 

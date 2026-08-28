@@ -8,6 +8,18 @@ export class MessageShort
   destName: string = "";
 }
 
+export class MessageShortPass
+{
+  createdOn: string = "";
+  messageId: number = 0;
+  nickName: string = "";
+  content: string = "";
+  destId: number = 0;
+  destName: string = "";
+  password: string = "";
+}
+
+
 export class RoomEnum { key!: string; value!: string; }
 
 export const RoomState: RoomEnum[] =
@@ -38,4 +50,11 @@ export class Room
   purgeType: string = "NEVER";
   messagesLimit: number = 1000;
   timeDuration: number = 4321;
+}
+
+export class RoomPassword
+{
+  roomId: number = 0;
+  password: string = "";
+  granted: boolean = false;
 }

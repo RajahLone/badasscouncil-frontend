@@ -1,12 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, TemplateRef, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { timer } from 'rxjs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faComment, faPlus, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { MenuComponent } from '../menu/menu.component';
-import { MessageShort, Room } from '../../interfaces/chat';
+import { MessageShort, MessageShortPass, Room, RoomPassword } from '../../interfaces/chat';
 import { NickName } from '../../interfaces/user';
 import { ChatService } from '../../services/chat.service';
 import { AccountService } from '../../services/account.service'
@@ -17,10 +18,16 @@ export class ChatComponent implements OnInit
 {
   faComment = faComment; faPlus = faPlus; faCircleInfo = faCircleInfo;
 
+  modalRoomPassword?: BsModalRef;
+
   logged: boolean = false;
   disabled: boolean = false;
+  first: boolean = true;
 
   rooms: Room[] = [];
+  passwords: RoomPassword[] = [];
+  promptOpened: boolean = false;
+  roomPasswordValue: string = "";
 
   currentRoomId: number = 0;
   currentTopic: string = "no room yet selected";
@@ -28,14 +35,15 @@ export class ChatComponent implements OnInit
 
   messages: MessageShort[] = [];
 
-  newMessage: MessageShort = new MessageShort();
+  newMessage: MessageShortPass = new MessageShortPass();
 
   nicknames: NickName[] = [];
 
   constructor(
     private chatService: ChatService,
     private accountService: AccountService,
-    private router: Router
+    private router: Router,
+    private modalService: BsModalService
   ) { }
 
   ngOnInit()
@@ -65,6 +73,23 @@ export class ChatComponent implements OnInit
         if (this.rooms == null) { this.currentRoomId = 0; this.currentTopic = ""; }
         if (this.currentRoomId < 1) { if (this.rooms.length > 0) { this.currentRoomId = this.rooms[0].roomId; } }
 
+        if (this.first)
+        {
+          for (let r of this.rooms) { this.passwords.push({roomId: r.roomId, password: '', granted: false}); }
+          this.first = false;
+        }
+        else
+        {
+          for (let p of this.passwords)
+          {
+            let exists: boolean = false;
+
+            for (let r of this.rooms) { if (p.roomId === r.roomId) { exists = true; } }
+
+            if (!exists) { this.passwords.push({roomId: p.roomId, password: '', granted: false}); }
+          }
+        }
+
         this.retreiveLastMessages();
       });
     }
@@ -73,17 +98,49 @@ export class ChatComponent implements OnInit
   goToNewRoom() { this.router.navigate(['/room-create']); }
   goToRoomDetails(id: number) { this.router.navigate(['/room-details', id]); }
 
-  openRoom(id: number) { this.currentRoomId = id; this.messages = []; if (id > 0) { this.retreiveLastMessages(); } }
+  openRoom(id: number)
+  {
+    this.lastMessageId = 0;
+    this.currentRoomId = id;
+    this.messages = [];
+    if (id > 0) { this.retreiveLastMessages(); }
+  }
+
+  openPasswordPrompt(template: TemplateRef<void>, id: number)
+  {
+    this.lastMessageId = 0;
+    this.currentRoomId = id;
+    this.messages = [];
+    if (id > 0)
+    {
+      for (let p of this.passwords) { if (this.currentRoomId == p.roomId) { this.roomPasswordValue = p.password; } }
+
+      this.modalRoomPassword = this.modalService.show(template);
+      this.modalService.onHide.subscribe(() => { this.promptOpened = false; });
+      this.promptOpened = true;
+    }
+  }
+  declinePassword() { this.modalRoomPassword?.hide(); this.promptOpened = false; }
+  confirmPassword()
+  {
+    for (let p of this.passwords) { if (this.currentRoomId == p.roomId) { p.password = this.roomPasswordValue; } }
+    this.modalRoomPassword?.hide();
+    this.promptOpened = false;
+    this.retreiveLastMessages();
+  }
 
   retreiveLastMessages()
   {
+    if (this.promptOpened) { return; }
     if ((this.router.url !== '/chat')) { return; }
 
     this.logged = this.accountService.isLogged();
 
     if ((this.logged) && (this.disabled == false) && (this.currentRoomId > 0))
     {
-      this.chatService.getNew(this.currentRoomId, this.lastMessageId).subscribe(data => { if (data) { this.messages = [...this.messages, ...data]; } this.setLastId(); });
+      let pass:string = ""; for (let p of this.passwords) { if (this.currentRoomId == p.roomId) { pass = p.password; } }
+
+      this.chatService.getNew(this.currentRoomId, this.lastMessageId, pass).subscribe(data => { if (data) { this.messages = [...this.messages, ...data]; } this.setLastId(); });
 
       for (var i in this.rooms) { if (this.currentRoomId == this.rooms[i].roomId) { this.currentTopic = this.rooms[i].topic; } }
     }
@@ -106,11 +163,16 @@ export class ChatComponent implements OnInit
   {
     if (this.logged)
     {
+      let pass:string = ""; for (let p of this.passwords) { if (this.currentRoomId == p.roomId) { pass = p.password; } }
+
       this.disabled = true;
+      this.newMessage.password = pass;
+
       this.chatService.addNew(this.currentRoomId, this.lastMessageId, this.newMessage).subscribe(data => {
         this.messages = [...this.messages, ...data];
-        this.newMessage = new MessageShort();
+        this.newMessage = new MessageShortPass();
         this.newMessage.nickName = this.accountService.getLoginName();
+        this.newMessage.password = pass;
         this.setLastId();
         this.disabled = false;
         });
