@@ -97,3 +97,7 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 - automatic time/number-limited messages and trashed rooms (every minutes).
 - automatic users purge, for disabled accounts with no remaing messages (at midnight). Owned attachments are set disabled for pending purge.
 - can set SLEEPING status on inactive users, after N months (at midnight).
+
+### Miscellaneous
+
+- TODO: app look'n'feel via CSS (skins or day/night swap?).
