@@ -12,18 +12,32 @@ WORK-IN-PROGRESS
 
 ### Install backend
 
-- using Spring Boot framework, since (openJDK)Java 17.
-- get the this part from the public repository, customize `application.properties` and generate .jar archive with `./gradlew build`.
-- install it in your server. On debian setup: apt install java/openjdk, edit deploy/badasscouncil.service with correct paths and name, and put it into /etc/systemd/system/.
+- database is hosted in postgresql instance and manually created, use .sql scripts from the schema part. Several databases instances is not yet studied.
 
-- database is hosted in postgresql instance and manually created, use .sql scripts from the schema part.
+- using Spring Boot framework, since (openJDK)Java 17.
+
+- get the this part from the public repository, customize `application.properties`: for securiy reasons, you may change:
+
+| Values of | Comments |
+| ----------- | ----------- |
+| password.salt | to have specific password hashes in your database |
+| jwttoken.secret | to have specific JWT tokens, used to keep user session after authentification |
+| server.ssl.key-* | SSL/TLS certificate store for the frontend to connect to the backend API |
+| spring.datasource.* | at the least the password |
+| server.servlet.context-path | you may change this to `/<yourowninstancename>-api/v1` to order to avoid scrappers and bot-attacks |
+| logging.level.org.springframework | INFO may be not necessary, WARN is advised |
+| cors.allow.origin | to lock on frontend's location |
+
+- generate .jar archive with `./gradlew build`.
+- install it in your server. On debian setup: apt install java/openjdk, edit deploy/badasscouncil.service with correct paths and name, and put it into /etc/systemd/system/.
 
 - files are stored in ../uploads/* with UUID names. Uploads happen in ../uploads-temp/(fileId)-filename/*
 
 ### Install frontend
 
 - written with Angular, since v22.
-- get the this part from the public repository, customize `src/app/env.ts` and `src/assets/*` and generate html files `ng build`.
+- get the this part from the public repository, you may customize `src/app/env.ts` (same as backend's `server.servlet.context-path`) and `src/assets/*`
+- generate html files `ng build`.
 - install the built files from dist/badasscouncil-frontend/browser/* in your webserver. Use deploy/subfolder/.htaccess besides main-*.js and index.html to fix paths.
 
 ## Usage
