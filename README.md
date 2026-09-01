@@ -16,7 +16,7 @@ WORK-IN-PROGRESS
 
 - using Spring Boot framework, since (openJDK)Java 17.
 
-- get the this part from the public repository, customize `application.properties`: for securiy reasons, you may change:
+- get the this part from the public repository, customize `application.properties`. For securiy reasons, you may change:
 
 | Values of | Comments |
 | ----------- | ----------- |
@@ -24,21 +24,15 @@ WORK-IN-PROGRESS
 | jwttoken.secret | to have specific JWT tokens, used to keep user session after authentification |
 | server.ssl.key-* | SSL/TLS certificate store for the frontend to connect to the backend API |
 | spring.datasource.* | at the least the password |
+| cors.allow.origin | to lock on frontend's location |
 | server.servlet.context-path | you may change this to `/<yourowninstancename>-api/v1` to order to avoid scrappers and bot-attacks |
 | logging.level.org.springframework | INFO may be not necessary, WARN is advised |
-| cors.allow.origin | to lock on frontend's location |
 
 - generate .jar archive with `./gradlew build`.
 
-- install it in your server. On debian setup: apt install java/openjdk, edit deploy/badasscouncil.service with correct paths in `ExecStart` and `WorkingDirectory`, and put it into /etc/systemd/system/.
-- `WorkingDirectory` will contain the src/main/ressources/:
+- install it in your server. On debian setup: `apt install openjdk`, edit `deploy/badasscouncil.service` with correct paths in `ExecStart` and `WorkingDirectory`, and put it into `/etc/systemd/system/.
 
-| Files | Comments |
-| ----------- | ----------- |
-| application.properties |  |
-| .p12 | certificates stores |
-| * | others assets outside the .war |
-| ./logs/* |  |
+- `WorkingDirectory` will contain the src/main/ressources/: `application.properties`, `logs` subfolder, `*.p12` (certificates store) and others assets outside the .war file.
 
 - You may use a static link to fix versions updates/changes in the .war filename, such as `unlink /<pathto>/badasscouncil-backend.war && ln -s /<pathto>/badasscouncil-backend-0.1.0.war /<pathto>/badasscouncil-backend.war`.
 
