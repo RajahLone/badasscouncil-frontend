@@ -29,7 +29,17 @@ WORK-IN-PROGRESS
 | cors.allow.origin | to lock on frontend's location |
 
 - generate .jar archive with `./gradlew build`.
-- install it in your server. On debian setup: apt install java/openjdk, edit deploy/badasscouncil.service with correct paths and name, and put it into /etc/systemd/system/.
+
+- install it in your server. On debian setup: apt install java/openjdk, edit deploy/badasscouncil.service with correct paths in `ExecStart` and `WorkingDirectory`, and put it into /etc/systemd/system/.
+- `WorkingDirectory` will contain the src/main/ressources/:
+
+| Files | Comments |
+| application.properties |  |
+| .p12 | certificates stores |
+| * | others assets outside the .war |
+| ./logs/* |  |
+
+- You may use a static link to fix versions updates/changes in the .war filename, such as `unlink /<pathto>/badasscouncil-backend.war && ln -s /<pathto>/badasscouncil-backend-0.1.0.war /<pathto>/badasscouncil-backend.war`.
 
 - files are stored in ../uploads/* with UUID names. Uploads happen in ../uploads-temp/(fileId)-filename/*
 
