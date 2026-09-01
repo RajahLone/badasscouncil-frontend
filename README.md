@@ -34,6 +34,7 @@ WORK-IN-PROGRESS
 - `WorkingDirectory` will contain the src/main/ressources/:
 
 | Files | Comments |
+| ----------- | ----------- |
 | application.properties |  |
 | .p12 | certificates stores |
 | * | others assets outside the .war |
