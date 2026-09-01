@@ -7,6 +7,7 @@ import { faXmark, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { AccountService } from '../../services/account.service';
 
 import { MenuComponent } from '../menu/menu.component';
+import { NickName } from '../../interfaces/user';
 import { Room, RoomEnum, RoomPurgeType } from '../../interfaces/chat';
 import { ChatService } from '../../services/chat.service';
 
@@ -22,12 +23,19 @@ export class RoomCreateComponent implements OnInit
 
   PM: RoomEnum[] = RoomPurgeType;
 
+  usersAll: NickName[] = [];
+  usersAllowed: NickName[] = [];
+  usersDisallowed: NickName[] = [];
+
   constructor(private chatService: ChatService, private accountService: AccountService, private router: Router, private menu: MenuComponent) { }
 
   ngOnInit()
   {
     this.room.ownerId = this.accountService.getUserId();
+
+    this.retreiveUsersAll();
   }
+  private retreiveUsersAll() { this.chatService.getUsersAll().subscribe(data => { this.usersAll = data; }); }
 
   private saveRoom() { this.chatService.createRoom(this.room).subscribe(() => { this.goToChat(); }); }
 

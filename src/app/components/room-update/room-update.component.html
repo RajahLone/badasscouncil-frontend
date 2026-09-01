@@ -6,7 +6,7 @@
 		<div class="card-header shadow-sm">
 			<button type="button" (click)="goToChat()" class="btn bg-gradient btn-primary btn-sm"><fa-icon [icon]="faXmark"></fa-icon>&nbsp;<span i18n>Back</span></button>
 		</div>
-		<div class="card-body">
+		<div class="card-body form-scrollable">
 
 			<div class="form-group row">
 				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Created on</span></label>
@@ -29,6 +29,20 @@
 				</div>
 			</div>
 
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Topic</span></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control form-control-sm field-separate" id="topic" name="topic" [(ngModel)]="room.topic">
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Notes</span></label>
+				<div class="col-sm-8">
+					<textarea rows="4" class="form-control form-control-sm field-separate" id="notes" name="notes" [(ngModel)]="room.notes"></textarea>
+				</div>
+			</div>
+
 			<div class="form-group row field-gap">
 				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>State</span></label>
 				<div class="col-sm-8">
@@ -43,24 +57,51 @@
 			<div class="form-group row field-gap">
 				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Optional password</span></label>
 				<div class="col-sm-8">
-					<input type="password" class="form-control form-control-sm field-separate" id="roomPassword" name="roomPassword" [(ngModel)]="room.password">
+					<input type="password" autocomplete="new-password" class="form-control form-control-sm field-separate" id="roomPassword" name="roomPassword" [(ngModel)]="room.password">
 					<div class="form-text field-separate"><span i18n>Indicate a new passphrase to restrict access.<br/>Or leave this field empty if you don't want any change.<br/>Or write <i>BLANK</i> if you want to unset it ie cancel restricted access.</span></div>
 				</div>
 			</div>
 
 			<div class="form-group row field-gap">
-				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Topic</span></label>
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Allowing users</span></label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control form-control-sm field-separate" id="topic" name="topic" [(ngModel)]="room.topic">
+					<div class="form-group field-separate">
+						<select class="form-select form-select-sm" id="listedUsersType" name="listedUsersType" [(ngModel)]="room.listedUsersType">
+							<option value="0" selected>All</option>
+							<option value="1" selected>Only those selected in the list below</option>
+							<option value="2" selected>All except those selected in the list below</option>
+				 		</select>
+					</div>
 				</div>
 			</div>
-
+			@if (room.listedUsersType == 1) {
 			<div class="form-group row">
-				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Notes</span></label>
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Allowed users</span></label>
 				<div class="col-sm-8">
-					<textarea rows="4" class="form-control form-control-sm field-separate" id="notes" name="notes" [(ngModel)]="room.notes"></textarea>
+					<div class="form-group field-separate">
+						<select class="form-select form-select-sm" size="10" multiple>
+							@for (p of usersAll; track p.userId) {
+							<option [value]="p.userId">TODO: {{ p.nickName }} @if (p.groupName.length > 0) { / {{ p.groupName }} }</option>
+							}
+						</select>
+					</div>
 				</div>
 			</div>
+			}
+			@else if (room.listedUsersType == 2) {
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Disallowed users</span></label>
+				<div class="col-sm-8">
+					<div class="form-group field-separate">
+						<select class="form-select form-select-sm" size="10" multiple>
+							@for (p of usersAll; track p.userId) {
+							<option [value]="p.userId">TODO: {{ p.nickName }} @if (p.groupName.length > 0) { / {{ p.groupName }} }</option>
+							}
+						</select>
+					</div>
+				</div>
+			</div>
+			}
 
 			<div class="form-group row field-gap">
 				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Purge method</span></label>

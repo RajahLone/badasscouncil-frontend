@@ -110,6 +110,7 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 - TODO: exclusion of specific users (= /ban) or authorized user short list.
 - TODO: /dcc file (attachements managed within the send prompt).
 - TODO: pagination (500 per 500 loading, backlogging).
+- TODO: UTF-8 smileys selector.
 - TODO: upload and display (grouped) images.
 - TODO? imitate somme IRC commands.
 

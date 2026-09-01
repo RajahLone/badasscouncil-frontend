@@ -37,4 +37,8 @@ export class ChatService
 
   deleteRoom(id: number): Observable<Object>{ return this.httpClient.delete(`${this.baseURLroom}/delete/${id}`); }
 
+  getUsersAll(): Observable<NickName[]>{ return this.httpClient.get<NickName[]>(`${this.baseURLroom}/users-list`); }
+  getUsersAllowed(id: number): Observable<NickName[]>{ return this.httpClient.get<NickName[]>(`${this.baseURLroom}/allowed-list/${id}`); }
+  getUsersDisallowed(id: number): Observable<NickName[]>{ return this.httpClient.get<NickName[]>(`${this.baseURLroom}/disallowed-list/${id}`); }
+
 }

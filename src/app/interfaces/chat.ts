@@ -50,6 +50,7 @@ export class Room
   purgeType: string = "NEVER";
   messagesLimit: number = 1000;
   timeDuration: number = 4321;
+  listedUsersType: number = 0;
 }
 
 export class RoomPassword

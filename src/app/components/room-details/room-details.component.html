@@ -5,7 +5,7 @@
 	<div class="card-header shadow-sm">
     <button type="button" (click)="goToChat()" class="btn bg-gradient btn-primary btn-sm"><fa-icon [icon]="faXmark"></fa-icon>&nbsp;<span i18n>Back</span></button>
 	</div>
-	<div class="card-body">
+	<div class="card-body form-scrollable">
 
 		<div class="form-group row">
       <label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Created on</span></label>
@@ -28,19 +28,8 @@
       </div>
     </div>
 
-		<div class="form-group row">
-      <label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>State</span></label>
-			<div class="col-sm-8">
-		  	<div class="form-group field-separate">
-          <select class="form-select form-select-sm" id="state" name="state" [(ngModel)]="room.state" disabled>
-          @for (st of ST; track st.key) { <option [value]="st.key">{{ st.value }}</option> }
-					</select>
-				</div>
-			</div>
-		</div>
-
     @if (room.topic.length > 0) {
-		<div class="form-group row field-gap">
+		<div class="form-group row">
 			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Topic</span></label>
 			<div class="col-sm-8">
         <input type="text" class="form-control form-control-sm field-separate" id="topic" name="topic" [(ngModel)]="room.topic" disabled>
@@ -52,16 +41,68 @@
       <label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Notes</span></label>
 			<div class="col-sm-8">
         <textarea rows="4" class="form-control form-control-sm field-separate" id="notes" name="notes" [(ngModel)]="room.notes" disabled></textarea>
-			</div>
+  		</div>
 		</div>
     }
+
+		<div class="form-group row field-gap">
+      <label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>State</span></label>
+			<div class="col-sm-8">
+		  	<div class="form-group field-separate">
+          <select class="form-select form-select-sm" id="state" name="state" [(ngModel)]="room.state" disabled>
+          @for (st of ST; track st.key) { <option [value]="st.key">{{ st.value }}</option> }
+					</select>
+				</div>
+			</div>
+		</div>
+
+    <div class="form-group row field-gap">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Allowing users</span></label>
+				<div class="col-sm-8">
+					<div class="form-group field-separate">
+						<select class="form-select form-select-sm" id="listedUsersType" name="listedUsersType" [(ngModel)]="room.listedUsersType" disabled>
+							<option value="0" selected>All</option>
+							<option value="1" selected>Only those selected in the list below</option>
+							<option value="2" selected>All except those selected in the list below</option>
+		  			</select>
+				 </div>
+		  </div>
+		</div>
+		@if (room.listedUsersType == 1) {
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Allowed users</span></label>
+			<div class="col-sm-8">
+				<div class="form-group field-separate">
+          <select class="form-select form-select-sm" size="10" multiple disabled #listAllowed>
+            @for (p of usersAllowed; track p.userId) {
+						<option [value]="p.userId">{{ p.nickName }} @if (p.groupName.length > 0) { / {{ p.groupName }} }</option>
+						}
+					</select>
+				</div>
+			</div>
+		</div>
+		}
+    @else if (room.listedUsersType == 2) {
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Disallowed users</span></label>
+			<div class="col-sm-8">
+				<div class="form-group field-separate">
+          <select class="form-select form-select-sm" size="10" multiple disabled #listDisallowed>
+            @for (p of usersDisallowed; track p.userId) {
+						<option [value]="p.userId">{{ p.nickName }} @if (p.groupName.length > 0) { / {{ p.groupName }} }</option>
+						}
+					</select>
+				</div>
+			</div>
+		</div>
+		}
 
 		<div class="form-group row field-gap">
 			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Purge method</span></label>
 			<div class="col-sm-8">
 		  	<div class="form-group field-separate">
 					<select class="form-select form-select-sm" id="purgeType" name="purgeType" [(ngModel)]="room.purgeType" disabled>
-					@for (pm of PM; track pm.key) { <option [value]="pm.key">{{ pm.value }}</option> }
+  					@for (pm of PM; track pm.key) { <option [value]="pm.key">{{ pm.value }}</option> }
 					</select>
 				</div>
 			</div>
@@ -71,7 +112,7 @@
 		<div class="form-group row field-gap">
 			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Messages limit</span></label>
 			<div class="col-sm-2">
-  			<input type="number" min="0" max="1000" class="form-control form-control-sm field-separate" id="messagesLimit" name="messagesLimit" [(ngModel)]="room.messagesLimit">
+  			<input type="number" min="0" max="1000" class="form-control form-control-sm field-separate" id="messagesLimit" name="messagesLimit" [(ngModel)]="room.messagesLimit" disabled>
   		</div>
   		<label class="col-sm-6 col-form-label col-form-label-sm label-nobr"><span i18n>maximum number of lines to keep.<br/>0 for infinite</span></label>
   	</div>
@@ -79,7 +120,7 @@
   	<div class="form-group row field-gap">
   		<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Time duration</span></label>
   	 	<div class="col-sm-2">
-  			<input type="number" min="0" max="4321" class="form-control form-control-sm field-separate" id="timeDuration" name="timeDuration" [(ngModel)]="room.timeDuration">
+  			<input type="number" min="0" max="4321" class="form-control form-control-sm field-separate" id="timeDuration" name="timeDuration" [(ngModel)]="room.timeDuration" disabled>
   		</div>
   		<label class="col-sm-6 col-form-label col-form-label-sm label-nobr"><span i18n>minutes lifespan before delete.<br/>0 for infinite</span></label>
   	</div>

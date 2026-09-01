@@ -7,6 +7,7 @@ import { faXmark, faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { AccountService } from '../../services/account.service';
 
 import { MenuComponent } from '../menu/menu.component';
+import { NickName } from '../../interfaces/user';
 import { Room, RoomEnum, RoomState, RoomPurgeType } from '../../interfaces/chat';
 import { ChatService } from '../../services/chat.service';
 
@@ -29,6 +30,10 @@ export class RoomUpdateComponent implements OnInit
   PM: RoomEnum[] = RoomPurgeType;
   ST: RoomEnum[] = RoomState;
 
+  usersAll: NickName[] = [];
+  usersAllowed: NickName[] = [];
+  usersDisallowed: NickName[] = [];
+
   constructor(private chatService: ChatService, private accountService: AccountService, private route: ActivatedRoute, private router: Router, private menu: MenuComponent) { }
 
   ngOnInit(): void
@@ -40,7 +45,15 @@ export class RoomUpdateComponent implements OnInit
     this.roomId = this.route.snapshot.params['room-id'];
 
     this.chatService.getRoomById(this.roomId).subscribe(data => { this.room = data; });
+
+    this.retreiveUsersAll();
+    this.retreiveUsersAllowed();
+    this.retreiveUsersDisallowed();
   }
+
+  private retreiveUsersAll() { this.chatService.getUsersAll().subscribe(data => { this.usersAll = data; }); }
+  private retreiveUsersAllowed() { this.chatService.getUsersAllowed(this.roomId).subscribe(data => { this.usersAllowed = data; }); }
+  private retreiveUsersDisallowed() { this.chatService.getUsersDisallowed(this.roomId).subscribe(data => { this.usersDisallowed = data; }); }
 
   hasRight(): boolean { if ((this.role === 'ADMIN') || (this.role === 'REGUL') || (this.userId == this.room.ownerId)) { return true; } return false; }
 
