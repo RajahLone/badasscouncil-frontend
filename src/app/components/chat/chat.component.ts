@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { timer } from 'rxjs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faComment, faPlus, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faComment, faPlus, faCircleInfo, faLock } from '@fortawesome/free-solid-svg-icons';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { MenuComponent } from '../menu/menu.component';
@@ -16,11 +16,14 @@ import { AccountService } from '../../services/account.service'
 
 export class ChatComponent implements OnInit
 {
-  faComment = faComment; faPlus = faPlus; faCircleInfo = faCircleInfo;
+  faComment = faComment; faPlus = faPlus; faCircleInfo = faCircleInfo; faLock = faLock;
 
   modalRoomPassword?: BsModalRef;
 
   logged: boolean = false;
+  role: string = "";
+  userId: number = 0;
+
   disabled: boolean = false;
   first: boolean = true;
 
@@ -49,6 +52,8 @@ export class ChatComponent implements OnInit
   ngOnInit()
   {
     this.logged = this.accountService.isLogged();
+    this.role = this.accountService.getRole();
+    this.userId = this.accountService.getUserId();
 
     if (this.logged)
     {
@@ -97,6 +102,7 @@ export class ChatComponent implements OnInit
 
   goToNewRoom() { this.router.navigate(['/room-create']); }
   goToRoomDetails(id: number) { this.router.navigate(['/room-details', id]); }
+  stay() {}
 
   openRoom(id: number)
   {

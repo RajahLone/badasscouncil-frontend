@@ -101,9 +101,12 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 
 - currently same as an IRC-client, text only. User can send a message line to all or secretly to specific user.
 
-- user can create a room and becomes the owner ie can administrate it (with administrators and regulators), mostly by setting informations and messages lines purge. A password can be set to restrict access of a room.
+- user can create a room and becomes the owner ie can administrate it (with administrators and regulators), mostly by setting informations and messages lines purge.
 
-- TODO: LOCKED state room.
+- a room can have its access restricted by:
+ - password: all must indicate it.
+ - LOCKED state: access is granted only for its owner and administrators and regulators.
+
 - TODO: exclusion of specific users (= /ban) or authorized user short list.
 - TODO: /dcc file (attachements managed within the send prompt).
 - TODO: pagination (500 per 500 loading, backlogging).

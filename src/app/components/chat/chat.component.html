@@ -10,7 +10,7 @@
   			   <tbody>
              @for (room of rooms; track room.roomId) {
              <tr>
-               @if (room.password === 'needed') {
+               @if ((room.state === 'ACTIVE') || ((this.role === "ADMIN") || (this.role === "REGUL") || (this.userId == room.ownerId))) { @if (room.password === 'needed') {
                <td (click)="openPasswordPrompt(modalRoomPassword, room.roomId)" class="label-nobr pointeur-souris text-decoration-none d-flex justify-content-between" [class.table-warning]="currentRoomId == room.roomId">
                  <span class="align-text-bottom">{{ room.name }}&nbsp;</span>
                  <button type="button" (click)="goToRoomDetails(room.roomId)" class="btn bg-gradient btn-primary btn-sm field-separate" style="margin:0;"><fa-icon [icon]="faCircleInfo"></fa-icon></button>
@@ -20,6 +20,12 @@
                <td (click)="openRoom(room.roomId)" class="label-nobr pointeur-souris text-decoration-none d-flex justify-content-between" [class.table-primary]="currentRoomId == room.roomId">
                  <span class="align-text-bottom">{{ room.name }}&nbsp;</span>
                  <button type="button" (click)="goToRoomDetails(room.roomId)" class="btn bg-gradient btn-primary btn-sm field-separate" style="margin:0;"><fa-icon [icon]="faCircleInfo"></fa-icon></button>
+               </td>
+               } }
+               @else {
+               <td (click)="stay()" class="label-nobr pointeur-souris text-decoration-none d-flex justify-content-between" [class.table-secondary]="currentRoomId == room.roomId">
+                 <span class="align-text-bottom text-secondary">{{ room.name }}&nbsp;</span>
+                 <button type="button" (click)="stay()" class="btn bg-gradient btn-secondary btn-sm field-separate" style="margin:0;"><fa-icon [icon]="faLock"></fa-icon></button>
                </td>
                }
              </tr>
