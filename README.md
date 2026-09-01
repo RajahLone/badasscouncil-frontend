@@ -104,8 +104,8 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 - user can create a room and becomes the owner ie can administrate it (with administrators and regulators), mostly by setting informations and messages lines purge.
 
 - a room can have its access restricted by:
- - password: all must indicate it.
- - LOCKED state: access is granted only for its owner and administrators and regulators.
+   - password: all must indicate it.
+   - LOCKED state: access is granted only for its owner and administrators and regulators.
 
 - TODO: exclusion of specific users (= /ban) or authorized user short list.
 - TODO: /dcc file (attachements managed within the send prompt).
