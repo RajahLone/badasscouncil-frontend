@@ -12,7 +12,7 @@ WORK-IN-PROGRESS
 
 ### Install backend
 
-- database is hosted in postgresql instance and manually created, use .sql scripts from the schema part. Several databases instances is not yet studied.
+- database is hosted in postgresql instance and manually created, use .sql scripts from the schema part. Several databases instances with customized dbname is not yet studied.
 
 - using Spring Boot framework, since (openJDK)Java 17.
 
@@ -106,13 +106,14 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 - a room can have its access restricted by:
    - password: all users must indicate it.
    - LOCKED state: access is granted only for its owner and administrators and regulators.
+   - allowed or disallowed users list (set this at room edit/update, not (yet?) possible at room creation). Administrator and room's owner are not affected by these lists and will still have access. Regulators can be affected.
 
-- TODO: exclusion of specific users (= /ban) or authorized user short list.
-- TODO: /dcc file (attachements managed within the send prompt).
+- TODO: TEST allowed or disallowed users in rooms.
 - TODO: pagination (500 per 500 loading, backlogging).
+- TODO: /dcc file (attachements managed within the send prompt).
 - TODO: UTF-8 smileys selector.
 - TODO: upload and display (grouped) images.
-- TODO? imitate somme IRC commands.
+- TODO? imitate some IRC commands.
 
 ### Cleaning jobs
 
