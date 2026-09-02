@@ -73,7 +73,7 @@
 			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Allowed users</span></label>
 			<div class="col-sm-8">
 				<div class="form-group field-separate">
-          <select class="form-select form-select-sm" size="10" multiple disabled #listAllowed>
+          <select class="form-select form-select-sm bg-success-subtle" size="10" multiple disabled>
             @for (p of usersAllowed; track p.userId) {
 						<option [value]="p.userId">{{ p.nickName }} @if (p.groupName.length > 0) { / {{ p.groupName }} }</option>
 						}
@@ -87,7 +87,7 @@
 			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Disallowed users</span></label>
 			<div class="col-sm-8">
 				<div class="form-group field-separate">
-          <select class="form-select form-select-sm" size="10" multiple disabled #listDisallowed>
+          <select class="form-select form-select-sm bg-danger-subtle" size="10" multiple disabled>
             @for (p of usersDisallowed; track p.userId) {
 						<option [value]="p.userId">{{ p.nickName }} @if (p.groupName.length > 0) { / {{ p.groupName }} }</option>
 						}

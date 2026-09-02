@@ -20,6 +20,8 @@ export class ChatComponent implements OnInit
 
   modalRoomPassword?: BsModalRef;
 
+  @ViewChild('modalInputPassword') modalInputPassword!: ElementRef;
+
   logged: boolean = false;
   role: string = "";
   userId: number = 0;
@@ -124,6 +126,7 @@ export class ChatComponent implements OnInit
       this.modalRoomPassword = this.modalService.show(template);
       this.modalService.onHide.subscribe(() => { this.promptOpened = false; });
       this.promptOpened = true;
+      setTimeout(() => { let prompt = document.getElementById('modalInputPassword'); if (prompt) { prompt.focus(); } }, 300);
     }
   }
   declinePassword() { this.modalRoomPassword?.hide(); this.promptOpened = false; }

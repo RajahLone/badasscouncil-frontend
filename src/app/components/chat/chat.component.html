@@ -86,16 +86,16 @@
 </div>
 
 <ng-template class="modal fade" id="modalRoomPassword" #modalRoomPassword>
-  <div class="modal-header"><span i18n>This room has access restricted by password.</span></div>
-  <div class="modal-body">
-    <form>
+  <form>
+    <div class="modal-header"><span i18n>This room has access restricted by password.</span></div>
+    <div class="modal-body">
       <div class="form-group">
-        &nbsp;<input type="password" autocomplete="new-password" class="form-control" id="roomPasswordValue" name="roomPasswordValue" [(ngModel)]="roomPasswordValue">&nbsp;
+        &nbsp;<input type="password" autocomplete="new-password" autofocus="" class="form-control" #modalInputPassword id="modalInputPassword" name="roomPasswordValue" [(ngModel)]="roomPasswordValue">&nbsp;
       </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn bg-gradient btn-secondary btn-sm" (click)="declinePassword()"><span i18n>Cancel</span></button>
-    <button type="button" class="btn bg-gradient btn-warning btn-sm" (click)="confirmPassword()"><span i18n>Try</span></button>
-	</div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn bg-gradient btn-secondary btn-sm" (click)="declinePassword()"><span i18n>Cancel</span></button>
+      <button type="submit" class="btn bg-gradient btn-warning btn-sm" (click)="confirmPassword()"><span i18n>Try</span></button>
+	  </div>
+  </form>
 </ng-template>

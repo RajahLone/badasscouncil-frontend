@@ -34,6 +34,9 @@ export class RoomUpdateComponent implements OnInit
   usersAllowed: NickName[] = [];
   usersDisallowed: NickName[] = [];
 
+  listedAllowedUsers: number[] = [];
+  listedDisallowedUsers: number[] = [];
+
   constructor(private chatService: ChatService, private accountService: AccountService, private route: ActivatedRoute, private router: Router, private menu: MenuComponent) { }
 
   ngOnInit(): void
@@ -52,12 +55,50 @@ export class RoomUpdateComponent implements OnInit
   }
 
   private retreiveUsersAll() { this.chatService.getUsersAll().subscribe(data => { this.usersAll = data; }); }
-  private retreiveUsersAllowed() { this.chatService.getUsersAllowed(this.roomId).subscribe(data => { this.usersAllowed = data; }); }
-  private retreiveUsersDisallowed() { this.chatService.getUsersDisallowed(this.roomId).subscribe(data => { this.usersDisallowed = data; }); }
+  private retreiveUsersAllowed()
+  {
+    this.chatService.getUsersAllowed(this.roomId).subscribe(data =>
+    {
+      this.usersAllowed = data;
+
+      this.listedAllowedUsers = [];
+      for (let u of this.usersAllowed) { this.listedAllowedUsers.push(u.userId); }
+    });
+  }
+  private retreiveUsersDisallowed()
+  {
+    this.chatService.getUsersDisallowed(this.roomId).subscribe(data =>
+    {
+      this.usersDisallowed = data;
+
+      this.listedDisallowedUsers = [];
+      for (let u of this.usersDisallowed) { this.listedDisallowedUsers.push(u.userId); }
+    });
+  }
 
   hasRight(): boolean { if ((this.role === 'ADMIN') || (this.role === 'REGUL') || (this.userId == this.room.ownerId)) { return true; } return false; }
 
-  updateConfirmed() { if (this.roomForm.valid && this.hasRight()) { this.chatService.updateRoom(this.roomId, this.room).subscribe(() => { this.goToChat(); }); } }
+  updateConfirmed()
+  {
+    if (this.roomForm.valid && this.hasRight())
+    {
+      this.chatService.updateRoom(this.roomId, this.room).subscribe(() =>
+      {
+        if (this.room.listedUsersType == 1)
+        {
+          this.chatService.setAllowedUsers(this.roomId, this.listedAllowedUsers).subscribe(() => { this.goToChat(); });
+        }
+        else if (this.room.listedUsersType == 2)
+        {
+          this.chatService.setDisallowedUsers(this.roomId, this.listedDisallowedUsers).subscribe(() => { this.goToChat(); });
+        }
+        else
+        {
+          this.goToChat();
+        }
+      });
+    }
+  }
 
   deleteConfirmed() { if (this.hasRight()) { this.chatService.deleteRoom(this.roomId).subscribe(() => { this.goToChat(); }); } }
 

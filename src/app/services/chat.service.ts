@@ -41,4 +41,7 @@ export class ChatService
   getUsersAllowed(id: number): Observable<NickName[]>{ return this.httpClient.get<NickName[]>(`${this.baseURLroom}/allowed-list/${id}`); }
   getUsersDisallowed(id: number): Observable<NickName[]>{ return this.httpClient.get<NickName[]>(`${this.baseURLroom}/disallowed-list/${id}`); }
 
+  setAllowedUsers(id: number, ids: number[]): Observable<Object>{ return this.httpClient.put(`${this.baseURLroom}/set-allowed/${id}`, ids); }
+  setDisallowedUsers(id: number, ids: number[]): Observable<Object>{ return this.httpClient.put(`${this.baseURLroom}/set-disallowed/${id}`, ids); }
+
 }

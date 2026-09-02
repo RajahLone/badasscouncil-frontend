@@ -79,9 +79,9 @@
 				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Allowed users</span></label>
 				<div class="col-sm-8">
 					<div class="form-group field-separate">
-						<select class="form-select form-select-sm" size="10" multiple>
+						<select class="form-select form-select-sm bg-success-subtle" size="10" multiple id="listedAllowedUsers" name="listedAllowedUsers" [(ngModel)]="listedAllowedUsers">
 							@for (p of usersAll; track p.userId) {
-							<option [value]="p.userId">TODO: {{ p.nickName }} @if (p.groupName.length > 0) { / {{ p.groupName }} }</option>
+							<option [value]="p.userId">{{ p.nickName }} @if (p.groupName.length > 0) { / {{ p.groupName }} }</option>
 							}
 						</select>
 					</div>
@@ -93,9 +93,9 @@
 				<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Disallowed users</span></label>
 				<div class="col-sm-8">
 					<div class="form-group field-separate">
-						<select class="form-select form-select-sm" size="10" multiple>
+						<select class="form-select form-select-sm bg-danger-subtle" size="10" multiple id="listedDisallowedUsers" name="listedDisallowedUsers" [(ngModel)]="listedDisallowedUsers">
 							@for (p of usersAll; track p.userId) {
-							<option [value]="p.userId">TODO: {{ p.nickName }} @if (p.groupName.length > 0) { / {{ p.groupName }} }</option>
+							<option [value]="p.userId">{{ p.nickName }} @if (p.groupName.length > 0) { / {{ p.groupName }} }</option>
 							}
 						</select>
 					</div>

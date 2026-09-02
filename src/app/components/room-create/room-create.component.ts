@@ -23,21 +23,17 @@ export class RoomCreateComponent implements OnInit
 
   PM: RoomEnum[] = RoomPurgeType;
 
-  usersAll: NickName[] = [];
-  usersAllowed: NickName[] = [];
-  usersDisallowed: NickName[] = [];
-
   constructor(private chatService: ChatService, private accountService: AccountService, private router: Router, private menu: MenuComponent) { }
 
-  ngOnInit()
+  ngOnInit() { }
+
+  private saveRoom()
   {
     this.room.ownerId = this.accountService.getUserId();
+    this.room.listedUsersType = 0;
 
-    this.retreiveUsersAll();
+    this.chatService.createRoom(this.room).subscribe(() => { this.goToChat(); });
   }
-  private retreiveUsersAll() { this.chatService.getUsersAll().subscribe(data => { this.usersAll = data; }); }
-
-  private saveRoom() { this.chatService.createRoom(this.room).subscribe(() => { this.goToChat(); }); }
 
   addRoom() { if (this.roomForm.valid) { this.saveRoom(); } }
 
