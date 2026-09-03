@@ -149,7 +149,18 @@ export class ChatComponent implements OnInit
     {
       let pass:string = ""; for (let p of this.passwords) { if (this.currentRoomId == p.roomId) { pass = p.password; } }
 
-      this.chatService.getNew(this.currentRoomId, this.lastMessageId, pass).subscribe(data => { if (data) { this.messages = [...this.messages, ...data]; } this.setLastId(); });
+      this.chatService.getNew(this.currentRoomId, this.lastMessageId, pass).subscribe(data =>
+      {
+        if (data != null)
+        {
+          if (data.length > 0)
+          {
+            for (let j = 0; j < data.length; j++) { if (!this.hasId(data[j].messageId)) { this.messages.push(data[j]); } }
+          }
+        }
+
+        this.setLastId();
+      });
 
       for (var i in this.rooms) { if (this.currentRoomId == this.rooms[i].roomId) { this.currentTopic = this.rooms[i].topic; } }
     }
@@ -167,6 +178,17 @@ export class ChatComponent implements OnInit
       }
     }
   }
+  private hasId(id: number): boolean
+  {
+    if (this.messages != null)
+    {
+      if (this.messages.length > 0)
+      {
+        for (let i = this.messages.length - 1; i > 0; i--) { if (this.messages[i - 1].messageId == id) { return true; } }
+      }
+    }
+    return false;
+  }
 
   sendNewMessage()
   {
@@ -177,14 +199,22 @@ export class ChatComponent implements OnInit
       this.disabled = true;
       this.newMessage.password = pass;
 
-      this.chatService.addNew(this.currentRoomId, this.lastMessageId, this.newMessage).subscribe(data => {
-        this.messages = [...this.messages, ...data];
+      this.chatService.addNew(this.currentRoomId, this.lastMessageId, this.newMessage).subscribe(data =>
+      {
+        if (data != null)
+        {
+          if (data.length > 0)
+          {
+            for (let j = 0; j < data.length; j++) { if (!this.hasId(data[j].messageId)) { this.messages.push(data[j]); } }
+          }
+        }
+
         this.newMessage = new MessageShortPass();
         this.newMessage.nickName = this.accountService.getLoginName();
         this.newMessage.password = pass;
         this.setLastId();
         this.disabled = false;
-        });
+      });
     }
   }
 
