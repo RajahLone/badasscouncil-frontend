@@ -108,7 +108,6 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
    - LOCKED state: access is granted only for its owner and administrators and regulators.
    - allowed or disallowed users list (set this at room edit/update, not (yet?) possible at room creation). Administrators and room's owner are not affected by these lists and will still have access. Regulators can be affected.
 
-- TODO: TEST allowed or disallowed users in rooms.
 - TODO: pagination (500 per 500 loading, backlogging).
 - TODO: /dcc file (attachements managed within the send prompt).
 - TODO: UTF-8 smileys selector.
