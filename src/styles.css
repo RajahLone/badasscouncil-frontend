@@ -7,7 +7,9 @@
 .center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); min-width:50rem; }
 .down { position: absolute; left: 50%; bottom: 0; transform: translate(-50%, -50%); }
 .form-scrollable { overflow-y: scroll; overflow-x: hidden; max-height: 600px; }
-.table-scrollable { overflow-y: scroll; overflow-x: scroll; }
+.table-scrollable { overflow-y: scroll; overflow-x: auto; padding:0; }
+.table-scrollable td { padding-left:7px; }
+.table-scrollable th { padding-left:7px; }
 
 @media not (min-width: 900px), not (min-height: 700px) {
   .center { position: unset; left: unset; top: unset; transform: unset; min-width: unset; }
@@ -19,9 +21,11 @@
   .scrollable { overflow-y: unset; overflow-x: unset; max-height: unset; }
 }
 
+body { background-color: #EEEEEE;}
+
 #main {
   margin-left: 60px;
-  padding: 0px 10px;
+  padding: 0px 0px;
 }
 
 @media screen and (max-width: 500px) {
