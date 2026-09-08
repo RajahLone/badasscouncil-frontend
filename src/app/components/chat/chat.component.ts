@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { timer } from 'rxjs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faComment, faPlus, faCircleInfo, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faComment, faPlus, faCircleInfo, faLock, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { MenuComponent } from '../menu/menu.component';
@@ -11,12 +11,13 @@ import { MessageShort, MessageShortPass, Room, RoomPassword } from '../../interf
 import { NickName } from '../../interfaces/user';
 import { ChatService } from '../../services/chat.service';
 import { AccountService } from '../../services/account.service'
+import { Pagination } from '../../interfaces/misc';
 
 @Component({ selector: 'app-chat', imports: [FontAwesomeModule, FormsModule, MenuComponent], templateUrl: './chat.component.html', changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './chat.component.css' })
 
 export class ChatComponent implements OnInit
 {
-  faComment = faComment; faPlus = faPlus; faCircleInfo = faCircleInfo; faLock = faLock;
+  faComment = faComment; faPlus = faPlus; faCircleInfo = faCircleInfo; faLock = faLock; faClockRotateLeft = faClockRotateLeft;
 
   modalRoomPassword?: BsModalRef;
 
@@ -34,9 +35,11 @@ export class ChatComponent implements OnInit
 
   currentRoomId: number = 0;
   currentTopic: string = "no room yet selected";
-  lastMessageId: number = 0;
 
   messages: MessageShort[] = [];
+  lastMessageId: number = 0;
+  pagination: Pagination = new Pagination();
+  firstMessageId: number = 0;
 
   newMessage: MessageShortPass = new MessageShortPass();
 
@@ -107,6 +110,7 @@ export class ChatComponent implements OnInit
   openRoom(id: number)
   {
     this.lastMessageId = 0;
+    this.firstMessageId = 0;
     this.currentRoomId = id;
     this.messages = [];
     if (id > 0) { this.retreiveLastMessages(); }
@@ -115,6 +119,7 @@ export class ChatComponent implements OnInit
   openPasswordPrompt(template: TemplateRef<void>, id: number)
   {
     this.lastMessageId = 0;
+    this.firstMessageId = 0;
     this.currentRoomId = id;
     this.messages = [];
     if (id > 0)
@@ -147,6 +152,11 @@ export class ChatComponent implements OnInit
     {
       let pass:string = ""; for (let p of this.passwords) { if (this.currentRoomId == p.roomId) { pass = p.password; } }
 
+      if (this.messages.length == 0)
+      {
+        this.chatService.getCount(this.currentRoomId).subscribe(page => { this.pagination.items = page.items; this.pagination.size = this.messages.length; });
+      }
+
       this.chatService.getNew(this.currentRoomId, this.lastMessageId, pass).subscribe(data =>
       {
         if (data != null)
@@ -164,21 +174,57 @@ export class ChatComponent implements OnInit
     }
   }
 
+  retreiveOldMessages()
+  {
+    if (this.promptOpened) { return; }
+    if ((this.router.url !== '/chat')) { return; }
+
+    this.logged = this.accountService.isLogged();
+
+    if ((this.logged) && (this.disabled == false) && (this.currentRoomId > 0))
+    {
+      let pass:string = ""; for (let p of this.passwords) { if (this.currentRoomId == p.roomId) { pass = p.password; } }
+
+      this.chatService.getOld(this.currentRoomId, this.firstMessageId, pass).subscribe(data =>
+      {
+        if (data != null)
+        {
+          if (data.length > 0)
+          {
+            for (let j = 0; j < data.length; j++) { if (!this.hasId_backward(data[j].messageId)) { this.messages.unshift(data[j]); } }
+          }
+        }
+
+        this.setLastId();
+      });
+    }
+  }
+
   private setLastId()
   {
     let maxId = this.lastMessageId;
+    let minId = this.firstMessageId;
 
     this.lastMessageId = 0;
+    this.firstMessageId = 999999999999;
 
     if (this.messages != null)
     {
       if (this.messages.length > 0)
       {
-        for (let i = 0; i < this.messages.length; i++) { this.lastMessageId = Math.max(this.lastMessageId, this.messages[i].messageId); }
+        for (let i = 0; i < this.messages.length; i++)
+        {
+          this.lastMessageId = Math.max(this.lastMessageId, this.messages[i].messageId);
+          this.firstMessageId = Math.min(this.firstMessageId, this.messages[i].messageId);
+        }
       }
+
+      this.pagination.size = this.messages.length;
     }
 
     if (maxId != this.lastMessageId) { setTimeout(() => { let ml = document.getElementById('messagesList'); if (ml) { ml.scrollTop = ml.scrollHeight; } }, 300); }
+    else
+    if (minId != this.firstMessageId) { setTimeout(() => { let ml = document.getElementById('messagesList'); if (ml) { ml.scrollTop = 0; } }, 300); }
   }
   private hasId(id: number): boolean
   {
@@ -187,6 +233,17 @@ export class ChatComponent implements OnInit
       if (this.messages.length > 0)
       {
         for (let i = this.messages.length - 1; i > 0; i--) { if (this.messages[i - 1].messageId == id) { return true; } }
+      }
+    }
+    return false;
+  }
+  private hasId_backward(id: number): boolean
+  {
+    if (this.messages != null)
+    {
+      if (this.messages.length > 0)
+      {
+        for (let i = 0; i < this.messages.length; i++) { if (this.messages[i].messageId == id) { return true; } }
       }
     }
     return false;
@@ -210,6 +267,8 @@ export class ChatComponent implements OnInit
             for (let j = 0; j < data.length; j++) { if (!this.hasId(data[j].messageId)) { this.messages.push(data[j]); } }
           }
         }
+
+        this.chatService.getCount(this.currentRoomId).subscribe(page => { this.pagination.items = page.items; this.pagination.size = this.messages.length; });
 
         this.newMessage = new MessageShortPass();
         this.newMessage.nickName = this.accountService.getLoginName();

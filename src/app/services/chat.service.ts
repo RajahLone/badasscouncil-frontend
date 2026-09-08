@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Environnement } from '../env';
 import { MessageShort, MessageShortPass, Room } from '../interfaces/chat';
 import { NickName } from '../interfaces/user';
+import { Pagination } from '../interfaces/misc';
 
 @Injectable({ providedIn: 'root' })
 
@@ -17,6 +18,15 @@ export class ChatService
   constructor(private httpClient: HttpClient) { }
 
   getNickNameListOption(): Observable<NickName[]>{ return this.httpClient.get<NickName[]>(`${this.baseURLchat}/nickname-list`); }
+
+  getCount(room: number): Observable<Pagination> { return this.httpClient.get<Pagination>(`${this.baseURLchat}/count/${room}`); }
+
+  getOld(room: number, first: number, pass: string): Observable<MessageShort[]>
+  {
+    let msg = new MessageShortPass(); msg.password = pass;
+
+    return this.httpClient.post<MessageShort[]>(`${this.baseURLchat}/old/${room}/${first}`, msg);
+  }
 
   getNew(room: number, last: number, pass: string): Observable<MessageShort[]>
   {
