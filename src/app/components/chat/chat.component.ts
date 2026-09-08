@@ -20,8 +20,6 @@ export class ChatComponent implements OnInit
 
   modalRoomPassword?: BsModalRef;
 
-  @ViewChild('modalInputPassword') modalInputPassword!: ElementRef;
-
   logged: boolean = false;
   role: string = "";
   userId: number = 0;
@@ -168,6 +166,8 @@ export class ChatComponent implements OnInit
 
   private setLastId()
   {
+    let maxId = this.lastMessageId;
+
     this.lastMessageId = 0;
 
     if (this.messages != null)
@@ -177,6 +177,8 @@ export class ChatComponent implements OnInit
         for (let i = 0; i < this.messages.length; i++) { this.lastMessageId = Math.max(this.lastMessageId, this.messages[i].messageId); }
       }
     }
+
+    if (maxId != this.lastMessageId) { setTimeout(() => { let ml = document.getElementById('messagesList'); if (ml) { ml.scrollTop = ml.scrollHeight; } }, 300); }
   }
   private hasId(id: number): boolean
   {

@@ -47,7 +47,7 @@
       <div class="card-header">
         <div class="row justify-content-center">{{ currentTopic }}</div>
       </div>
-      <div class="card-body chatdiv">
+      <div class="card-body chatdiv" id="messagesList" #messagesList>
         <table class="table table-sm">
           <tbody>
             @for (l of messages; track l.messageId) {

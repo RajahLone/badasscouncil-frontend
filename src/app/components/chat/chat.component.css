@@ -1,4 +1,4 @@
-.chatdiv { overflow-y: scroll; overflow-x: hidden; max-height: 92vh; padding:0; }
+.chatdiv { overflow-y: scroll; overflow-x: hidden; max-height: 88vh; padding:0; }
 .chatdat { border-left: 1px solid lightgray; text-align: right; color: lightgray; }
 .chatusr { text-align: right; color: gray; }
 .chatusr::after { content: " :"; }
