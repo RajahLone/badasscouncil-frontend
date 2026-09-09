@@ -38,7 +38,8 @@
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
               ],
             "server": "src/main.server.ts",
-            "outputMode": "server",
+            "prerender": false,
+            "ssr": false,
             "security": {
               "allowedHosts": []
             },
@@ -60,12 +61,16 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "ssr": false,
+              "prerender": false
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
+              "ssr": false,
+              "prerender": false,
               "fileReplacements": [ { "replace": "src/app/env.ts", "with": "src/app/env.dev.ts" }]
             }
           },
