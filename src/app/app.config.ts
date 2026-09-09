@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withNoIncrementalHydration } from '@angular/platform-browser';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+//import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS, withXsrfConfiguration/*, withXhr*/ } from '@angular/common/http';
 import { provideNgIdle } from '@ng-idle/core';
 
@@ -15,7 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withNoIncrementalHydration()),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideAnimationsAsync(),
+    /*provideAnimationsAsync(),*/
     provideHttpClient(/*withXhr(),*/ withInterceptorsFromDi(), withXsrfConfiguration({ cookieName: "XSRF-TOKEN", headerName: "X-XSRF-TOKEN" })),
     {
       provide: HTTP_INTERCEPTORS,
