@@ -68,7 +68,7 @@
 						@else if (user.status === SL[3].key) { <fa-icon [icon]="faCircleXmark" class="text-danger" title="{{ SL[3].value }}"></fa-icon> }
 						@else if (user.status === SL[4].key) { <fa-icon [icon]="faBed" class="text-secondary" title="{{ SL[4].value }}"></fa-icon> }
 					</td>
-					<td class="label-nobr">{{ user.email }}&nbsp;&nbsp;</td>
+					<td class="label-nobr">@if (user.email) { <a [href]="'mailto:' + user.email">{{ user.email }}</a> }&nbsp;&nbsp;</td>
 				</tr>
 				}
 			</tbody>
