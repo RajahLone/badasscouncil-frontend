@@ -23,6 +23,8 @@ export class AccountService
 
   private refreshToken: RefreshToken = new RefreshToken();
 
+  private emojis: string[] = [];
+
   constructor(private router : Router, private httpClient: HttpClient)
   {
     let text: string | any = '';
@@ -42,6 +44,9 @@ export class AccountService
   public getSessionTimeout():number { if (this.accountSubject.value) { return this.accountSubject.value.sessionTimeout; } return 15; }
   public getAccessToken():string { if (this.accountSubject.value) { return this.accountSubject.value.accessToken; } return ""; }
   private getRefreshToken():string { if (this.accountSubject.value) { return this.accountSubject.value.refreshToken; } return ""; }
+
+  public setEmojis(s: string[]) { if (s != null) { this.emojis = s; } }
+  public getEmojis():string[] { return this.emojis; }
 
   sendSubscription(user: User) { return this.httpClient.post<NewPassword>(`${this.baseURLsig}/subscribe`, user); }
 

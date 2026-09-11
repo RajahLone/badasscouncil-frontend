@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { timer } from 'rxjs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faComment, faPlus, faCircleInfo, faLock, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { faComment, faPlus, faCircleInfo, faLock, faClockRotateLeft, faFaceSmile } from '@fortawesome/free-solid-svg-icons';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { MenuComponent } from '../menu/menu.component';
@@ -17,7 +17,7 @@ import { Pagination } from '../../interfaces/misc';
 
 export class ChatComponent implements OnInit
 {
-  faComment = faComment; faPlus = faPlus; faCircleInfo = faCircleInfo; faLock = faLock; faClockRotateLeft = faClockRotateLeft;
+  faComment = faComment; faPlus = faPlus; faCircleInfo = faCircleInfo; faLock = faLock; faClockRotateLeft = faClockRotateLeft; faFaceSmile = faFaceSmile;
 
   modalRoomPassword?: BsModalRef;
 
@@ -44,6 +44,7 @@ export class ChatComponent implements OnInit
   newMessage: MessageShortPass = new MessageShortPass();
 
   nicknames: NickName[] = [];
+  emojis: string[] = [];
 
   constructor(
     private chatService: ChatService,
@@ -61,6 +62,7 @@ export class ChatComponent implements OnInit
     if (this.logged)
     {
       this.newMessage.nickName = this.accountService.getNickName();
+      this.emojis = this.accountService.getEmojis();
 
       this.retreiveNicknames();
 

@@ -38,7 +38,19 @@ export class LoginComponent implements OnInit
   {
     if (this.loginForm.valid)
     {
-      this.accountService.signIn(this.account).subscribe(data => { this.account = data; if (this.account.loginName === "") { this.userFieldf.nativeElement.focus(); } else if (this.account.password === "<success@auth>") { this.router.navigate(['/']); } });
+      this.accountService.signIn(this.account).subscribe(data =>
+      {
+        this.account = data;
+        if (this.account.loginName === "")
+        {
+          this.userFieldf.nativeElement.focus();
+        }
+        else if (this.account.password === "<success@auth>")
+        {
+          this.miscService.getEmojis().subscribe(data => { this.accountService.setEmojis(data); });
+          this.router.navigate(['/']);
+        }
+      });
     }
   }
 

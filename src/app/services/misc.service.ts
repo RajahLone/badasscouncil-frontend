@@ -29,4 +29,6 @@ export class MiscService
 
   getQuote(): Observable<Quote>{ return this.httpClient.get<Quote>(`${this.baseURL}/quote`); }
 
+  getEmojis(): Observable<string[]>{ return this.httpClient.get<string[]>(`${this.baseURL}/emojis`); }
+
 }
