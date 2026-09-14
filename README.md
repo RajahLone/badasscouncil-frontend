@@ -110,7 +110,6 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 
 - latest 500 lines are downloaded, you can retreive backlog with antiwised clock icon button (500 lines per click).
 
-- TODO: UTF-8 smileys selector.
 - TODO: upload and handle (grouped + thumbnailed) images.
 
 ### Cleaning jobs
