@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, TemplateRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, TemplateRef, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { timer } from 'rxjs';
+import { takeWhile } from "rxjs/operators"
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faComment, faPlus, faCircleInfo, faLock, faClockRotateLeft, faFaceSmile } from '@fortawesome/free-solid-svg-icons';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -12,10 +13,11 @@ import { NickName } from '../../interfaces/user';
 import { ChatService } from '../../services/chat.service';
 import { AccountService } from '../../services/account.service'
 import { Pagination } from '../../interfaces/misc';
+import { MiscService } from '../../services/misc.service'
 
 @Component({ selector: 'app-chat', imports: [FontAwesomeModule, FormsModule, MenuComponent], templateUrl: './chat.component.html', changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './chat.component.css' })
 
-export class ChatComponent implements OnInit
+export class ChatComponent implements OnInit, OnDestroy
 {
   faComment = faComment; faPlus = faPlus; faCircleInfo = faCircleInfo; faLock = faLock; faClockRotateLeft = faClockRotateLeft; faFaceSmile = faFaceSmile;
 
@@ -25,6 +27,8 @@ export class ChatComponent implements OnInit
   role: string = "";
   userId: number = 0;
 
+  alive: boolean = true;
+  timerOnce: boolean = false;
   disabled: boolean = false;
   first: boolean = true;
 
@@ -50,6 +54,7 @@ export class ChatComponent implements OnInit
     private chatService: ChatService,
     private accountService: AccountService,
     private router: Router,
+    private miscService: MiscService,
     private modalService: BsModalService
   ) { }
 
@@ -62,13 +67,15 @@ export class ChatComponent implements OnInit
     if (this.logged)
     {
       this.newMessage.nickName = this.accountService.getNickName();
-      this.emojis = this.accountService.getEmojis();
+      this.emojis = this.miscService.getEmojis();
 
       this.retreiveNicknames();
 
-      timer(0, 7000).subscribe(() => { this.retreiveRooms(); });
+      if (this.timerOnce == false) { this.timerOnce = true; timer(0, 7000).pipe(takeWhile(() => this.alive)).subscribe(() => { this.retreiveRooms(); }); }
     }
   }
+
+  ngOnDestroy() { if (this.timerOnce) { this.alive = false; } }
 
   retreiveRooms()
   {
@@ -250,6 +257,8 @@ export class ChatComponent implements OnInit
     }
     return false;
   }
+
+  write(event: Event) { if (event.target) { const target = event.target as Element;this.newMessage.content += (' ' + target.innerHTML); } }
 
   sendNewMessage()
   {

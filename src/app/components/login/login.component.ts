@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit
         }
         else if (this.account.password === "<success@auth>")
         {
-          this.miscService.getEmojis().subscribe(data => { this.accountService.setEmojis(data); });
+          this.miscService.retreiveEmojis().subscribe(data => { this.miscService.setEmojis(data); });
           this.router.navigate(['/']);
         }
       });

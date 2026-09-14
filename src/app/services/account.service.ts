@@ -23,8 +23,6 @@ export class AccountService
 
   private refreshToken: RefreshToken = new RefreshToken();
 
-  private emojis: string[] = [];
-
   constructor(private router : Router, private httpClient: HttpClient)
   {
     let text: string | any = '';
@@ -45,9 +43,6 @@ export class AccountService
   public getAccessToken():string { if (this.accountSubject.value) { return this.accountSubject.value.accessToken; } return ""; }
   private getRefreshToken():string { if (this.accountSubject.value) { return this.accountSubject.value.refreshToken; } return ""; }
 
-  public setEmojis(s: string[]) { if (s != null) { this.emojis = s; } }
-  public getEmojis():string[] { return this.emojis; }
-
   sendSubscription(user: User) { return this.httpClient.post<NewPassword>(`${this.baseURLsig}/subscribe`, user); }
 
   signIn(usr: Account): Observable<Account>
@@ -67,6 +62,8 @@ export class AccountService
     this.httpClient.post<User>(`${this.baseURLsig}/out`, null);
 
     sessionStorage.removeItem('account');
+    sessionStorage.removeItem('emojis');
+    
     this.accountSubject.next(null);
   }
   silentOut()

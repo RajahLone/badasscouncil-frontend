@@ -7,6 +7,8 @@
 
 .chatdiv table tbody td span { padding-left:3px; }
 
+.emolist { overflow-y: scroll; overflow-x: auto; padding:0; max-height:50vh;max-width:50vw; }
+
 @media not (min-width: 700px) {
   .chatdiv { max-height: unset; }
   .chatcrd { min-height: unset; }

@@ -29,6 +29,40 @@ export class MiscService
 
   getQuote(): Observable<Quote>{ return this.httpClient.get<Quote>(`${this.baseURL}/quote`); }
 
-  getEmojis(): Observable<string[]>{ return this.httpClient.get<string[]>(`${this.baseURL}/emojis`); }
+  retreiveEmojis(): Observable<string[]>{ return this.httpClient.get<string[]>(`${this.baseURL}/emojis`); }
+
+  public setEmojis(s: string[])
+  {
+    if (s != null)
+    {
+      if (s.length > 0)
+      {
+        const starts = /^&#x/; const ends = /;$/; const contains = /[A-F0-9&#x; ]/;
+
+        let sb: string[] = [];
+
+        sb.push('<table><tr>');
+        for (let e = 0, l = 0; e < s.length; e++, l++)
+        {
+          if (starts.test(s[e]) && ends.test(s[e]) && contains.test(s[e]))
+          {
+            sb.push('<td><a>');
+            sb.push(s[e]);
+            sb.push('</a></td>');
+          }
+          if (l == 15) { l = -1; sb.push('</tr><tr>'); }
+        }
+        sb.push('</tr></table>');
+
+        sessionStorage.setItem('emojis', sb.join(""));
+      }
+    }
+  }
+  public getEmojis():string[]
+  {
+    let text: string | any = '';
+    try { text = sessionStorage.getItem('emojis'); } catch (err) { text = null; }
+    return text;
+  }
 
 }
