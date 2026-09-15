@@ -37,6 +37,21 @@ export class ChatService
 
   addNew(room: number, last: number, msg: MessageShortPass): Observable<MessageShort[]>{ return this.httpClient.post<MessageShort[]>(`${this.baseURLchat}/add/${room}/${last}`, msg); }
 
+  addImages(room: number, last: number, pass: string, files: FileList): Observable<MessageShort[]>
+  {
+    let msg = new MessageShortPass(); msg.password = pass;
+
+    const msg_blob = new Blob([JSON.stringify(msg)], { type: 'application/json' });
+
+    const formData: FormData = new FormData();
+
+    formData.append('message', msg_blob);
+
+    for (let f = 0; f < files.length; f++) { const file = files.item(f); if (file != null) { formData.append('files', file, file.name); } }
+
+    return this.httpClient.post<MessageShort[]>(`${this.baseURLchat}/add/${room}/${last}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+  }
+
   getListRoom(): Observable<Room[]> { return this.httpClient.get<Room[]>(`${this.baseURLroom}/list`); }
 
   createRoom(room: Room): Observable<Object>{ return this.httpClient.post(`${this.baseURLroom}/create`, room); }

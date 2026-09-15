@@ -50,6 +50,8 @@ export class ChatComponent implements OnInit, OnDestroy
   nicknames: NickName[] = [];
   emojis: string[] = [];
 
+  selectedFiles?: FileList;
+
   constructor(
     private chatService: ChatService,
     private accountService: AccountService,
@@ -76,6 +78,8 @@ export class ChatComponent implements OnInit, OnDestroy
   }
 
   ngOnDestroy() { if (this.timerOnce) { this.alive = false; } }
+
+  private retreiveNicknames() { this.chatService.getNickNameListOption().subscribe(data => { this.nicknames = data; }); }
 
   retreiveRooms()
   {
@@ -290,6 +294,36 @@ export class ChatComponent implements OnInit, OnDestroy
     }
   }
 
-  private retreiveNicknames() { this.chatService.getNickNameListOption().subscribe(data => { this.nicknames = data; }); }
+  sendNewImages(event: any)
+  {
+    if (event.target == null) { return; }
+
+    this.selectedFiles = event.target.files as FileList;
+
+    if (this.selectedFiles == null) { return; }
+
+    if (this.logged && (this.selectedFiles.length > 0))
+    {
+      let pass:string = ""; for (let p of this.passwords) { if (this.currentRoomId == p.roomId) { pass = p.password; } }
+
+      this.disabled = true;
+
+      this.chatService.addImages(this.currentRoomId, this.lastMessageId, pass, this.selectedFiles).subscribe(data =>
+      {
+        if (data != null)
+        {
+          if (data.length > 0)
+          {
+            for (let j = 0; j < data.length; j++) { if (!this.hasId(data[j].messageId)) { this.messages.push(data[j]); } }
+          }
+        }
+
+        this.chatService.getCount(this.currentRoomId).subscribe(page => { this.pagination.items = page.items; this.pagination.size = this.messages.length; });
+
+        this.setLastId();
+        this.disabled = false;
+      });
+    }
+  }
 
 }
