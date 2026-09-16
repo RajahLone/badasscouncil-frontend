@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, TemplateRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, TemplateRef, ChangeDetectionStrategy, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { timer } from 'rxjs';
 import { takeWhile } from "rxjs/operators"
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faComment, faPlus, faCircleInfo, faLock, faClockRotateLeft, faFaceSmile } from '@fortawesome/free-solid-svg-icons';
+import { faComment, faPlus, faCircleInfo, faLock, faClockRotateLeft, faFaceSmile, faImages } from '@fortawesome/free-solid-svg-icons';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { MenuComponent } from '../menu/menu.component';
@@ -19,7 +19,7 @@ import { MiscService } from '../../services/misc.service'
 
 export class ChatComponent implements OnInit, OnDestroy
 {
-  faComment = faComment; faPlus = faPlus; faCircleInfo = faCircleInfo; faLock = faLock; faClockRotateLeft = faClockRotateLeft; faFaceSmile = faFaceSmile;
+  faComment = faComment; faPlus = faPlus; faCircleInfo = faCircleInfo; faLock = faLock; faClockRotateLeft = faClockRotateLeft; faFaceSmile = faFaceSmile; faImages = faImages;
 
   modalRoomPassword?: BsModalRef;
 
@@ -58,7 +58,8 @@ export class ChatComponent implements OnInit, OnDestroy
     private router: Router,
     private miscService: MiscService,
     private modalService: BsModalService
-  ) { }
+  )
+  { }
 
   ngOnInit()
   {
@@ -307,8 +308,9 @@ export class ChatComponent implements OnInit, OnDestroy
       let pass:string = ""; for (let p of this.passwords) { if (this.currentRoomId == p.roomId) { pass = p.password; } }
 
       this.disabled = true;
+      this.newMessage.password = pass;
 
-      this.chatService.addImages(this.currentRoomId, this.lastMessageId, pass, this.selectedFiles).subscribe(data =>
+      this.chatService.addImages(this.currentRoomId, this.lastMessageId, this.newMessage, this.selectedFiles).subscribe(data =>
       {
         if (data != null)
         {
@@ -320,6 +322,9 @@ export class ChatComponent implements OnInit, OnDestroy
 
         this.chatService.getCount(this.currentRoomId).subscribe(page => { this.pagination.items = page.items; this.pagination.size = this.messages.length; });
 
+        this.newMessage = new MessageShortPass();
+        this.newMessage.nickName = this.accountService.getLoginName();
+        this.newMessage.password = pass;
         this.setLastId();
         this.disabled = false;
       });
