@@ -1,15 +1,21 @@
+.card-group { margin: 7px; padding: 0; }
+
 .chatdiv { overflow-y: scroll; overflow-x: hidden; max-height: 88vh; padding:0; }
 .chatdat { border-left: 1px solid lightgray; text-align: right; color: lightgray; }
 .chatusr { text-align: right; color: gray; }
 .chatusr::after { content: " :"; }
 .chatmsg { text-align: left; }
 .chatcrd { min-height: 98vh; }
-
+.chatlft { max-width: 20%; margin: 0; }
+.chatrgt { margin: 0; }
 .chatdiv table tbody td span { padding-left:3px; }
 
 .emolist { overflow-y: scroll; overflow-x: auto; padding:0; max-height:50vh;max-width:50vw; }
 
+.thumbgrp img { border-radius: 10px; margin:2px; }
+
 @media not (min-width: 700px) {
   .chatdiv { max-height: unset; }
   .chatcrd { min-height: unset; }
+  .chatroo {max-width: unset; margin-right: unset; }
 }

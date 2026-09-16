@@ -1,21 +1,24 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, TemplateRef, ChangeDetectionStrategy, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, TemplateRef, ChangeDetectionStrategy, SecurityContext, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { timer } from 'rxjs';
 import { takeWhile } from "rxjs/operators"
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faComment, faPlus, faCircleInfo, faLock, faClockRotateLeft, faFaceSmile, faImages } from '@fortawesome/free-solid-svg-icons';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { MenuComponent } from '../menu/menu.component';
 import { MessageShort, MessageShortPass, Room, RoomPassword } from '../../interfaces/chat';
 import { NickName } from '../../interfaces/user';
 import { ChatService } from '../../services/chat.service';
+import { ImageService } from '../../services/image.service'
 import { AccountService } from '../../services/account.service'
 import { Pagination } from '../../interfaces/misc';
 import { MiscService } from '../../services/misc.service'
 
-@Component({ selector: 'app-chat', imports: [FontAwesomeModule, FormsModule, MenuComponent], templateUrl: './chat.component.html', changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './chat.component.css' })
+@Component({ selector: 'app-chat', imports: [FontAwesomeModule, TooltipModule, FormsModule, MenuComponent], templateUrl: './chat.component.html', encapsulation: ViewEncapsulation.None, changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './chat.component.css' })
 
 export class ChatComponent implements OnInit, OnDestroy
 {
@@ -48,16 +51,21 @@ export class ChatComponent implements OnInit, OnDestroy
   newMessage: MessageShortPass = new MessageShortPass();
 
   nicknames: NickName[] = [];
-  emojis: string[] = [];
+  emojis: string = "";
 
   selectedFiles?: FileList;
 
+  starts: RegExp = /^img_/;
+  contains: RegExp = /[img_0-9|]/;
+
   constructor(
     private chatService: ChatService,
+    private imageService: ImageService,
     private accountService: AccountService,
     private router: Router,
     private miscService: MiscService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private sanitizer: DomSanitizer
   )
   { }
 
@@ -155,6 +163,56 @@ export class ChatComponent implements OnInit, OnDestroy
     this.retreiveLastMessages();
   }
 
+  private appendLines(d: MessageShort[])
+  {
+    if (d != null)
+    {
+      if (d.length > 0)
+      {
+        for (let j = 0; j < d.length; j++)
+        {
+          if (!this.hasId(d[j].messageId))
+          {
+            let str: string = d[j].content;
+
+            let img: boolean = (this.starts.test(str) && this.contains.test(str));
+
+            if (img) { d[j].content = ""; }
+
+            this.messages.push(d[j]);
+
+            if (img) { this.convertThumbnails(d[j].messageId, str); }
+          }
+        }
+      }
+    }
+  }
+
+  private insertLines(d: MessageShort[])
+  {
+    if (d != null)
+    {
+      if (d.length > 0)
+      {
+        for (let j = 0; j < d.length; j++)
+        {
+          if (!this.hasId_backward(d[j].messageId))
+          {
+            let str: string = d[j].content;
+
+            let img: boolean = (this.starts.test(str) && this.contains.test(str));
+
+            if (img) { d[j].content = ""; }
+
+            this.messages.unshift(d[j]);
+
+            if (img) { this.convertThumbnails(d[j].messageId, str); }
+          }
+        }
+      }
+    }
+  }
+
   retreiveLastMessages()
   {
     if (this.promptOpened) { return; }
@@ -173,14 +231,7 @@ export class ChatComponent implements OnInit, OnDestroy
 
       this.chatService.getNew(this.currentRoomId, this.lastMessageId, pass).subscribe(data =>
       {
-        if (data != null)
-        {
-          if (data.length > 0)
-          {
-            for (let j = 0; j < data.length; j++) { if (!this.hasId(data[j].messageId)) { this.messages.push(data[j]); } }
-          }
-        }
-
+        this.appendLines(data);
         this.setLastId();
       });
 
@@ -201,14 +252,7 @@ export class ChatComponent implements OnInit, OnDestroy
 
       this.chatService.getOld(this.currentRoomId, this.firstMessageId, pass).subscribe(data =>
       {
-        if (data != null)
-        {
-          if (data.length > 0)
-          {
-            for (let j = 0; j < data.length; j++) { if (!this.hasId_backward(data[j].messageId)) { this.messages.unshift(data[j]); } }
-          }
-        }
-
+        this.insertLines(data);
         this.setLastId();
       });
     }
@@ -276,13 +320,7 @@ export class ChatComponent implements OnInit, OnDestroy
 
       this.chatService.addNew(this.currentRoomId, this.lastMessageId, this.newMessage).subscribe(data =>
       {
-        if (data != null)
-        {
-          if (data.length > 0)
-          {
-            for (let j = 0; j < data.length; j++) { if (!this.hasId(data[j].messageId)) { this.messages.push(data[j]); } }
-          }
-        }
+        this.appendLines(data);
 
         this.chatService.getCount(this.currentRoomId).subscribe(page => { this.pagination.items = page.items; this.pagination.size = this.messages.length; });
 
@@ -312,13 +350,7 @@ export class ChatComponent implements OnInit, OnDestroy
 
       this.chatService.addImages(this.currentRoomId, this.lastMessageId, this.newMessage, this.selectedFiles).subscribe(data =>
       {
-        if (data != null)
-        {
-          if (data.length > 0)
-          {
-            for (let j = 0; j < data.length; j++) { if (!this.hasId(data[j].messageId)) { this.messages.push(data[j]); } }
-          }
-        }
+        this.appendLines(data);
 
         this.chatService.getCount(this.currentRoomId).subscribe(page => { this.pagination.items = page.items; this.pagination.size = this.messages.length; });
 
@@ -328,6 +360,40 @@ export class ChatComponent implements OnInit, OnDestroy
         this.setLastId();
         this.disabled = false;
       });
+    }
+  }
+
+  convertThumbnails(id: number, txt: string): void
+  {
+    let imgs = txt.split('|');
+
+    if (imgs.length > 0)
+    {
+      for (let j = 0; j < imgs.length; j++)
+      {
+        this.imageService.getThumbnail(id, Number(imgs[j].substring(4))).subscribe(data =>
+        {
+          if (this.messages != null)
+          {
+            if (this.messages.length > 0)
+            {
+              for (let i = 0; i < this.messages.length; i++)
+              {
+                if (this.messages[i].messageId == id)
+                {
+                  let str: string | null = this.sanitizer.sanitize(SecurityContext.HTML, data);
+
+                  if (str)
+                  {
+                    this.messages[i].thumbnails = true;
+                    this.messages[i].content = this.messages[i].content.concat(str);
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
     }
   }
 

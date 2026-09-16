@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, SecurityContext } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
+
 import { Environnement } from '../env';
 import { HomeInformation, Quote } from '../interfaces/misc';
 import { Captcha } from '../interfaces/account';
@@ -14,7 +16,7 @@ export class MiscService
 
   private baseURL = Environnement.apiUrl + "misc";
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private sanitizer: DomSanitizer) { }
 
   getMessage(): Observable<HomeInformation>{ return this.httpClient.get<HomeInformation>(`${this.baseURL}/welcome`); }
 
@@ -31,20 +33,22 @@ export class MiscService
 
   retreiveEmojis(): Observable<string[]>{ return this.httpClient.get<string[]>(`${this.baseURL}/emojis`); }
 
+  starts: RegExp = /^&#x/;
+  ends: RegExp = /;$/;
+  contains: RegExp = /[A-F0-9&#x; ]/;
+
   public setEmojis(s: string[])
   {
     if (s != null)
     {
       if (s.length > 0)
       {
-        const starts = /^&#x/; const ends = /;$/; const contains = /[A-F0-9&#x; ]/;
-
         let sb: string[] = [];
 
         sb.push('<table><tr>');
         for (let e = 0, l = 0; e < s.length; e++, l++)
         {
-          if (starts.test(s[e]) && ends.test(s[e]) && contains.test(s[e]))
+          if (this.starts.test(s[e]) && this.ends.test(s[e]) && this.contains.test(s[e]))
           {
             sb.push('<td><a>');
             sb.push(s[e]);
@@ -54,11 +58,15 @@ export class MiscService
         }
         sb.push('</tr></table>');
 
-        sessionStorage.setItem('emojis', sb.join(""));
+        let html: string | null;
+
+        html = this.sanitizer.sanitize(SecurityContext.HTML, sb.join(""));
+
+        if (html) { sessionStorage.setItem('emojis', html); }
       }
     }
   }
-  public getEmojis():string[]
+  public getEmojis():string
   {
     let text: string | any = '';
     try { text = sessionStorage.getItem('emojis'); } catch (err) { text = null; }

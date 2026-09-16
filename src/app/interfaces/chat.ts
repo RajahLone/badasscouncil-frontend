@@ -6,6 +6,7 @@ export class MessageShort
   content: string = "";
   destId: number = 0;
   destName: string = "";
+  thumbnails: boolean = false;
 }
 
 export class MessageShortPass
