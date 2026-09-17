@@ -155,7 +155,7 @@
 		<div class="form-group row">
 			<label class="col-sm-4 col-form-label col-form-label-sm label-nobr"><span i18n>Email address</span></label>
 			<div class="col-sm-8">
-				<input type="email" class="form-control form-control-sm field-separate" id="email" name="email" [(ngModel)]="user.email" disabled>
+				<a [href]="'mailto:' + user.email">{{ user.email }}</a>
 			</div>
 		</div>
 		} }
