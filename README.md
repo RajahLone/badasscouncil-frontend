@@ -115,9 +115,7 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 
 - user can upload (group of) images, to all or a one user recipient. Thumbnails will appear as message line. A click on a thumbnail and plain image will be downloaded in new browser tab.
 
-- TODO: fix some blackished thumbnail generation.
 - TODO: add URL as message line.
-- TODO? insert emojis at text cursor position instead of appending it ?
 
 ### Cleaning jobs
 

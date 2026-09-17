@@ -52,6 +52,7 @@ export class ChatComponent implements OnInit, OnDestroy
 
   nicknames: NickName[] = [];
   emojis: string = "";
+  caretPosition: number | null = 0;
 
   selectedFiles?: FileList;
 
@@ -87,6 +88,8 @@ export class ChatComponent implements OnInit, OnDestroy
   }
 
   ngOnDestroy() { if (this.timerOnce) { this.alive = false; } }
+
+
 
   private retreiveNicknames() { this.chatService.getNickNameListOption().subscribe(data => { this.nicknames = data; }); }
 
@@ -162,6 +165,32 @@ export class ChatComponent implements OnInit, OnDestroy
     this.promptOpened = false;
     this.retreiveLastMessages();
   }
+
+
+  memorizeCaret(event: Event) { if (event.target) {  const target = event.target as HTMLInputElement; this.caretPosition = target.selectionStart; } }
+
+  insertEmoji(event: Event)
+  {
+    if (event.target)
+    {
+      const target = event.target as Element;
+
+      if (this.caretPosition == null) { this.newMessage.content += (' ' + target.innerHTML); return; }
+
+      if ((this.caretPosition < this.newMessage.content.length) && (this.caretPosition >= 0))
+      {
+        let left: string = this.newMessage.content.substring(0, this.caretPosition);
+        let right: string = this.newMessage.content.substring(this.caretPosition);
+
+        this.newMessage.content = left + ' ' + target.innerHTML + ' ' + right;
+      }
+      else
+      {
+        this.newMessage.content += (' ' + target.innerHTML);
+      }
+    }
+  }
+
 
   private appendLines(d: MessageShort[])
   {
@@ -306,8 +335,6 @@ export class ChatComponent implements OnInit, OnDestroy
     }
     return false;
   }
-
-  write(event: Event) { if (event.target) { const target = event.target as Element;this.newMessage.content += (' ' + target.innerHTML); } }
 
   sendNewText()
   {
