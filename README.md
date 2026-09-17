@@ -110,7 +110,11 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 
 - latest 500 lines are downloaded, you can retreive backlog with antiwised clock icon button (500 lines per click).
 
-- TODO: upload and handle (grouped + thumbnailed) images.
+- user can upload (group of) images, to all or a one user recipient. Thumbnails will appear as message line. A click on a thumbnail and plain image will be downloaded in new browser tab.
+
+- TODO: fix some blackished thumbnail generation.
+- TODO: messages types (TEXT, IMAGES, URL, etc).
+- TODO: add URL as message line.
 
 ### Cleaning jobs
 
@@ -121,4 +125,7 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 
 ### Miscellaneous
 
-- TODO: app look'n'feel via CSS (skins or day/night swap?).
+- TODO? sanitize email address ?
+- TODO? insert emojis at text cursor position instead of appending it ?
+- TODO: connected users list.
+- TODO? app look'n'feel via CSS (skins or day/night swap?) ?
