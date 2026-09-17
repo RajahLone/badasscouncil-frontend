@@ -397,4 +397,22 @@ export class ChatComponent implements OnInit, OnDestroy
     }
   }
 
+  openImage(event: Event)
+  {
+    if (event.target)
+    {
+      const target = event.target as HTMLImageElement;
+
+      if (target.alt)
+      {
+        let ids: string[] = target.alt.split("_");
+
+        if (ids.length == 2)
+        {
+          this.imageService.getPlain(Number(ids[0]), Number(ids[1]));
+        }
+      }
+    }
+  }
+
 }
