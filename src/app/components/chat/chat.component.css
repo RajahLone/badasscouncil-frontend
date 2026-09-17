@@ -1,7 +1,7 @@
 .card-group { margin: 7px; padding: 0; }
 
 .chatdiv { overflow-y: scroll; overflow-x: hidden; max-height: 88vh; padding:0; }
-.chatdat { border-left: 1px solid lightgray; text-align: right; color: lightgray; }
+.chatdat { border-left: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; }
 .chatusr { text-align: right; color: gray; }
 .chatusr::after { content: " :"; }
 .chatmsg { text-align: left; }

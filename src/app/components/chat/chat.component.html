@@ -56,7 +56,11 @@
             @for (l of messages; track l.messageId) {
             <tr>
               <td class="chatusr col-sm-1 label-nobr" style="max-width:20%;">{{ l.nickName }}</td>
-              <td class="chatmsg col-sm-10" [class.text-danger]="l.destId > 0" [class.text-primary]="l.content.includes(newMessage.nickName)">@if (l.destId > 0) { <span i18n>private for</span> {{ l.destName }}&nbsp;: } @if (l.thumbnails) { <div class="thumbgrp" [innerHTML]="l.content" (click)="openImage($event)"></div> } @else { {{ l.content }} } </td>
+              <td class="chatmsg col-sm-10" [class.text-danger]="l.destId > 0" [class.text-primary]="l.content.includes(newMessage.nickName)">
+                @if (l.destId > 0) { <span i18n>private for</span> {{ l.destName }}&nbsp;: }
+                @if (l.messageType === 'IMAGES') { <div class="thumbgrp" [innerHTML]="l.content" (click)="openImage($event)"></div> }
+                @else if (l.messageType === 'URL') { TODO }
+                @else if (l.messageType === 'TEXT') { {{ l.content }} } </td>
               <td class="chatdat col-sm-1 label-nobr">{{ l.createdOn }}</td>
             </tr>
             }
@@ -71,8 +75,8 @@
                 <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin:0;"><fa-icon [icon]="faFaceSmile"></fa-icon></button>
                 <div class="dropdown-menu emolist fs-3" style="padding:0px 3px;" [innerHTML]="emojis" (click)="write($event)"></div>
               </div>
-              <input type="text" (keydown.enter)="sendNewMessage()" class="form-control form-control-sm" style="margin:0;" id="input_message" [(ngModel)]="newMessage.content" i18n-placeholder placeholder="Write here you cue">
-              <button type="button" (click)="sendNewMessage()" class="btn bg-gradient btn-primary btn-sm" style="margin:0;" [disabled]="disabled"><fa-icon [icon]="faComment"></fa-icon>&nbsp;<span i18n>Send</span></button>
+              <input type="text" (keydown.enter)="sendNewText()" class="form-control form-control-sm" style="margin:0;" id="input_message" [(ngModel)]="newMessage.content" i18n-placeholder placeholder="Write here you cue">
+              <button type="button" (click)="sendNewText()" class="btn bg-gradient btn-primary btn-sm" style="margin:0;" [disabled]="disabled"><fa-icon [icon]="faComment"></fa-icon>&nbsp;<span i18n>Send</span></button>
             </div>
           </div>
           <div class="form-group col-sm-1 label-nobr">

@@ -175,7 +175,7 @@ export class ChatComponent implements OnInit, OnDestroy
           {
             let str: string = d[j].content;
 
-            let img: boolean = (this.starts.test(str) && this.contains.test(str));
+            let img: boolean = ((d[j].messageType === 'IMAGES') && this.starts.test(str) && this.contains.test(str));
 
             if (img) { d[j].content = ""; }
 
@@ -200,7 +200,7 @@ export class ChatComponent implements OnInit, OnDestroy
           {
             let str: string = d[j].content;
 
-            let img: boolean = (this.starts.test(str) && this.contains.test(str));
+            let img: boolean = ((d[j].messageType === 'IMAGES') && this.starts.test(str) && this.contains.test(str));
 
             if (img) { d[j].content = ""; }
 
@@ -309,16 +309,17 @@ export class ChatComponent implements OnInit, OnDestroy
 
   write(event: Event) { if (event.target) { const target = event.target as Element;this.newMessage.content += (' ' + target.innerHTML); } }
 
-  sendNewMessage()
+  sendNewText()
   {
-    if (this.logged)
+    if (this.logged && (this.newMessage.content.length > 0))
     {
       let pass:string = ""; for (let p of this.passwords) { if (this.currentRoomId == p.roomId) { pass = p.password; } }
 
       this.disabled = true;
       this.newMessage.password = pass;
+      this.newMessage.messageType = 'TEXT';
 
-      this.chatService.addNew(this.currentRoomId, this.lastMessageId, this.newMessage).subscribe(data =>
+      this.chatService.addText(this.currentRoomId, this.lastMessageId, this.newMessage).subscribe(data =>
       {
         this.appendLines(data);
 
@@ -347,6 +348,7 @@ export class ChatComponent implements OnInit, OnDestroy
 
       this.disabled = true;
       this.newMessage.password = pass;
+      this.newMessage.messageType = 'IMAGES';
 
       this.chatService.addImages(this.currentRoomId, this.lastMessageId, this.newMessage, this.selectedFiles).subscribe(data =>
       {
@@ -379,14 +381,13 @@ export class ChatComponent implements OnInit, OnDestroy
             {
               for (let i = 0; i < this.messages.length; i++)
               {
-                if (this.messages[i].messageId == id)
+                if (this.messages[i].messageType === 'IMAGES')
                 {
-                  let str: string | null = this.sanitizer.sanitize(SecurityContext.HTML, data);
-
-                  if (str)
+                  if (this.messages[i].messageId == id)
                   {
-                    this.messages[i].thumbnails = true;
-                    this.messages[i].content = this.messages[i].content.concat(str);
+                    let str: string | null = this.sanitizer.sanitize(SecurityContext.HTML, data);
+
+                    if (str) { this.messages[i].content = this.messages[i].content.concat(str); }
                   }
                 }
               }

@@ -35,7 +35,7 @@ export class ChatService
     return this.httpClient.post<MessageShort[]>(`${this.baseURLchat}/new/${room}/${last}`, msg);
   }
 
-  addNew(room: number, last: number, msg: MessageShortPass): Observable<MessageShort[]>{ return this.httpClient.post<MessageShort[]>(`${this.baseURLchat}/add/${room}/${last}`, msg); }
+  addText(room: number, last: number, msg: MessageShortPass): Observable<MessageShort[]>{ return this.httpClient.post<MessageShort[]>(`${this.baseURLchat}/add/txt/${room}/${last}`, msg); }
 
   addImages(room: number, last: number, msg: MessageShortPass, files: FileList): Observable<MessageShort[]>
   {
@@ -47,7 +47,7 @@ export class ChatService
 
     for (let f = 0; f < files.length; f++) { const file = files.item(f); if (file != null) { formData.append('file', file, file.name); } }
 
-    return this.httpClient.post<MessageShort[]>(`${this.baseURLchat}/img/${room}/${last}`, formData);
+    return this.httpClient.post<MessageShort[]>(`${this.baseURLchat}/add/img/${room}/${last}`, formData);
   }
 
   getListRoom(): Observable<Room[]> { return this.httpClient.get<Room[]>(`${this.baseURLroom}/list`); }

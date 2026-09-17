@@ -34,7 +34,7 @@ WORK-IN-PROGRESS
 
 - `WorkingDirectory` will contain the src/main/ressources/: `application.properties`, `logs` subfolder, `*.p12` (certificates store) and others assets outside the .war file.
 
-- You may use a static link to fix versions updates/changes in the .war filename, such as `unlink /<pathto>/badasscouncil-backend.war && ln -s /<pathto>/badasscouncil-backend-0.1.0.war /<pathto>/badasscouncil-backend.war`.
+- You may use a static link to fix versions updates/changes in the .war filename, such as `unlink /<pathto>/badasscouncil-backend.war && ln -s /<pathto>/badasscouncil-backend-<version>.war /<pathto>/badasscouncil-backend.war`.
 
 - files are stored in ../uploads/* with UUID names. Uploads happen in ../uploads-temp/(fileId)-filename/*
 
@@ -47,7 +47,7 @@ WORK-IN-PROGRESS
 
 ## Usage
 
-### Administrator(s)
+### Administrators
 
 - have access to settings = environmenent variables
 
@@ -86,6 +86,9 @@ WORK-IN-PROGRESS
 
 - users can read the whole users list, but without credentials to modify it. User can only change some datas of his account.
 
+- TODO? sanitize email address ?
+- TODO: connected users list.
+
 ### Attachments / uploaded files
 
 - depending on the administrators quotas settings, users can upload files into the web application. There is a storage limit for each user (with general default value when subscription if made by user or creation done by administrators or regulators). There is also a number of files per user limit. And also a file size limit for each file.
@@ -113,8 +116,8 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 - user can upload (group of) images, to all or a one user recipient. Thumbnails will appear as message line. A click on a thumbnail and plain image will be downloaded in new browser tab.
 
 - TODO: fix some blackished thumbnail generation.
-- TODO: messages types (TEXT, IMAGES, URL, etc).
 - TODO: add URL as message line.
+- TODO? insert emojis at text cursor position instead of appending it ?
 
 ### Cleaning jobs
 
@@ -125,7 +128,4 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 
 ### Miscellaneous
 
-- TODO? sanitize email address ?
-- TODO? insert emojis at text cursor position instead of appending it ?
-- TODO: connected users list.
 - TODO? app look'n'feel via CSS (skins or day/night swap?) ?

@@ -1,18 +1,28 @@
+export class MessageTypeEnum { key!: string; value!: string; }
+
+export const MessageType: MessageTypeEnum[] =
+[
+  { key: "TEXT", value: 'TEXT'},
+  { key: "IMAGES", value: 'IMAGES'},
+  { key: "URL", value: 'URL'}
+];
+
 export class MessageShort
 {
   createdOn: string = "";
   messageId: number = 0;
+  messageType: string = "TEXT";
   nickName: string = "";
   content: string = "";
   destId: number = 0;
   destName: string = "";
-  thumbnails: boolean = false;
 }
 
 export class MessageShortPass
 {
   createdOn: string = "";
   messageId: number = 0;
+  messageType: string = "TEXT";
   nickName: string = "";
   content: string = "";
   destId: number = 0;
