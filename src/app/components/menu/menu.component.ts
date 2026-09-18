@@ -32,7 +32,7 @@ export class MenuComponent implements OnInit
 
     this.idle.onIdleStart.subscribe(() => { this.idleState = 'IDLE'; this.showPendingLogout(); });
     this.idle.onIdleEnd.subscribe(() => { this.resetIdle(); });
-    this.idle.onTimeout.subscribe(() => { if (this.logged) { this.idleState = 'TIMED_OUT'; this.timedOut = true; this.deconnexion(); } else { this.resetIdle(); } });
+    this.idle.onTimeout.subscribe(() => { if (this.logged) { this.idleState = 'TIMED_OUT'; this.timedOut = true; this.disconnect(); } else { this.resetIdle(); } });
     this.idle.onTimeoutWarning.subscribe((countdown) => { this.countdown = countdown; });
   }
 
@@ -46,7 +46,7 @@ export class MenuComponent implements OnInit
     this.idle.watch();
   }
 
-  deconnexion() { this.accountService.signOut(); this.logged = false; if ((this.router.url === '/') || (this.router.url === '/home')) { window.location.reload(); } else { this.router.navigate(['/']); }  }
+  disconnect() { this.accountService.signOut().subscribe(data => { this.logged = false; if ((this.router.url === '/') || (this.router.url === '/home')) { window.location.reload(); } else { this.router.navigate(['/']); } }) ; }
 
   getRandomInteger(min: number, max: number) { min = Math.ceil(min); max = Math.floor(max); return Math.floor(Math.random() * (max - min)) + min; }
 

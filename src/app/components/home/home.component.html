@@ -14,6 +14,7 @@
 @if (!this.logged) { <div class="alert alert-info" role="alert"><span i18n>Please <a routerLink="/login" class="link-primary pointeur-souris">sign in</a> @if (this.userCount.maximum > this.userCount.current) { or <a routerLink="/account-subscribe" class="link-primary pointeur-souris">subscribe</a> } to access all functionalities.</span></div> }
 @else if (this.expired) { <div class="alert alert-danger" role="alert">Your password is expired. Please <a routerLink="/account-password" class="link-primary pointeur-souris">update</a> it as soon as possible.</div> }
 
+@if (this.logged) { @if (this.connectedUsers.length > 0) { <div class="alert alert-light userlist" role="alert"><div>Connected: @for (user of connectedUsers; track user) { {{ user }} &nbsp; }</div></div> } }
 </div>
 <div class="down"> {{ this.quote.content }} </div>
 </div>

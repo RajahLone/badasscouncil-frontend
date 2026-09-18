@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit
   nickName: string = "";
   message: HomeInformation = new HomeInformation();
   userCount: UserCount = new UserCount();
+  connectedUsers: string[] = [];
   quote: Quote = new Quote();
 
   constructor(
@@ -34,6 +35,8 @@ export class HomeComponent implements OnInit
     this.miscService.getMessage().subscribe(data => { this.message = data; });
 
     this.miscService.getUserCount().subscribe(data => { this.userCount = data; });
+
+    if (this.logged) { this.miscService.retreiveConnectedUsers().subscribe(data => { this.connectedUsers = data }); }
 
     this.miscService.getQuote().subscribe(data => { this.quote = data; });
   }

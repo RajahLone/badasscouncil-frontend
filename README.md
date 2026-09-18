@@ -87,7 +87,6 @@ WORK-IN-PROGRESS
 - users can read the whole users list, but without credentials to modify it. User can only change some datas of his account.
 
 - TODO? sanitize email address ?
-- TODO: connected users list.
 
 ### Attachments / uploaded files
 

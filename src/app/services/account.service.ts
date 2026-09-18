@@ -57,15 +57,15 @@ export class AccountService
     return this.httpClient.post<RefreshToken>(`${this.baseURLsig}/refresh`, this.refreshToken).pipe(map(u => { if ((u != null) && (this.accountSubject.value != null)) { this.accountSubject.value.accessToken = u.accessToken; } }));
   }
 
-  signOut()
+  signOut(): Observable<User>
   {
-    this.httpClient.post<User>(`${this.baseURLsig}/out`, null);
-
     sessionStorage.removeItem('account');
     sessionStorage.removeItem('emojis');
-    
     this.accountSubject.next(null);
+
+    return this.httpClient.get<User>(`${this.baseURLsig}/out`);
   }
+
   silentOut()
   {
     sessionStorage.removeItem('account');

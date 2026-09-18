@@ -33,6 +33,8 @@ export class MiscService
 
   retreiveEmojis(): Observable<string[]>{ return this.httpClient.get<string[]>(`${this.baseURL}/emojis`); }
 
+  retreiveConnectedUsers(): Observable<string[]>{ return this.httpClient.get<string[]>(`${this.baseURL}/users`); }
+
   starts: RegExp = /^&#x/;
   ends: RegExp = /;$/;
   contains: RegExp = /[A-F0-9&#x; ]/;
