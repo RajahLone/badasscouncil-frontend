@@ -30,6 +30,8 @@ export class AccountSubscribeComponent
 
   public passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?.:,;(){}[\]])[A-Za-z\d#$@!%&*?.:,;(){}[\]]{8,16}$/
 
+  emailValidator = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
+
   constructor(
     private accountService: AccountService,
     private miscService: MiscService,
@@ -115,6 +117,8 @@ export class AccountSubscribeComponent
     this.user.phone = this.myGroup.controls['phone'].value;
     this.user.email = this.myGroup.controls['email'].value;
     if (this.captcha.question) { this.user.answer = this.myGroup.controls['answer'].value; }
+
+    if (this.user.email.length > 0) { if (!this.emailValidator.test(this.user.email)) { this.user.email = ""; } }
 
     this.accountService.sendSubscription(this.user).subscribe(data => {
       if (data.error !== "")

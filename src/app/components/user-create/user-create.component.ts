@@ -26,6 +26,8 @@ export class UserCreateComponent implements OnInit
 
   user: User = new User();
 
+  emailValidator = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
+
   userCount: UserCount = new UserCount();
 
   constructor(
@@ -45,9 +47,15 @@ export class UserCreateComponent implements OnInit
     this.variableService.getDefaultStorage().subscribe(data => { this.user.storageLimit = Number(data); });
   }
 
-  private saveUser() { this.userService.createUser(this.user).subscribe(() => { this.goToUserList(); }); }
+  createUser()
+  {
+    if (this.userForm.valid)
+    {
+      if (this.user.email.length > 0) { if (!this.emailValidator.test(this.user.email)) { this.user.email = ""; } }
 
-  addUser() { if (this.userForm.valid) { this.saveUser(); } }
+      this.userService.createUser(this.user).subscribe(() => { this.goToUserList(); });
+    }
+  }
 
   goToUserList() { this.router.navigate(['/user-list']); }
 

@@ -20,6 +20,8 @@ export class AccountUpdateComponent implements OnInit
 
   @ViewChild('formRef') userForm!: NgForm;
 
+  emailValidator = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
+
   user: User = new User();
 
   constructor(
@@ -37,7 +39,15 @@ export class AccountUpdateComponent implements OnInit
     this.accountService.getAccount().subscribe(data => { this.user = data; });
   }
 
-  updateConfirmed() { if (this.userForm.valid) { this.accountService.updateAccount(this.user).subscribe(() => { this.goToHome(); });  } }
+  updateConfirmed()
+  {
+    if (this.userForm.valid)
+    {
+      if (this.user.email.length > 0) { if (!this.emailValidator.test(this.user.email)) { this.user.email = ""; } }
+
+      this.accountService.updateAccount(this.user).subscribe(() => { this.goToHome(); });
+    }
+  }
 
   goToHome() { this.router.navigate(['/'], { queryParams: { 'refresh': this.menu.getRandomInteger(1, 100000) } }); }
 

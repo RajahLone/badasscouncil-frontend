@@ -86,7 +86,7 @@ WORK-IN-PROGRESS
 
 - users can read the whole users list, but without credentials to modify it. User can only change some datas of his account.
 
-- TODO? sanitize email address ?
+- note: email address are reset to blank if malformed.
 
 ### Attachments / uploaded files
 

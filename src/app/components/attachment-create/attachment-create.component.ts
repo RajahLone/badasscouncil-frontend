@@ -125,21 +125,24 @@ export class AttachmentCreateComponent implements OnInit
       });
     }
   }
-  private saveAttachment()
-  {
-    this.setButtonStartingUpload();
 
-    this.attachmentService.createAttachment(this.attachment).subscribe({
-      next: async (ret) => { await this.saveArchive(Number('' + ret)); this.setButtonEndingUpload(); this.goToAttachmentList(); },
-      error: (e:HttpErrorResponse) => { this.setButtonEndingUpload(); this.setMessage(e.error.message, true); },
-      complete: () => { }
-    });
-  }
   private setMessage(m: string, e: boolean) { if (this.labelMessage) { this.renderer.setProperty(this.labelMessage.nativeElement, 'innerHTML', m); if (e) { this.renderer.addClass(this.labelMessage.nativeElement, 'text-danger'); } else { this.renderer.removeClass(this.labelMessage.nativeElement, 'text-danger'); } } }
   private setButtonStartingUpload() { if (this.uploadButton && this.uploadFile) { this.renderer.setProperty(this.uploadButton.nativeElement, 'innerHTML', '<fa-icon [icon]="faUpload" animation="fade"></fa-icon>&nbsp;' + $localize`Upload in progress`); } }
   private setButtonEndingUpload() { if (this.uploadButton) { this.renderer.setProperty(this.uploadButton.nativeElement, 'innerHTML', '<fa-icon [icon]="faPlus"></fa-icon>&nbsp;' + $localize`Add`); }  }
 
-  addAttachment() { if (this.attachmentForm.valid && this.uploadFile) { this.saveAttachment(); } }
+  createAttachment()
+  {
+    if (this.attachmentForm.valid && this.uploadFile)
+    {
+      this.setButtonStartingUpload();
+
+      this.attachmentService.createAttachment(this.attachment).subscribe({
+        next: async (ret) => { await this.saveArchive(Number('' + ret)); this.setButtonEndingUpload(); this.goToAttachmentList(); },
+        error: (e:HttpErrorResponse) => { this.setButtonEndingUpload(); this.setMessage(e.error.message, true); },
+        complete: () => { }
+      });
+    }
+  }
 
   goToAttachmentList() { this.router.navigate(['/attachment-list']); }
 

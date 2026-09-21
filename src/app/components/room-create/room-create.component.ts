@@ -27,15 +27,16 @@ export class RoomCreateComponent implements OnInit
 
   ngOnInit() { }
 
-  private saveRoom()
+  createRoom() 
   {
-    this.room.ownerId = this.accountService.getUserId();
-    this.room.listedUsersType = 0;
+    if (this.roomForm.valid)
+    {
+      this.room.ownerId = this.accountService.getUserId();
+      this.room.listedUsersType = 0;
 
-    this.chatService.createRoom(this.room).subscribe(() => { this.goToChat(); });
+      this.chatService.createRoom(this.room).subscribe(() => { this.goToChat(); });
+    }
   }
-
-  addRoom() { if (this.roomForm.valid) { this.saveRoom(); } }
 
   goToChat() { this.router.navigate(['/chat']); }
 

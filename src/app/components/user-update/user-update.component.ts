@@ -26,6 +26,8 @@ export class UserUpdateComponent implements OnInit
   userId: number = 0;
   user: User = new User();
 
+  emailValidator = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
+
   constructor(
     private miscService: MiscService,
     private userService: UserService,
@@ -43,7 +45,15 @@ export class UserUpdateComponent implements OnInit
     this.userService.getUserById(this.userId).subscribe(data => { this.user = data; });
   }
 
-  updateConfirmed() { if (this.userForm.valid) { this.userService.updateUser(this.userId, this.user).subscribe(() => { this.goToUserList(); }); } }
+  updateConfirmed()
+  {
+    if (this.userForm.valid)
+    {
+      if (this.user.email.length > 0) { if (!this.emailValidator.test(this.user.email)) { this.user.email = ""; } }
+
+      this.userService.updateUser(this.userId, this.user).subscribe(() => { this.goToUserList(); });
+    }
+  }
 
   deleteConfirmed() { this.userService.deleteUser(this.userId).subscribe(() => { this.goToUserList(); }); }
 
