@@ -1,8 +1,8 @@
 <app-menu></app-menu>
 <div id="main">
-  <div class="card-group shadow">
-    <div class="card chatcrd chatlft">
-      <div class="card-header">
+  <div class="card-group chatcrd shadow">
+    <div class="card chatlft">
+      <div class="card-header chathdr">
         <div class="row justify-content-center">Rooms</div>
       </div>
       <div class="card-body chatdiv" style="width:100%;">
@@ -33,7 +33,7 @@
   			   </tbody>
   	     </table>
   	  </div>
-      <div class="card-footer">
+      <div class="card-footer chatftr">
         <div class="row justify-content-between">
           <div class="form-group col-sm-9 label-nobr">
             <div class="input-group input-group-sn">
@@ -43,8 +43,8 @@
         </div>
       </div>
     </div>
-    <div class="card chatcrd chatrgt">
-      <div class="card-header">
+    <div class="card chatrgt">
+      <div class="card-header chathdr">
         <div class="label-nobr d-flex justify-content-between">
           <span>&nbsp;{{ currentTopic }}&nbsp;</span>
           <button type="button" (click)="retreiveOldMessages()" [disabled]="pagination.items <= pagination.size" class="btn bg-gradient btn-primary btn-sm" style="margin:0;padding:0px 3px;" i18n-tooltip tooltip="Backlog" [tooltipPopupDelay]="1500" placement="left" container="body"><fa-icon [icon]="faClockRotateLeft"></fa-icon></button>
@@ -67,7 +67,7 @@
           </tbody>
         </table>
       </div>
-      <div class="card-footer">
+      <div class="card-footer chatftr">
         <div class="row justify-content-between">
           <div class="form-group col-sm-8 label-nobr">
             <div class="input-group input-group-sn">
