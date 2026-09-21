@@ -30,6 +30,12 @@ export class MessageShortPass
   password: string = "";
 }
 
+export class MessageURL
+{
+  name: string = "";
+  link: string = "";
+}
+
 
 export class RoomEnum { key!: string; value!: string; }
 

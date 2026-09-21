@@ -6,8 +6,6 @@ Named after a small and imaginary village located in Lancre kingdom / Ramtops / 
 
 Purpose is to have some privacy and continous contact between members that are already acquainted to each other In Real Life.
 
-WORK-IN-PROGRESS
-
 ## Technical
 
 ### Install backend
@@ -41,9 +39,9 @@ WORK-IN-PROGRESS
 ### Install frontend
 
 - written with Angular, since v22.
-- get the this part from the public repository, you may customize `src/app/env.ts` (same as backend's `server.servlet.context-path`) and `src/assets/*`
+- get the this part from the public repository, you have to customize `src/app/env.ts` (same as backend's `server.servlet.context-path`) and maybe in `src/assets/*`
 - generate html files `ng build`.
-- install the built files from dist/badasscouncil-frontend/browser/* in your webserver. Use deploy/subfolder/.htaccess besides main-*.js and index.html to fix paths.
+- install the built files from dist/badasscouncil-frontend/browser/* in your webserver. Use deploy/browser/.htaccess besides main-*.js and index.html to fix paths.
 
 ## Usage
 
@@ -114,7 +112,10 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 
 - user can upload (group of) images, to all or a one user recipient. Thumbnails will appear as message line. A click on a thumbnail and plain image will be downloaded in new browser tab.
 
-- TODO: add URL as message line.
+- URLs in messages are considered as pure text. User may copy/paste it into a new window. A lazier method is to add a web link from the dropdown formular. One web URL as message, naming it may help if the link is long.
+
+- TODO? add emojis reactions on messages ?
+- TODO? add internal links for cite/reply/react ?
 
 ### Cleaning jobs
 

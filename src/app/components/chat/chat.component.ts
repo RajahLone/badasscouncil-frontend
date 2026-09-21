@@ -1,16 +1,16 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, TemplateRef, ChangeDetectionStrategy, SecurityContext, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule, FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { timer } from 'rxjs';
 import { takeWhile } from "rxjs/operators"
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faComment, faPlus, faCircleInfo, faLock, faClockRotateLeft, faFaceSmile, faImages } from '@fortawesome/free-solid-svg-icons';
+import { faComment, faPlus, faCircleInfo, faLock, faClockRotateLeft, faFaceSmile, faImages, faLink } from '@fortawesome/free-solid-svg-icons';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { MenuComponent } from '../menu/menu.component';
-import { MessageShort, MessageShortPass, Room, RoomPassword } from '../../interfaces/chat';
+import { MessageShort, MessageShortPass, Room, RoomPassword, MessageURL } from '../../interfaces/chat';
 import { NickName } from '../../interfaces/user';
 import { ChatService } from '../../services/chat.service';
 import { ImageService } from '../../services/image.service'
@@ -18,11 +18,11 @@ import { AccountService } from '../../services/account.service'
 import { Pagination } from '../../interfaces/misc';
 import { MiscService } from '../../services/misc.service'
 
-@Component({ selector: 'app-chat', imports: [FontAwesomeModule, TooltipModule, FormsModule, MenuComponent], templateUrl: './chat.component.html', encapsulation: ViewEncapsulation.None, changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './chat.component.css' })
+@Component({ selector: 'app-chat', imports: [FontAwesomeModule, TooltipModule, FormsModule, ReactiveFormsModule, MenuComponent], templateUrl: './chat.component.html', encapsulation: ViewEncapsulation.None, changeDetection: ChangeDetectionStrategy.Eager, styleUrl: './chat.component.css' })
 
 export class ChatComponent implements OnInit, OnDestroy
 {
-  faComment = faComment; faPlus = faPlus; faCircleInfo = faCircleInfo; faLock = faLock; faClockRotateLeft = faClockRotateLeft; faFaceSmile = faFaceSmile; faImages = faImages;
+  faComment = faComment; faPlus = faPlus; faCircleInfo = faCircleInfo; faLock = faLock; faClockRotateLeft = faClockRotateLeft; faFaceSmile = faFaceSmile; faImages = faImages; faLink = faLink;
 
   modalRoomPassword?: BsModalRef;
 
@@ -56,8 +56,13 @@ export class ChatComponent implements OnInit, OnDestroy
 
   selectedFiles?: FileList;
 
-  starts: RegExp = /^img_/;
-  contains: RegExp = /[img_0-9|]/;
+  private starts: RegExp = /^img_/;
+  private contains: RegExp = /[img_0-9|]/;
+
+  public urlForm!: FormGroup;
+  url: MessageURL = new MessageURL();
+  urlMessage: MessageShortPass = new MessageShortPass();
+  private urlRegExp: RegExp = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
 
   constructor(
     private chatService: ChatService,
@@ -66,9 +71,12 @@ export class ChatComponent implements OnInit, OnDestroy
     private router: Router,
     private miscService: MiscService,
     private modalService: BsModalService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private formbuilder: FormBuilder
   )
-  { }
+  {
+    this.urlFormInit();
+  }
 
   ngOnInit()
   {
@@ -205,8 +213,17 @@ export class ChatComponent implements OnInit, OnDestroy
             let str: string = d[j].content;
 
             let img: boolean = ((d[j].messageType === 'IMAGES') && this.starts.test(str) && this.contains.test(str));
+            let lnk: boolean = (d[j].messageType === 'URL');
 
             if (img) { d[j].content = ""; }
+            else
+            if (lnk)
+            {
+              let o = JSON.parse(str);
+              if (o.name.length == 0) { o.name = o.link; }
+              o.link = this.sanitizer.sanitize(SecurityContext.URL, o.link);
+              d[j].content = '<a href="' + o.link + '" target="_blank" rel="noreferrer noopener">' + o.name + '</a>';
+            }
 
             this.messages.push(d[j]);
 
@@ -230,8 +247,17 @@ export class ChatComponent implements OnInit, OnDestroy
             let str: string = d[j].content;
 
             let img: boolean = ((d[j].messageType === 'IMAGES') && this.starts.test(str) && this.contains.test(str));
+            let lnk: boolean = (d[j].messageType === 'URL');
 
             if (img) { d[j].content = ""; }
+            else
+            if (lnk)
+            {
+              let o = JSON.parse(str);
+              if (o.name.length == 0) { o.name = o.link; }
+              o.link = this.sanitizer.sanitize(SecurityContext.URL, o.link);
+              d[j].content = '<a href="' + o.link + '" target="_blank" rel="noreferrer noopener">' + o.name + '</a>';
+            }
 
             this.messages.unshift(d[j]);
 
@@ -354,8 +380,44 @@ export class ChatComponent implements OnInit, OnDestroy
 
         this.newMessage = new MessageShortPass();
         this.newMessage.nickName = this.accountService.getLoginName();
-        this.newMessage.password = pass;
         this.setLastId();
+        this.disabled = false;
+      });
+    }
+  }
+
+  private urlFormInit()
+  {
+    this.urlForm = this.formbuilder.group({
+      urlName: ['', []],
+      urlLink: ['', [Validators.required, Validators.pattern(this.urlRegExp)]],
+      }, { });
+  }
+
+  sendNewUrl()
+  {
+    this.url.name = this.urlForm.controls['urlName'].value;
+    this.url.link = this.urlForm.controls['urlLink'].value;
+
+    if (this.logged && (this.url.link.length > 0) && this.urlRegExp.test(this.url.link))
+    {
+      let pass:string = ""; for (let p of this.passwords) { if (this.currentRoomId == p.roomId) { pass = p.password; } }
+
+      this.disabled = true;
+      this.urlMessage.nickName = this.accountService.getLoginName();
+      this.urlMessage.password = pass;
+      this.urlMessage.messageType = 'URL';
+      this.urlMessage.content = JSON.stringify(this.url);
+
+      this.chatService.addText(this.currentRoomId, this.lastMessageId, this.urlMessage).subscribe(data =>
+      {
+        this.appendLines(data);
+
+        this.chatService.getCount(this.currentRoomId).subscribe(page => { this.pagination.items = page.items; this.pagination.size = this.messages.length; });
+
+        this.urlMessage = new MessageShortPass();
+        this.setLastId();
+        this.url = new MessageURL();
         this.disabled = false;
       });
     }
@@ -385,7 +447,6 @@ export class ChatComponent implements OnInit, OnDestroy
 
         this.newMessage = new MessageShortPass();
         this.newMessage.nickName = this.accountService.getLoginName();
-        this.newMessage.password = pass;
         this.setLastId();
         this.disabled = false;
       });

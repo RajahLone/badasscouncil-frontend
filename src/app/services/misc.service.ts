@@ -35,9 +35,9 @@ export class MiscService
 
   retreiveConnectedUsers(): Observable<string[]>{ return this.httpClient.get<string[]>(`${this.baseURL}/users`); }
 
-  starts: RegExp = /^&#x/;
-  ends: RegExp = /;$/;
-  contains: RegExp = /[A-F0-9&#x; ]/;
+  private starts: RegExp = /^&#x/;
+  private ends: RegExp = /;$/;
+  private contains: RegExp = /[A-F0-9&#x; ]/;
 
   public setEmojis(s: string[])
   {
