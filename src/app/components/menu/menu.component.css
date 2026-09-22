@@ -14,6 +14,9 @@
 	border-bottom: 1px solid #ddd;
 }
 
+.appinfosleft { text-align: right; vertical-align:top;border-right:1px solid lightgray; width:100px; }
+.appinfos tr td { padding: 5px; }
+
 @media screen and (max-width: 500px) {
   #sidenav { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid #ddd; }
   #sidenav ul { display: inline-block; }

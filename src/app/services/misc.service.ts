@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { Environnement } from '../env';
-import { HomeInformation, Quote } from '../interfaces/misc';
+import { ApplicationInfo, HomeInformation, Quote } from '../interfaces/misc';
 import { Captcha } from '../interfaces/account';
 import { UserCount } from '../interfaces/user';
 import { AttachmentCount } from '../interfaces/attachment';
@@ -17,6 +17,8 @@ export class MiscService
   private baseURL = Environnement.apiUrl + "misc";
 
   constructor(private httpClient: HttpClient, private sanitizer: DomSanitizer) { }
+
+  getBackEndInfo(): Observable<ApplicationInfo>{ return this.httpClient.get<ApplicationInfo>(`${this.baseURL}/info`); }
 
   getMessage(): Observable<HomeInformation>{ return this.httpClient.get<HomeInformation>(`${this.baseURL}/welcome`); }
 
