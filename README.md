@@ -10,9 +10,9 @@ Purpose is to have some privacy and continous contact between members that are a
 
 ### Install backend
 
-- database is hosted in postgresql instance and manually created, use .sql scripts from the schema part. Several databases instances with customized dbname is not yet studied.
+- database is hosted in postgresql 14+ (`apt install postgresql`) instance and manually created, use .sql scripts from the db then schema part. Don't forget to `chown -R postgres:postgres </pathto/badasscouncil-base>` and allow database path rights for `postgres` user. Several databases instances with customized dbname is not yet studied.
 
-- using Spring Boot framework, since (openJDK)Java 17.
+- using Spring Boot framework, openJDK/Java 17+.
 
 - get the this part from the public repository, customize `application.properties`. For securiy reasons, you may change:
 
@@ -28,13 +28,15 @@ Purpose is to have some privacy and continous contact between members that are a
 
 - generate .jar archive with `./gradlew build`.
 
-- install it in your server. On debian setup: `apt install openjdk`, edit `deploy/badasscouncil.service` with correct paths in `ExecStart` and `WorkingDirectory`, and put it into `/etc/systemd/system/.
+- install it in your server. On debian setup: `apt install openjdk-21-jre -y`, edit `deploy/badasscouncil.service` with correct paths in `ExecStart` and `WorkingDirectory`, and put it into `/etc/systemd/system/`.
 
 - `WorkingDirectory` will contain the src/main/ressources/: `application.properties`, `logs` subfolder, `*.p12` (certificates store) and others assets outside the .war file.
 
 - You may use a static symbolic link to fix versions updates/changes in the .war filename, such as `unlink /<pathto>/badasscouncil-backend.war && ln -s /<pathto>/badasscouncil-backend-<version>.war /<pathto>/badasscouncil-backend.war`.
 
 - files are stored in ../uploads/* with UUID names. Uploads happen in ../uploads-temp/(fileId)-filename/*
+
+- service is enabled and started with `systemctl enable|start|stop|status|disable badasscouncil-backend.service`.
 
 ### Install frontend
 
