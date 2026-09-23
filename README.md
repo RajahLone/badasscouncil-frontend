@@ -32,7 +32,7 @@ Purpose is to have some privacy and continous contact between members that are a
 
 - `WorkingDirectory` will contain the src/main/ressources/: `application.properties`, `logs` subfolder, `*.p12` (certificates store) and others assets outside the .war file.
 
-- You may use a static link to fix versions updates/changes in the .war filename, such as `unlink /<pathto>/badasscouncil-backend.war && ln -s /<pathto>/badasscouncil-backend-<version>.war /<pathto>/badasscouncil-backend.war`.
+- You may use a static symbolic link to fix versions updates/changes in the .war filename, such as `unlink /<pathto>/badasscouncil-backend.war && ln -s /<pathto>/badasscouncil-backend-<version>.war /<pathto>/badasscouncil-backend.war`.
 
 - files are stored in ../uploads/* with UUID names. Uploads happen in ../uploads-temp/(fileId)-filename/*
 
@@ -85,6 +85,8 @@ Purpose is to have some privacy and continous contact between members that are a
 - users can read the whole users list, but without credentials to modify it. User can only change some datas of his account.
 
 - note: email address are reset to blank if malformed.
+
+- TODO? 2FA but no email method nor SMS?
 
 ### Attachments / uploaded files
 

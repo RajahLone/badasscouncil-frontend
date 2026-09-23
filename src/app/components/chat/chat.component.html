@@ -55,7 +55,7 @@
           <tbody>
             @for (l of messages; track l.messageId) {
             <tr>
-              <td class="chatusr col-sm-1 label-nobr" style="max-width:20%;">{{ l.nickName }} {{ l.messageType }}</td>
+              <td class="chatusr col-sm-1 label-nobr" style="max-width:20%;">{{ l.nickName }}</td>
               <td class="chatmsg col-sm-10" [class.text-danger]="l.destId > 0" [class.text-primary]="l.content.includes(newMessage.nickName)">
                 @if (l.destId > 0) { <span i18n>private for</span> {{ l.destName }}&nbsp;: }
                 @if (l.messageType === 'IMAGES') { <div class="thumbgrp" [innerHTML]="l.content" (click)="openImage($event)"></div> }

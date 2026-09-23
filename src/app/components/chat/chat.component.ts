@@ -56,9 +56,6 @@ export class ChatComponent implements OnInit, OnDestroy
 
   selectedFiles?: FileList;
 
-  private starts: RegExp = /^img_/;
-  private contains: RegExp = /[img_0-9|]/;
-
   public urlForm!: FormGroup;
   url: MessageURL = new MessageURL();
   urlMessage: MessageShortPass = new MessageShortPass();
@@ -212,7 +209,7 @@ export class ChatComponent implements OnInit, OnDestroy
           {
             let str: string = d[j].content;
 
-            let img: boolean = ((d[j].messageType === 'IMAGES') && this.starts.test(str) && this.contains.test(str));
+            let img: boolean = ((d[j].messageType === 'IMAGES'));
             let lnk: boolean = (d[j].messageType === 'URL');
 
             if (img) { d[j].content = ""; }
@@ -246,7 +243,7 @@ export class ChatComponent implements OnInit, OnDestroy
           {
             let str: string = d[j].content;
 
-            let img: boolean = ((d[j].messageType === 'IMAGES') && this.starts.test(str) && this.contains.test(str));
+            let img: boolean = ((d[j].messageType === 'IMAGES'));
             let lnk: boolean = (d[j].messageType === 'URL');
 
             if (img) { d[j].content = ""; }
@@ -453,36 +450,39 @@ export class ChatComponent implements OnInit, OnDestroy
     }
   }
 
-  convertThumbnails(id: number, txt: string): void
+  convertThumbnails(msg_id: number, img_txt: string): void
   {
-    let imgs = txt.split('|');
+    let o = JSON.parse(img_txt);
 
-    if (imgs.length > 0)
+    if (o == null) { return; }
+    if (o.imageIds == null) { return; }
+    if (o.imageIds.length < 1) { return; }
+
+    let img_ids: number[] = o.imageIds;
+
+    for (let j = 0; j < img_ids.length; j++)
     {
-      for (let j = 0; j < imgs.length; j++)
+      this.imageService.getThumbnail(msg_id, img_ids[j]).subscribe(data =>
       {
-        this.imageService.getThumbnail(id, Number(imgs[j].substring(4))).subscribe(data =>
+        if (this.messages != null)
         {
-          if (this.messages != null)
+          if (this.messages.length > 0)
           {
-            if (this.messages.length > 0)
+            for (let i = 0; i < this.messages.length; i++)
             {
-              for (let i = 0; i < this.messages.length; i++)
+              if (this.messages[i].messageType === 'IMAGES')
               {
-                if (this.messages[i].messageType === 'IMAGES')
+                if (this.messages[i].messageId == msg_id)
                 {
-                  if (this.messages[i].messageId == id)
-                  {
-                    let str: string | null = this.sanitizer.sanitize(SecurityContext.HTML, data);
+                  let str: string | null = this.sanitizer.sanitize(SecurityContext.HTML, data);
 
-                    if (str) { this.messages[i].content = this.messages[i].content.concat(str); }
-                  }
+                  if (str) { this.messages[i].content = this.messages[i].content.concat(str); }
                 }
               }
             }
           }
-        });
-      }
+        }
+      });
     }
   }
 
