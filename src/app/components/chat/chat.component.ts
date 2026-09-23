@@ -209,7 +209,7 @@ export class ChatComponent implements OnInit, OnDestroy
           {
             let str: string = d[j].content;
 
-            let img: boolean = ((d[j].messageType === 'IMAGES'));
+            let img: boolean = (d[j].messageType === 'IMAGES');
             let lnk: boolean = (d[j].messageType === 'URL');
 
             if (img) { d[j].content = ""; }
@@ -243,7 +243,7 @@ export class ChatComponent implements OnInit, OnDestroy
           {
             let str: string = d[j].content;
 
-            let img: boolean = ((d[j].messageType === 'IMAGES'));
+            let img: boolean = (d[j].messageType === 'IMAGES');
             let lnk: boolean = (d[j].messageType === 'URL');
 
             if (img) { d[j].content = ""; }
