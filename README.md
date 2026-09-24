@@ -6,13 +6,15 @@ Named after a small and imaginary village located in Lancre kingdom / Ramtops / 
 
 Purpose is to have some privacy and continous contact between members that are already acquainted to each other In Real Life.
 
+Online Triple A's instance at [https://www.triplea.fr/chat](https://www.triplea.fr/chat)
+
 ## Technical
 
 ### Install backend
 
-- database is hosted in postgresql 14+ (`apt install postgresql`) instance and manually created, use .sql scripts from the db then schema part. Don't forget to `chown -R postgres:postgres </pathto/badasscouncil-base>` and allow database path rights for `postgres` user. Several databases instances with customized dbname is not yet studied.
+- [database](https://github.com/RajahLone/badasscouncil-schema) is hosted in postgresql 14+ (`apt install postgresql`) instance and manually created, use .sql scripts from the db then schema part. Don't forget to `chown -R postgres:postgres </pathto/badasscouncil-base>` and allow database path rights for `postgres` user. Several databases instances with customized dbname is not yet studied.
 
-- using Spring Boot framework, openJDK/Java 17+.
+- [backend](https://github.com/RajahLone/badasscouncil-backend) is using Spring Boot framework, openJDK/Java 17+ in REST-API.
 
 - get the this part from the public repository, customize `application.properties`. For securiy reasons, you may change:
 
@@ -130,4 +132,6 @@ attachment for him/herself. If declined, the attachment may dissappear from reci
 
 ### Miscellaneous
 
+- TODO: add license in ApplicationInfos.
 - TODO? app look'n'feel via CSS (skins or day/night swap?) ?
+- TODO? i18n?
