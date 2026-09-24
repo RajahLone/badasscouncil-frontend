@@ -1,7 +1,7 @@
 export class ApplicationInfo
 {
   version: string = "1.0.0";
-  framework: string = "Angular 22+";
+  framework: string = "Angular 22+ - Bootstrap 5";
   date: string = "20260922";
   authors: string[] = ["Rajah Lone"];
 }
