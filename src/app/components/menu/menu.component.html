@@ -91,8 +91,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <table class="appinfos"><tr><td rowspan="4" class="appinfosleft">FrontEnd</td><td>Version: {{ frontEndInfo.version }}</td></tr><tr><td>Framework: {{ frontEndInfo.framework }}</td></tr><tr><td>Date: {{ frontEndInfo.date }}</td></tr><tr><td>Author(s): {{ frontEndInfo.authors.join(' ') }}<br/></tr></table>
-        @if (backEndInfo) { <table class="appinfos mt-2"><tr><td rowspan="4" class="appinfosleft">BackEnd</td><td>Version: {{ backEndInfo.version }}</td></tr><tr><td>Framework: {{ backEndInfo.framework }}</td></tr><tr><td>Date: {{ backEndInfo.date }}</td></tr><tr><td>Author(s): {{ backEndInfo.authors.join(' ') }}</td></tr></table> }
+        <table class="appinfos"><tr><td rowspan="5" class="appinfosleft">FrontEnd</td><td>Version: {{ frontEndInfo.version }}</td></tr><tr><td>Framework: {{ frontEndInfo.framework }}</td></tr><tr><td>Date: {{ frontEndInfo.date }}</td></tr><tr><td>Author(s): {{ frontEndInfo.authors.join(' ') }}</td></tr><tr><td>Date: {{ frontEndInfo.license }}</td></tr></table>
+        @if (backEndInfo) { <table class="appinfos mt-2"><tr><td rowspan="5" class="appinfosleft">BackEnd</td><td>Version: {{ backEndInfo.version }}</td></tr><tr><td>Framework: {{ backEndInfo.framework }}</td></tr><tr><td>Date: {{ backEndInfo.date }}</td></tr><tr><td>Author(s): {{ backEndInfo.authors.join(' ') }}</td></tr><tr><td>Date: {{ backEndInfo.license }}</td></tr></table> }
       </div>
 		</div>
 	</div>
